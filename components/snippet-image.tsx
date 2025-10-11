@@ -22,34 +22,40 @@ export function SnippetImage({
   priority = false 
 }: SnippetImageProps) {
   const [hasError, setHasError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
-  if (hasError || !src || src === "/placeholder.svg") {
+  if (hasError || !src || src === "" || src === "/placeholder.svg") {
     return (
       <ImagePlaceholder className={`w-full h-full ${className}`} size="lg" />
     )
   }
 
+  if (fill) {
+    return (
+      <div className="relative">
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover ${className}`}
+          onError={() => {
+            setHasError(true)
+          }}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="relative">
-      {isLoading && (
-        <div className={`absolute inset-0 flex items-center justify-center bg-gray-800 z-10 ${className}`}>
-          <ImagePlaceholder size="lg" />
-        </div>
-      )}
-      
       <Image
         src={src}
         alt={alt}
         fill={fill}
         width={width}
         height={height}
-        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+        className={`object-cover ${className}`}
         priority={priority}
-        onLoad={() => setIsLoading(false)}
         onError={() => {
           setHasError(true)
-          setIsLoading(false)
         }}
       />
     </div>

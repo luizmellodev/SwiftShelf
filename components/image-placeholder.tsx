@@ -13,8 +13,8 @@ export function ImagePlaceholder({ className = "", size = "md" }: ImagePlacehold
   }
 
   return (
-    <div className={`flex items-center justify-center bg-black ${className}`}>
-      <ImageIcon className={`${iconSizeClasses[size]} text-gray-600`} />
+    <div className={`flex items-center justify-center bg-gray-800 ${className}`}>
+      <ImageIcon className={`${iconSizeClasses[size]} text-gray-400`} />
     </div>
   )
 }

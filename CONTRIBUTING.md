@@ -11,7 +11,7 @@ snippets/your-component.yourusername/
 └── screenshot.png    # Screenshot (PNG format)
 ```
 
-** Folder Naming Convention:**
+**Folder Naming Convention:**
 
 - Format: `component-name.username`
 - Use kebab-case for both component names and usernames
@@ -55,11 +55,11 @@ description: Brief description of your component
 3. Submit PR with your changes
 4. Our CI will automatically validate everything
 
-## 🔄 **Automatic Process**
+## Automatic Process
 
 ### What Happens When You Submit a PR:
 
-1. **✅ Validation**
+1. **Validation**
 
    - **Folder Structure**: Validates `component-name.username` format
    - **meta.yml Format**: Checks required fields and YAML syntax
@@ -72,14 +72,14 @@ description: Brief description of your component
 2. **Auto-Generation**
 
    - CI automatically generates `snippets-data.ts`
-   - No manual editing needed!
+   - No manual editing needed
    - Your snippet appears on the website
 
 3. **Deployment**
    - If validation passes, it's automatically deployed
    - Your component is live on the website
 
-## 📁 **File Structure**
+## File Structure
 
 ```
 snippets/
@@ -97,7 +97,7 @@ snippets/
     └── screenshot.png
 ```
 
-## 🏷️ **Allowed Tags**
+## Allowed Tags
 
 Check `lib/allowed-tags.js` for the complete list. Common tags include:
 
@@ -105,7 +105,7 @@ Check `lib/allowed-tags.js` for the complete list. Common tags include:
 - `navigation`, `form`, `input`
 - `screen`, `component`, `layout`
 
-## 🛠️ **Local Development**
+## Local Development
 
 ```bash
 # Validate your snippets
@@ -118,23 +118,23 @@ npm run generate-snippets
 npm run dev
 ```
 
-## **What NOT to do**
+## What NOT to do
 
-- ❌ Don't edit `lib/snippets-data.ts` manually
-- ❌ Don't use invalid tags
-- ❌ Don't submit incomplete snippets
-- ❌ Don't use copyrighted images
+- Don't edit `lib/snippets-data.ts` manually
+- Don't use invalid tags
+- Don't submit incomplete snippets
+- Don't use copyrighted images
 
-## **Best Practices**
+## Best Practices
 
-- ✅ Use descriptive titles
-- ✅ Write clean, documented code
-- ✅ Include helpful comments
-- ✅ Test your component
-- ✅ Use high-quality screenshots
-- ✅ Follow SwiftUI conventions
+- Use descriptive titles
+- Write clean, documented code
+- Include helpful comments
+- Test your component
+- Use high-quality screenshots
+- Follow SwiftUI conventions
 
-## **Quality Standards**
+## Quality Standards
 
 Your snippet should be:
 
@@ -144,7 +144,7 @@ Your snippet should be:
 - **Accessible**: Follows accessibility guidelines
 - **Responsive**: Works on different screen sizes
 
-## **Need Help?**
+## Need Help?
 
 - Check existing snippets for examples
 - Read the validation errors carefully
@@ -153,4 +153,4 @@ Your snippet should be:
 
 ---
 
-**Remember:** The goal is to create a library of high-quality, reusable SwiftUI components that help developers build amazing iOS apps faster! 🚀
+**Remember:** The goal is to create a library of high-quality, reusable SwiftUI components that help developers build amazing iOS apps faster!

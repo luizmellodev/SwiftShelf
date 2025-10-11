@@ -19,8 +19,9 @@ This project showcases beautiful, reusable SwiftUI components submitted by the c
 
 1. **Submit a PR**: Add your snippet folder to `/snippets/`
 2. **Auto-validation**: GitHub Actions validates your submission
-3. **Merge**: Once approved, your PR is merged to main
-4. **Live**: Your snippet appears on the gallery instantly! 🎉
+3. **Auto-generation**: CI automatically generates `snippets-data.ts`
+4. **Merge**: Once approved, your PR is merged to main
+5. **Live**: Your snippet appears on the gallery instantly! 🎉
 
 ## 🤝 Contributing
 
@@ -38,14 +39,20 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed in
 
 Your PR will be automatically validated and merged if all checks pass!
 
+### 🤖 Automatic System
+
+- **No manual editing needed**: CI automatically generates `snippets-data.ts`
+- **Zero intervention**: Your snippet appears on the website automatically
+- **Full validation**: All rules are checked before deployment
+
 ### 📁 Folder Structure
 
 ```
 snippets/
 └── animated-button.luizmellodev/
-├── meta.yml # Metadata
-├── snippet.swift # SwiftUI code
-└── screenshot.png # Preview image (9:16 ratio)
+    ├── meta.yml          # Metadata
+    ├── snippet.swift     # SwiftUI code
+    └── screenshot.png    # Preview image (9:16 ratio)
 ```
 
 ### 📋 meta.yml Format
@@ -63,7 +70,7 @@ tags:
 
 ### 🏷️ Tag Rules
 
-- **Exactly 3 tags** (no more, no less)
+- **Maximum 3 tags** (1-3 tags allowed)
 - **Use approved tags only** from our comprehensive list
 - **Mix different categories** (e.g., one UI tag + one animation tag + one platform tag)
 
@@ -79,21 +86,24 @@ tags:
 
 Your submission will be automatically validated for:
 
-- ✅ Folder naming convention
-- ✅ Required files presence
-- ✅ meta.yml format and required fields
-- ✅ Tag validation (approved tags only)
-- ✅ Screenshot format, size, and aspect ratio
-- ✅ SwiftUI code structure
+- ✅ **Folder naming convention**: `component-name.username` format
+- ✅ **Required files presence**: meta.yml, snippet.swift, screenshot.png
+- ✅ **meta.yml format**: All required fields and YAML syntax
+- ✅ **GitHub username**: Must match folder username
+- ✅ **Tag validation**: Approved tags only, maximum 3
+- ✅ **Screenshot format**: PNG, size, and aspect ratio
+- ✅ **SwiftUI code**: Must import SwiftUI and define View struct
 
 ### 🚫 Common Mistakes to Avoid
 
 - ❌ Using more than 3 tags
 - ❌ Using unapproved tags
-- ❌ Wrong folder naming (use dots, not hyphens)
+- ❌ Wrong folder naming (use `component-name.username`, not `component-name-username`)
+- ❌ GitHub username doesn't match folder
 - ❌ Screenshot not in 9:16 aspect ratio
 - ❌ Screenshot over 500KB
 - ❌ Missing required fields in meta.yml
+- ❌ Swift code without `import SwiftUI`
 
 ## 📝 License
 

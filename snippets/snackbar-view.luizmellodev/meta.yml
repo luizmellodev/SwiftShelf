@@ -1,0 +1,8 @@
+title: "Snackbar Component"
+description: "A fully-featured snackbar/toast notification component with multiple types (success, error, warning, info), customizable positions (top/bottom), actions, and animations. Includes a global SnackbarManager for app-wide notifications."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - notification
+  - toast
+  - animation

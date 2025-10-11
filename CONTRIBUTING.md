@@ -34,6 +34,13 @@ description: Brief description of your component
 
 ### 3. **Create Your Swift Code**
 
+**📦 Important: All code goes in `snippet.swift`!**
+
+- Put **all your code** in a single file: `snippet.swift`
+- Include all structs, enums, classes, extensions in the same file
+- Don't create separate files - our system automatically separates them for display
+- Use `// MARK: - Name` comments to organize sections (optional)
+- The parser automatically detects: structs, enums, classes, extensions, and #Preview
 - Must import SwiftUI
 - Must define a View struct
 - Include proper documentation
@@ -47,13 +54,16 @@ description: Brief description of your component
 - Show your component in action
 - Use high-quality, clear images
 - Avoid copyrighted content
-- Here is the thing: if you take a screenshot directly on your Mac, you won't run into any issues.
 
-**📸 Taking Screenshots on Mac**
-**Quick Steps:**
+**📸 Taking Screenshots from iOS Simulator**
 
-- **To take a screenshot**: Use `Command + Shift + 4`
-- **If you’re not sure where the screenshot was saved**: Press `Command + Shift + 5`, click Options, and set Save to Desktop (and take another one)
+Quick Steps:
+
+1. Open your component in the iOS Simulator
+2. Press `Command + S` to save a screenshot
+3. Right-click the screenshot thumbnail that appears
+4. Select "Save to Desktop" (or your preferred location)
+5. Rename it to `screenshot.png`
 
 ### 5. **Submit Pull Request**
 
@@ -92,17 +102,27 @@ description: Brief description of your component
 snippets/
 ├── animated-button.johndoe/
 │   ├── meta.yml
-│   ├── snippet.swift
+│   ├── snippet.swift         # ALL your code goes here!
 │   └── screenshot.png
 ├── gradient-card.janesmith/
 │   ├── meta.yml
-│   ├── snippet.swift
+│   ├── snippet.swift         # Including all structs, enums, classes, extensions
 │   └── screenshot.png
 └── your-component.yourusername/
     ├── meta.yml
-    ├── snippet.swift
+    ├── snippet.swift         # Don't create separate files - we parse and display automatically
     └── screenshot.png
 ```
+
+### How Code Display Works
+
+When you submit your snippet:
+
+- Put all code (structs, enums, classes, extensions, #Preview) in `snippet.swift`
+- Our parser automatically detects and separates different components
+- Users see your code organized in tabs/sections
+- You can use `// MARK: - Name` comments for better organization
+- The system detects: struct, enum, class, extension, #Preview automatically
 
 ## Allowed Tags
 
@@ -128,14 +148,18 @@ npm run dev
 ## What NOT to do
 
 - Don't edit `lib/snippets-data.ts` manually
+- Don't create multiple Swift files - everything goes in `snippet.swift`
 - Don't use invalid tags
 - Don't submit incomplete snippets
 - Don't use copyrighted images
+- Don't rename `snippet.swift` - it must be exactly that name
 
 ## Best Practices
 
 - Use descriptive titles
 - Write clean, documented code
+- Put all code in one file (`snippet.swift`)
+- Use `// MARK:` comments to organize different sections
 - Include helpful comments
 - Test your component
 - Use high-quality screenshots

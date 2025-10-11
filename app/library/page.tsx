@@ -49,7 +49,7 @@ export default function LibraryPage() {
       ) : (
         <>
           <SnippetReels snippets={snippets} />
-          <ContributeButton variant="floating" />
+          <ContributeButton variant="floating" hideOnMobile={true} />
         </>
       )}
       

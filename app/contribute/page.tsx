@@ -21,9 +21,10 @@ export default function ContributePage() {
               Contribute
             </span>
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-8">
             Help us grow the SwiftUI snippet collection
           </p>
+          
         </header>
 
         <div className="space-y-8">
@@ -43,26 +44,60 @@ export default function ContributePage() {
               <div className="flex items-start gap-3">
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">2</div>
                 <div>
-                  <p className="font-medium">Create your snippet folder</p>
-                  <p className="text-sm text-muted-foreground">Add a new folder in <code className="bg-muted px-2 py-1 rounded">/snippets/</code> with format <code className="bg-muted px-2 py-1 rounded">component-name.username</code></p>
+                  <p className="font-medium">Add your 3 files</p>
+                  <p className="text-sm text-muted-foreground">
+                    Create a folder <code className="bg-muted px-2 py-1 rounded">component-name.username</code> in <code className="bg-muted px-2 py-1 rounded">/snippets/</code> with:
+                  </p>
+                  <div className="mt-2 space-y-1">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <code className="bg-muted px-2 py-1 rounded text-xs">snippet.swift</code> - Your SwiftUI code
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <code className="bg-muted px-2 py-1 rounded text-xs">meta.yml</code> - Component description
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <code className="bg-muted px-2 py-1 rounded text-xs">screenshot.png</code> - Component preview
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">3</div>
                 <div>
-                  <p className="font-medium">Add your files</p>
-                  <p className="text-sm text-muted-foreground">Include meta.yml, snippet.swift, and screenshot.png</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">4</div>
-                <div>
                   <p className="font-medium">Submit a Pull Request</p>
-                  <p className="text-sm text-muted-foreground">Our CI automatically validates, generates data, and deploys your contribution!</p>
+                  <p className="text-sm text-muted-foreground">That's it! Our CI handles the rest automatically</p>
                 </div>
               </div>
             </div>
+            
+            {/* Quick Action Button */}
+            <div className="mt-6 pt-6 border-t">
+              <div className="text-center">
+                <button 
+                  onClick={() => window.open('https://github.com/luizmellodev/SwiftShelf/fork', '_blank')}
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors duration-200"
+                >
+                  <Github className="h-5 w-5" />
+                  Start Contributing Now
+                </button>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Ready to get started? Click above to fork the repository
+                </p>
+              </div>
+            </div>
           </section>
+
+          {/* Details Section Header */}
+          <div className="text-center py-6">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-muted rounded-full text-sm font-medium text-muted-foreground">
+              <span>Need more details?</span>
+              <ArrowDown className="h-4 w-4" />
+              <span>All the rules and guidelines are below</span>
+            </div>
+          </div>
 
           <section className="bg-card rounded-lg border p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
@@ -93,10 +128,21 @@ export default function ContributePage() {
           </section>
 
           <section className="bg-card rounded-lg border p-6">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <Code className="h-6 w-6" />
-              meta.yml File
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold flex items-center gap-2">
+                <Code className="h-6 w-6" />
+                meta.yml File
+              </h2>
+              <Button 
+                onClick={scrollToExamples}
+                variant="outline" 
+                size="sm" 
+                className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
+              >
+                <ArrowDown className="h-4 w-4 mr-2" />
+                See Examples Below
+              </Button>
+            </div>
             <div className="bg-muted rounded-lg p-4">
               <pre className="text-sm">{`title: Your Snippet Title
 author: Your Name
@@ -145,16 +191,6 @@ description: A brief description of what your snippet does`}</pre>
                   >
                     <span className="text-xs">🏷️</span>
                     <span className="ml-1">View All Tags</span>
-                  </Button>
-                  
-                  <Button 
-                    onClick={scrollToExamples}
-                    variant="outline" 
-                    size="sm" 
-                    className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
-                  >
-                    <ArrowDown className="h-4 w-4 mr-2" />
-                    See Examples Below
                   </Button>
                 </div>
               </div>
@@ -478,29 +514,33 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
 
           <section className="bg-card rounded-lg border p-6">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-white mb-6">
-                <span className="text-2xl">✨</span>
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-900 text-white mb-6">
+                <span className="text-2xl">🌱</span>
               </div>
-              <h4 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-4">That's it!</h4>
+              <h4 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-4">Thank you for helping us grow!</h4>
               <p className="text-lg text-emerald-800 dark:text-emerald-200 mb-6">
-                You just need to create 3 files and submit the PR. We handle the rest!
+                Your contribution helps build a stronger Swift community. Every snippet makes a difference!
               </p>
-            </div>
-          </section>
-
-          <section className="text-center py-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-            <h2 className="text-2xl font-bold mb-4">Ready to contribute?</h2>
-            <p className="text-muted-foreground mb-6">
-              Join our community and help others discover amazing SwiftUI components
-            </p>
-            <div className="flex gap-4 justify-center">
-              <button 
-                onClick={() => window.open('https://github.com/luizmellodev/SwiftShelf', '_blank')}
-                className="group relative px-8 py-4 text-lg font-medium text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 hover:border-white/40 transition-all duration-300"
-              >
-                <Github className="h-5 w-5 mr-3 inline" />
-                Start Contributing Now
-              </button>
+              
+              <div className="bg-muted/50 rounded-lg p-4 mb-6">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Created with ❤️ by   <strong>@luizmellodev</strong>
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  If you find this project helpful, consider supporting it:
+                </p>
+                <button 
+                  onClick={() => window.open('https://buymeacoffee.com/luizmello.dev', '_blank')}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors duration-200"
+                >
+                  <span>☕</span>
+                  Buy me a coffee
+                </button>
+              </div>
+              
+              <p className="text-sm text-muted-foreground">
+                Need help? Check the detailed guidelines above or open an issue on GitHub.
+              </p>
             </div>
           </section>
         </div>

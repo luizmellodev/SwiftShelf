@@ -47,6 +47,13 @@ description: Brief description of your component
 - Show your component in action
 - Use high-quality, clear images
 - Avoid copyrighted content
+- Here is the thing: if you take a screenshot directly on your Mac, you won't run into any issues.
+
+**📸 Taking Screenshots on Mac**
+**Quick Steps:**
+
+- **To take a screenshot**: Use `Command + Shift + 4`
+- **If you’re not sure where the screenshot was saved**: Press `Command + Shift + 5`, click Options, and set Save to Desktop (and take another one)
 
 ### 5. **Submit Pull Request**
 

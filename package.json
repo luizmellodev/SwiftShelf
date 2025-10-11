@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "npm run generate-snippets && npm run copy-images && next build",
+    "build": "npm run copy-images && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "validate": "node scripts/validate-snippets.js",
-    "generate-snippets": "node scripts/generate-snippets-data.js",
     "copy-images": "node scripts/copy-images.js"
   },
   "dependencies": {

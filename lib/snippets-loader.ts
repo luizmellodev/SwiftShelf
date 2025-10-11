@@ -1,5 +1,4 @@
 import { getSnippets } from "./read-snippets"
-import { snippets as fallbackSnippets } from "./snippets-data"
 
 export interface Snippet {
   id: string
@@ -14,24 +13,17 @@ export interface Snippet {
 
 export async function loadSnippets(): Promise<Snippet[]> {
   try {
-    const dynamicSnippets = await getSnippets()
+    const snippets = await getSnippets()
     
-    if (dynamicSnippets.length > 0) {
-      console.log(`✅ Loaded ${dynamicSnippets.length} snippets dynamically`)
-      return dynamicSnippets
+    if (snippets.length > 0) {
+      console.log(`✅ Loaded ${snippets.length} snippets dynamically`)
+      return snippets
     }
+    
+    console.warn("⚠️ No snippets found in snippets directory")
+    return []
   } catch (error) {
-    console.warn("⚠️ Failed to load snippets dynamically, using fallback:", error)
+    console.error("❌ Failed to load snippets:", error)
+    throw error
   }
-  
-  console.log(`📦 Using ${fallbackSnippets.length} static snippets`)
-  return fallbackSnippets
-}
-
-export function getStaticSnippets(): Snippet[] {
-  return fallbackSnippets
-}
-
-export async function getDynamicSnippets(): Promise<Snippet[]> {
-  return await loadSnippets()
 }

@@ -86,14 +86,9 @@ Quick Steps:
    - **Tags**: Ensures only allowed tags are used (max 3)
    - **File Integrity**: Checks all required files exist
 
-2. **Auto-Generation**
-
-   - CI automatically generates `snippets-data.ts`
-   - No manual editing needed
-   - Your snippet appears on the website
-
-3. **Deployment**
+2. **Deployment**
    - If validation passes, it's automatically deployed
+   - Your snippet is loaded dynamically from the `/snippets/` folder
    - Your component is live on the website
 
 ## File Structure
@@ -138,16 +133,15 @@ Check `lib/allowed-tags.js` for the complete list. Common tags include:
 # Validate your snippets
 npm run validate
 
-# Generate snippets data
-npm run generate-snippets
-
 # Run development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
 ## What NOT to do
 
-- Don't edit `lib/snippets-data.ts` manually
 - Don't create multiple Swift files - everything goes in `snippet.swift`
 - Don't use invalid tags
 - Don't submit incomplete snippets

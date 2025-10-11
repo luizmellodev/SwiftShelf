@@ -5,7 +5,7 @@ import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SnippetCard } from "./snippet-card"
-import type { Snippet } from "@/lib/snippets-data"
+import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetGalleryProps {
   snippets: Snippet[]

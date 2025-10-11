@@ -6,7 +6,7 @@ import { ArrowLeft, Github, ZoomIn } from "lucide-react"
 import { ImageModal } from "@/components/image-modal"
 import { SnippetImage } from "@/components/snippet-image"
 import { CodeViewer } from "@/components/code-viewer"
-import type { Snippet } from "@/lib/snippets-data"
+import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetDetailClientProps {
   snippet: Snippet

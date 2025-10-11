@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Github } from "lucide-react"
-import type { Snippet } from "@/lib/snippets-data"
+import type { Snippet } from "@/lib/snippets-loader"
 import { SnippetImage } from "./snippet-image"
 
 interface SnippetCardProps {

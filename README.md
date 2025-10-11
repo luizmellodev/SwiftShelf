@@ -19,9 +19,10 @@ This project showcases beautiful, reusable SwiftUI components submitted by the c
 
 1. **Submit a PR**: Add your snippet folder to `/snippets/`
 2. **Auto-validation**: GitHub Actions validates your submission
-3. **Auto-generation**: CI automatically generates `snippets-data.ts`
-4. **Merge**: Once approved, your PR is merged to main
-5. **Live**: Your snippet appears on the gallery instantly! 🎉
+3. **Merge**: Once approved, your PR is merged to main
+4. **Live**: Your snippet appears on the gallery instantly! 🎉
+
+Snippets are loaded dynamically from the `/snippets/` folder at build time, so no additional generation steps are needed.
 
 ## 🤝 Contributing
 

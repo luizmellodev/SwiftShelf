@@ -4,12 +4,10 @@ on:
   pull_request:
     paths:
       - "snippets/**"
-      - "lib/snippets-data.ts"
   push:
     branches: [main]
     paths:
       - "snippets/**"
-      - "lib/snippets-data.ts"
 
 jobs:
   validate-snippets:
@@ -37,21 +35,6 @@ jobs:
         run: |
           echo "🔍 Running snippet validation..."
           npm run validate
-
-      - name: Generate snippets data
-        run: npm run generate-snippets
-
-      - name: Commit generated data
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add lib/snippets-data.ts
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Auto-generate snippets-data.ts"
-            echo "✅ Generated and committed snippets-data.ts"
-          else
-            echo "✅ No changes needed in snippets-data.ts"
-          fi
 
       - name: PR validation success
         if: github.event_name == 'pull_request'
@@ -85,9 +68,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Generate snippets data
-        run: npm run generate-snippets
 
       - name: Build project
         run: npm run build

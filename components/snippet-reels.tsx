@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Github, ChevronUp, ChevronDown } from "lucide-react"
 import { SnippetImage } from "./snippet-image"
-import type { Snippet } from "@/lib/snippets-data"
+import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetReelsProps {
   snippets: Snippet[]

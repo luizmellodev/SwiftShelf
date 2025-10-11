@@ -108,9 +108,23 @@ export default function ContributePage() {
               <div>snippets/</div>
               <div className="ml-4">component-name.username/</div>
               <div className="ml-8">meta.yml          # Metadata about your snippet. Check below</div>
-              <div className="ml-8">snippet.swift     # Your SwiftUI code</div>
+              <div className="ml-8">snippet.swift     # Your SwiftUI code (ALL CODE GOES HERE!)</div>
               <div className="ml-8">screenshot.png    # Screenshot (9:16 aspect ratio)</div>
             </div>
+            
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <h3 className="font-semibold mb-2 text-blue-900 dark:text-blue-100">📦 All Code in One File!</h3>
+              <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+                Put <strong>all your code</strong> in <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">snippet.swift</code> - don't create separate files!
+              </p>
+              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                <li>• All structs, enums, classes, extensions go in <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">snippet.swift</code></li>
+                <li>• Our system automatically separates them for display</li>
+                <li>• Use <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">// MARK: - Name</code> comments to organize sections</li>
+                <li>• The parser detects structs, enums, classes, extensions, and #Preview automatically</li>
+              </ul>
+            </div>
+            
             <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
               <h3 className="font-semibold mb-2">Folder Naming Rules:</h3>
               <div className="mb-3 p-3 bg-gray-50 dark:bg-gray-950/20 rounded border border-gray-200 dark:border-gray-800">
@@ -223,22 +237,25 @@ description: A brief description of what your snippet does`}</pre>
               </div>
             </div>
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Automatic Validation</h4>
-                <p className="text-sm text-gray-800 dark:text-gray-200">
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2"> Taking Screenshots</h4>
+                <p className="text-sm text-gray-800 dark:text-gray-200 mb-3">
+                  Taking screenshots from the iOS Simulator is super easy!
+                </p>
+                <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
+                  <p><strong>Quick Steps:</strong></p>
+                  <ul className="space-y-1 ml-4">
+                    <li>• Open your component in the iOS Simulator</li>
+                    <li>• Press <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded font-semibold">Command + S</code> to save a screenshot</li>
+                    <li>• Right-click the screenshot thumbnail that appears</li>
+                    <li>• Select "Save to Desktop" (or your preferred location)</li>
+                    <li>• Rename it to <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded">screenshot.png</code></li>
+                  </ul>
+                </div>
+                <p className="text-sm text-gray-800 dark:text-gray-200 mt-3">
                   Your screenshot will be automatically validated for format, size, aspect ratio, and resolution. 
                   Invalid images will be rejected with helpful error messages.
                 </p>
-              <p className="text-sm text-gray-800 dark:text-gray-200 mb-3 mt-3">
-                Here is the thing: if you take a screenshot directly on your Mac, you won't run into any issues.
-              </p>
-              <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
-                <p><strong>Quick Steps:</strong></p>
-                <ul className="space-y-1 ml-4">
-                  <li>• <strong>To take a screenshot</strong>: Use <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded">Command + Shift + 4</code></li>
-                  <li>• <strong>If you're not sure where the screenshot was saved</strong>: Press <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded">Command + Shift + 5</code>, click Options, and set Save to Desktop (and take another one)</li>
-                </ul>
               </div>
-            </div>
           </section>
 
           <section className="bg-card rounded-lg border p-6">
@@ -252,6 +269,13 @@ description: A brief description of what your snippet does`}</pre>
                 <div>
                   <p className="font-medium">Keep snippets simple and focused</p>
                   <p className="text-sm text-muted-foreground">One component/feature per snippet</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
+                <div>
+                  <p className="font-medium">All code in snippet.swift</p>
+                  <p className="text-sm text-muted-foreground">Put all structs, enums, classes, and extensions in one file - we'll display them beautifully</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

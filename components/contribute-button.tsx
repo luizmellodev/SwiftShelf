@@ -17,7 +17,7 @@ export function ContributeButton({
   hideOnMobile = false
 }: ContributeButtonProps) {
   const handleClick = () => {
-    window.open('/contribute', '_blank')
+    window.open('https://github.com/luizmellodev/SwiftShelf', '_blank')
   }
 
   if (variant === "floating") {
@@ -25,9 +25,9 @@ export function ContributeButton({
       <Button
         onClick={handleClick}
         size={size}
-        className={`fixed bottom-6 left-6 z-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 ${hideOnMobile ? 'hidden md:flex' : ''} ${className}`}
+        className={`fixed bottom-6 left-6 z-50 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 font-bold border-0 cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.4),0_0_40px_rgba(34,211,238,0.2)] ${hideOnMobile ? 'hidden md:flex' : ''} ${className}`}
       >
-        <Plus className="h-4 w-4 mr-2" />
+        <Plus className="h-5 w-5 mr-3" />
         Contribute
       </Button>
     )
@@ -51,9 +51,9 @@ export function ContributeButton({
     <Button
       onClick={handleClick}
       size={size}
-      className={`bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white shadow-md hover:shadow-lg transition-all duration-300 ${className}`}
+      className={`bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold border-0 cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.4),0_0_40px_rgba(34,211,238,0.2)] ${className}`}
     >
-      <Github className="h-4 w-4 mr-2" />
+      <Github className="h-5 w-5 mr-3" />
       Contribute
     </Button>
   )

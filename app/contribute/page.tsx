@@ -58,7 +58,7 @@ export default function ContributePage() {
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">4</div>
                 <div>
                   <p className="font-medium">Submit a Pull Request</p>
-                  <p className="text-sm text-muted-foreground">We'll review and merge your contribution</p>
+                  <p className="text-sm text-muted-foreground">Our CI automatically validates, generates data, and deploys your contribution!</p>
                 </div>
               </div>
             </div>
@@ -78,8 +78,8 @@ export default function ContributePage() {
             </div>
             <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
               <h3 className="font-semibold mb-2">Folder Naming Rules:</h3>
-              <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-950/20 rounded border border-blue-200 dark:border-blue-800">
-                <p className="text-sm text-blue-800 dark:text-blue-200">
+              <div className="mb-3 p-3 bg-gray-50 dark:bg-gray-950/20 rounded border border-gray-200 dark:border-gray-800">
+                <p className="text-sm text-gray-800 dark:text-gray-200">
                   <strong>Format:</strong> <code>component-name.username</code><br/>
                   <strong>Note:</strong> The dot (.) separates the component name from the username, not a hyphen.
                 </p>
@@ -119,17 +119,17 @@ description: A brief description of what your snippet does`}</pre>
                 </ul>
               </div>
               
-              <div className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">🏷️ Taglines & Tags</h4>
-                <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+              <div className="p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">🏷️ Taglines & Tags</h4>
+                <p className="text-sm text-gray-800 dark:text-gray-200 mb-3">
                   Tags help users discover your snippet. Use exactly 3 tags from our approved list.
                 </p>
                 
                 <div className="mb-4">
-                  <h5 className="font-medium text-blue-900 dark:text-blue-100 text-xs mb-2">Popular Tags</h5>
+                  <h5 className="font-medium text-gray-900 dark:text-gray-100 text-xs mb-2">Popular Tags</h5>
                   <div className="flex flex-wrap gap-1">
                     {['button', 'card', 'animation', 'ui', 'form', 'layout', 'loading', 'ios', 'modal', 'navigation', 'theme', 'gradient'].map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 rounded text-xs font-mono">
+                      <span key={tag} className="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 rounded text-xs font-mono">
                         {tag}
                       </span>
                     ))}
@@ -141,7 +141,7 @@ description: A brief description of what your snippet does`}</pre>
                     onClick={scrollToTags}
                     variant="outline" 
                     size="sm" 
-                    className="text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                    className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
                   >
                     <span className="text-xs">🏷️</span>
                     <span className="ml-1">View All Tags</span>
@@ -151,7 +151,7 @@ description: A brief description of what your snippet does`}</pre>
                     onClick={scrollToExamples}
                     variant="outline" 
                     size="sm" 
-                    className="text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                    className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
                   >
                     <ArrowDown className="h-4 w-4 mr-2" />
                     See Examples Below
@@ -186,12 +186,22 @@ description: A brief description of what your snippet does`}</pre>
                 </ul>
               </div>
             </div>
-            <div className="mt-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
-              <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">🔍 Automatic Validation</h4>
-              <p className="text-sm text-green-800 dark:text-green-200">
-                Your screenshot will be automatically validated for format, size, aspect ratio, and resolution. 
-                Invalid images will be rejected with helpful error messages.
+              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Automatic Validation</h4>
+                <p className="text-sm text-gray-800 dark:text-gray-200">
+                  Your screenshot will be automatically validated for format, size, aspect ratio, and resolution. 
+                  Invalid images will be rejected with helpful error messages.
+                </p>
+              <p className="text-sm text-gray-800 dark:text-gray-200 mb-3 mt-3">
+                Here is the thing: if you take a screenshot directly on your Mac, you won't run into any issues.
               </p>
+              <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
+                <p><strong>Quick Steps:</strong></p>
+                <ul className="space-y-1 ml-4">
+                  <li>• <strong>To take a screenshot</strong>: Use <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded">Command + Shift + 4</code></li>
+                  <li>• <strong>If you're not sure where the screenshot was saved</strong>: Press <code className="bg-gray-100 dark:bg-gray-900/30 px-1 rounded">Command + Shift + 5</code>, click Options, and set Save to Desktop (and take another one)</li>
+                </ul>
+              </div>
             </div>
           </section>
 
@@ -375,9 +385,9 @@ description: A brief description of what your snippet does`}</pre>
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">💡 Tag Selection Tips</h4>
-              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">💡 Tag Selection Tips</h4>
+              <ul className="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                 <li>• Choose exactly 3 tags that best describe your snippet</li>
                 <li>• Mix different categories (e.g., one UI tag + one animation tag + one platform tag)</li>
                 <li>• Use specific tags over generic ones when possible</li>
@@ -454,32 +464,43 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
-              <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">💡 Key Points</h4>
-              <ul className="text-sm text-green-800 dark:text-green-200 space-y-1">
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">💡 Key Points</h4>
+              <ul className="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                 <li>• All fields are required</li>
                 <li>• Use exactly 3 tags (no more, no less)</li>
                 <li>• Tags must be from the approved list</li>
                 <li>• github-username must match your folder name</li>
                 <li>• Description should be one clear sentence</li>
               </ul>
+            </div>  
+          </section>
+
+          <section className="bg-card rounded-lg border p-6">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-white mb-6">
+                <span className="text-2xl">✨</span>
+              </div>
+              <h4 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-4">That's it!</h4>
+              <p className="text-lg text-emerald-800 dark:text-emerald-200 mb-6">
+                You just need to create 3 files and submit the PR. We handle the rest!
+              </p>
             </div>
           </section>
 
-          <section className="text-center py-8">
+          <section className="text-center py-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
             <h2 className="text-2xl font-bold mb-4">Ready to contribute?</h2>
             <p className="text-muted-foreground mb-6">
               Join our community and help others discover amazing SwiftUI components
             </p>
             <div className="flex gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600"
+              <button 
                 onClick={() => window.open('https://github.com/luizmellodev/SwiftShelf', '_blank')}
+                className="group relative px-8 py-4 text-lg font-medium text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 hover:border-white/40 transition-all duration-300"
               >
-                <Github className="h-5 w-5 mr-2" />
-                Contribute
-              </Button>
+                <Github className="h-5 w-5 mr-3 inline" />
+                Start Contributing Now
+              </button>
             </div>
           </section>
         </div>

@@ -44,7 +44,7 @@ export default function Home() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="gap-2 bg-transparent hover:scale-105 transition-all duration-300 backdrop-blur-sm border-primary/20 hover:border-primary/40">
-              <a href="https://github.com/luizmellodev/swiftshelf" rel="noopener noreferrer">
+              <a href="https://github.com/luizmellodev/swiftshelf" target="_blank" rel="noopener noreferrer">
                 <Github className="h-4 w-4" /> Contribute on GitHub
               </a>
             </Button>

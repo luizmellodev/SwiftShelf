@@ -53,32 +53,20 @@ jobs:
             echo "✅ No changes needed in snippets-data.ts"
           fi
 
-      - name: Comment PR on success
+      - name: PR validation success
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '✅ All snippet validations passed! Your contribution looks good and will be automatically deployed when merged to main.'
-            })
+        run: |
+          echo "✅ All snippet validations passed!"
+          echo "Your contribution looks good and will be automatically deployed when merged to main."
 
   validate-failed:
     runs-on: ubuntu-latest
     if: failure() && github.event_name == 'pull_request'
     steps:
-      - name: Comment PR on failure
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '❌ Snippet validation failed. Please check the workflow logs and fix the issues before this can be merged.'
-            })
+      - name: PR validation failed
+        run: |
+          echo "❌ Snippet validation failed."
+          echo "Please check the workflow logs and fix the issues before this can be merged."
 
   deploy:
     needs: validate-snippets

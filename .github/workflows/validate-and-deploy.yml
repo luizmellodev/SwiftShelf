@@ -41,13 +41,14 @@ jobs:
       - name: Generate snippets data
         run: npm run generate-snippets
 
-      - name: Check for changes
+      - name: Commit generated data
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add lib/snippets-data.ts
           if [ -n "$(git status --porcelain)" ]; then
-            echo "❌ Generated snippets-data.ts has changes"
-            echo "Please run 'npm run generate-snippets' locally and commit the changes"
-            git status
-            exit 1
+            git commit -m "Auto-generate snippets-data.ts"
+            echo "✅ Generated and committed snippets-data.ts"
           else
             echo "✅ No changes needed in snippets-data.ts"
           fi

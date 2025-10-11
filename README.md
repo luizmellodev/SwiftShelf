@@ -1,2 +1,67 @@
 # SwiftShelf
-Community-driven gallery of reusable SwiftUI components.
+
+A community-driven gallery of reusable SwiftUI components and code snippets.
+
+## Disclaimer
+
+This project is not an official Apple project and is not affiliated with Apple or the Swift programming language brand (despite the name SwiftShelf). It is a non-profit and community-driven initiative. To access official information about the Swift language, please visit [swift.org](https://swift.org).
+
+## About
+
+This project showcases beautiful, reusable SwiftUI components submitted by the community. Each snippet includes:
+
+- Screenshot preview
+- Copy-paste ready SwiftUI code
+- Tags for easy discovery
+- Author attribution
+
+## How It Works
+
+1. **Submit a PR**: Add your snippet folder to `/snippets/`
+2. **Auto-validation**: GitHub Actions validates your submission
+3. **Merge**: Once approved, your PR is merged to main
+4. **Live**: Your snippet appears on the gallery instantly! 🎉
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
+
+### Quick Start
+
+1. Fork this repo
+2. Create a folder in `/snippets/your-component-or-view-username/`
+3. Add three files:
+   - `meta.yml` - Metadata (title, author, tags, description and your username)
+   - `snippet.swift` - Your SwiftUI code
+   - `screenshot.png` - Screenshot of your component
+4. Open a Pull Request
+
+Your PR will be automatically validated and merged if all checks pass!
+
+### Example Structure
+
+\`\`\`
+snippets/
+└── animated-button-luizmellodev/
+├── meta.yml # Metadata
+├── snippet.swift # SwiftUI code
+└── screenshot.png # Preview image
+\`\`\`
+
+### meta.yml Format
+
+\`\`\`yaml
+title: "Animated Button"
+author: "Your Name"
+github: yourgithub
+description: "A beautiful animated button with spring animation"
+tags:
+
+- button
+- animation
+- ui
+  \`\`\`
+
+## 📝 License
+
+MIT License - feel free to use these snippets in your projects!

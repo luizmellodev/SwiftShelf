@@ -63,10 +63,10 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
   }
   
   return (
-    <div>
+    <div className="w-full overflow-hidden">
       <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-base font-semibold sm:text-lg lg:text-xl">SwiftUI Code</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0">
           {hasMultipleSections && (
             <button
               onClick={() => {
@@ -151,10 +151,10 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
         </div>
       )}
       
-      <div className="relative rounded-lg border bg-muted/50">
-        <div className="overflow-x-auto">
-          <pre className="p-3 sm:p-4">
-            <code className="text-xs leading-relaxed sm:text-sm whitespace-pre-wrap break-words">
+      <div className="relative rounded-lg border bg-muted/50 overflow-hidden">
+        <div className="overflow-x-auto max-w-full">
+          <pre className="p-3 sm:p-4 min-w-0">
+            <code className="text-xs leading-relaxed sm:text-sm block whitespace-pre-wrap break-words">
               {displayCode}
             </code>
           </pre>

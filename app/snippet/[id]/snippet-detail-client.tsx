@@ -26,9 +26,9 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
           Back to Library
         </Link>
 
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-          <div className="flex flex-col gap-4">
-            <div className="group relative aspect-[1/1] overflow-hidden rounded-lg border bg-muted sm:aspect-[3/4] md:aspect-[9/16] lg:sticky lg:top-8">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
+          <div className="flex flex-col gap-4 order-1 lg:order-1">
+            <div className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-none lg:aspect-[9/16] lg:sticky lg:top-8">
               <SnippetImage 
                 src={snippet.screenshot || ""} 
                 alt={snippet.title} 
@@ -49,7 +49,7 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 sm:gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6 order-2 lg:order-2 min-w-0">
             <div>
               <h1 className="mb-2 text-xl font-bold sm:text-2xl lg:text-3xl xl:text-4xl break-words">{snippet.title}</h1>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
@@ -82,7 +82,9 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
               <p className="text-sm leading-relaxed text-muted-foreground sm:text-base break-words">{snippet.description}</p>
             </div>
 
-            <CodeViewer code={snippet.code} />
+            <div className="min-w-0 overflow-hidden">
+              <CodeViewer code={snippet.code} />
+            </div>
           </div>
         </div>
       </div>

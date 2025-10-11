@@ -306,8 +306,8 @@ struct SettingsRow<Trailing: View>: View {
     id: "snackbar-view.luizmellodev",
     title: "Snackbar Component",
     author: "Luiz Mello",
-    githubUsername: "unknown",
-    tags: ["notifications", "toast", "snackbar"],
+    githubUsername: "luizmellodev",
+    tags: ["notification", "toast", "animation"],
     description: "A fully-featured snackbar/toast notification component with multiple types (success, error, warning, info), customizable positions (top/bottom), actions, and animations. Includes a global SnackbarManager for app-wide notifications.",
     screenshot: "/snippets/snackbar-view.luizmellodev/screenshot.png",
     code: `//

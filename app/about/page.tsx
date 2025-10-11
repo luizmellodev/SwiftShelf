@@ -91,7 +91,7 @@ export default function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
-                href="https://code2tutorial.com/tutorial/a0d3869a-2711-4f26-a484-ab2cd11c100c/index.md"
+                href="https://code2tutorial.com/tutorial/21e17592-680d-4026-a032-fdbccec2863d/index.md"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1"

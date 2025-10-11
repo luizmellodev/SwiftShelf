@@ -28,39 +28,72 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed in
 
 ### Quick Start
 
-1. Fork this repo
-2. Create a folder in `/snippets/your-component-or-view-username/`
-3. Add three files:
-   - `meta.yml` - Metadata (title, author, tags, description and your username)
+1. **Fork this repo**
+2. **Create a folder** in `/snippets/` with format: `component-name.username`
+3. **Add three required files:**
+   - `meta.yml` - Metadata (title, author, github-username, tags, description)
    - `snippet.swift` - Your SwiftUI code
-   - `screenshot.png` - Screenshot of your component
-4. Open a Pull Request
+   - `screenshot.png` - Screenshot (9:16 aspect ratio, PNG format, under 500KB)
+4. **Open a Pull Request**
 
 Your PR will be automatically validated and merged if all checks pass!
 
-### Example Structure
+### 📁 Folder Structure
 
-\`\`\`
+```
 snippets/
-└── animated-button-luizmellodev/
+└── animated-button.luizmellodev/
 ├── meta.yml # Metadata
 ├── snippet.swift # SwiftUI code
-└── screenshot.png # Preview image
-\`\`\`
+└── screenshot.png # Preview image (9:16 ratio)
+```
 
-### meta.yml Format
+### 📋 meta.yml Format
 
-\`\`\`yaml
+```yaml
 title: "Animated Button"
 author: "Your Name"
-github: yourgithub
+github-username: yourusername
 description: "A beautiful animated button with spring animation"
 tags:
+  - button
+  - animation
+  - ui
+```
 
-- button
-- animation
-- ui
-  \`\`\`
+### 🏷️ Tag Rules
+
+- **Exactly 3 tags** (no more, no less)
+- **Use approved tags only** from our comprehensive list
+- **Mix different categories** (e.g., one UI tag + one animation tag + one platform tag)
+
+### 📸 Screenshot Requirements
+
+- **Format:** PNG only
+- **Aspect ratio:** 9:16 (vertical)
+- **Size:** Under 500KB
+- **Resolution:** 800-2000px width, 1000-3000px height
+- **Content:** Show your component in action with realistic content
+
+### ✅ Validation
+
+Your submission will be automatically validated for:
+
+- ✅ Folder naming convention
+- ✅ Required files presence
+- ✅ meta.yml format and required fields
+- ✅ Tag validation (approved tags only)
+- ✅ Screenshot format, size, and aspect ratio
+- ✅ SwiftUI code structure
+
+### 🚫 Common Mistakes to Avoid
+
+- ❌ Using more than 3 tags
+- ❌ Using unapproved tags
+- ❌ Wrong folder naming (use dots, not hyphens)
+- ❌ Screenshot not in 9:16 aspect ratio
+- ❌ Screenshot over 500KB
+- ❌ Missing required fields in meta.yml
 
 ## 📝 License
 

@@ -6,13 +6,13 @@ Thank you for contributing! Follow these steps to add your SwiftUI snippet.
 
 Each snippet must be in its own folder under `/snippets/` with the following naming convention:
 
-\`\`\`
+```
 snippets/
 component-name.username/
 meta.yml # Metadata about your snippet
 snippet.swift # Your SwiftUI code
 screenshot.png # Screenshot of your component (9:16 aspect ratio recommended)
-\`\`\`
+```
 
 ### Folder Naming Convention
 
@@ -29,17 +29,16 @@ screenshot.png # Screenshot of your component (9:16 aspect ratio recommended)
 
 ## meta.yml Format
 
-\`\`\`yaml
+```yaml
 title: Your Snippet Title
 author: Your Name
 github-username: yourusername
 tags:
-
-- tag1
-- tag2
-- tag3
-  description: A brief description of what your snippet does
-  \`\`\`
+  - tag1
+  - tag2
+  - tag3
+description: A brief description of what your snippet does
+```
 
 ### Required Fields:
 
@@ -55,48 +54,48 @@ Here are 3 complete examples of how your meta.yml should look:
 
 ### Example 1: Animated Button
 
-\`\`\`yaml
+```yaml
 title: Animated Button
 author: John Doe
 github-username: john-doe
 tags:
+  - button
+  - animation
+  - ui
+description: A beautiful animated button with spring animation and haptic feedback
+```
 
-- button
-- animation
-- ui
-  description: A beautiful animated button with spring animation and haptic feedback
-  \`\`\`
-  **Folder:** \`animated-button.john-doe/\`
+**Folder:** `animated-button.john-doe/`
 
 ### Example 2: Gradient Card
 
-\`\`\`yaml
+```yaml
 title: Gradient Card
 author: Jane Smith
 github-username: jane-smith
 tags:
+  - card
+  - gradient
+  - layout
+description: A modern card component with gradient background and glassmorphism effect
+```
 
-- card
-- gradient
-- layout
-  description: A modern card component with gradient background and glassmorphism effect
-  \`\`\`
-  **Folder:** \`gradient-card.jane-smith/\`
+**Folder:** `gradient-card.jane-smith/`
 
 ### Example 3: Loading Spinner
 
-\`\`\`yaml
+```yaml
 title: Loading Spinner
 author: Mike Johnson
 github-username: mike-johnson
 tags:
+  - loading
+  - animation
+  - ui
+description: Smooth rotating loading spinner with customizable colors
+```
 
-- loading
-- animation
-- ui
-  description: Smooth rotating loading spinner with customizable colors
-  \`\`\`
-  **Folder:** \`loading-spinner.mike-johnson/\`
+**Folder:** `loading-spinner.mike-johnson/`
 
 ### Key Points
 
@@ -141,18 +140,19 @@ Your Swift file should:
 - Include comments if the code is complex
 
 Example:
-\`\`\`swift
+
+```swift
 import SwiftUI
 
 struct MyCustomButton: View {
-var body: some View {
-Button("Tap Me") {
-// Action here
+    var body: some View {
+        Button("Tap Me") {
+            // Action here
+        }
+        .buttonStyle(.borderedProminent)
+    }
 }
-.buttonStyle(.borderedProminent)
-}
-}
-\`\`\`
+```
 
 ## screenshot.png
 

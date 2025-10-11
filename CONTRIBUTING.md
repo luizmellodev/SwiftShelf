@@ -1,4 +1,4 @@
-# Contributing to SwiftUI Snippet Gallery
+# Contributing to SwiftShelf!
 
 Thank you for contributing! Follow these steps to add your SwiftUI snippet.
 

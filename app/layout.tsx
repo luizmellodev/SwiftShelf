@@ -10,9 +10,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "SwiftUI Snippets Gallery",
+  title: "SwiftShelf",
   description: "A curated collection of reusable SwiftUI components",
-    generator: 'v0.app'
 }
 
 export default function RootLayout({

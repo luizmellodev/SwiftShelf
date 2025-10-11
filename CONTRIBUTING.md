@@ -6,13 +6,13 @@ Thank you for contributing! Follow these steps to add your SwiftUI snippet.
 
 Each snippet must be in its own folder under `/snippets/` with the following naming convention:
 
-\`\`\`
+```
 snippets/
 component-name.username/
 meta.yml # Metadata about your snippet
 snippet.swift # Your SwiftUI code
 screenshot.png # Screenshot of your component (9:16 aspect ratio recommended)
-\`\`\`
+```
 
 ### Folder Naming Convention
 

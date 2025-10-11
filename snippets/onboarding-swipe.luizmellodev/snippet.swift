@@ -7,7 +7,7 @@ struct OnboardingSwipeView: View {
     let pages = [
         OnboardingPage(
             icon: "star.fill",
-            title: "Welcome to SwiftShelf",
+            title: "Welcome to SwiftShelf!",
             description: "Discover amazing Swift UI components and code snippets to accelerate your iOS development.",
             color: .blue
         ),

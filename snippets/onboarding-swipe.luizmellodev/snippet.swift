@@ -1,127 +1,4 @@
-export interface Snippet {
-  id: string
-  title: string
-  author: string
-  githubUsername: string
-  tags: string[]
-  description: string
-  screenshot: string
-  code: string
-}
-
-export const snippets: Snippet[] = [
-  {
-    id: "animated-button",
-    title: "Animated Button",
-    author: "John Doe",
-    githubUsername: "unknown",
-    tags: ["animation", "button", "ui"],
-    description: "A beautiful animated button with spring animation and haptic feedback",
-    screenshot: "/snippets/animated-button/screenshot.png",
-    code: `import SwiftUI
-
-struct AnimatedButton: View {
-    @State private var isPressed = false
-    
-    var body: some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                isPressed.toggle()
-            }
-        }) {
-            Text("Tap Me")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(10)
-                .scaleEffect(isPressed ? 1.2 : 1.0)
-        }
-    }
-}
-`,
-  },
-  {
-    id: "gradient-card",
-    title: "Gradient Card",
-    author: "Jane Smith",
-    githubUsername: "unknown",
-    tags: ["card", "gradient", "ui"],
-    description: "A modern card component with gradient background and glassmorphism effect",
-    screenshot: "/snippets/gradient-card/screenshot.png",
-    code: `import SwiftUI
-
-struct GradientCard: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Featured")
-                .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
-            
-            Text("Gradient Card")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            
-            Text("Beautiful gradient background with glassmorphism")
-                .font(.body)
-                .foregroundColor(.white.opacity(0.9))
-        }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            LinearGradient(
-                colors: [.purple, .pink],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
-        .cornerRadius(16)
-        .shadow(radius: 10)
-    }
-}
-`,
-  },
-  {
-    id: "loading-spinner",
-    title: "Loading Spinner",
-    author: "Mike Johnson",
-    githubUsername: "unknown",
-    tags: ["animation", "loading", "spinner"],
-    description: "Smooth rotating loading spinner with customizable colors",
-    screenshot: "/snippets/loading-spinner/screenshot.png",
-    code: `import SwiftUI
-
-struct LoadingSpinner: View {
-    @State private var isRotating = false
-    
-    var body: some View {
-        Circle()
-            .trim(from: 0, to: 0.7)
-            .stroke(Color.blue, lineWidth: 4)
-            .frame(width: 50, height: 50)
-            .rotationEffect(Angle(degrees: isRotating ? 360 : 0))
-            .animation(
-                Animation.linear(duration: 1)
-                    .repeatForever(autoreverses: false),
-                value: isRotating
-            )
-            .onAppear {
-                isRotating = true
-            }
-    }
-}
-`,
-  },
-  {
-    id: "onboarding-swipe.luizmellodev",
-    title: "Onboarding Swipe View",
-    author: "Luiz Mello",
-    githubUsername: "luizmellodev",
-    tags: ["navigation", "animation", "gesture"],
-    description: "A beautiful swipeable onboarding screen with page indicators, smooth animations, and gradient backgrounds",
-    screenshot: "/snippets/onboarding-swipe.luizmellodev/screenshot.png",
-    code: `import SwiftUI
+import SwiftUI
 
 struct OnboardingSwipeView: View {
     @State private var currentPage = 0
@@ -167,8 +44,8 @@ struct OnboardingSwipeView: View {
                 
                 VStack(spacing: 0) {
                     // Main content area
-                    TabView(selection: \$currentPage) {
-                        ForEach(0..<pages.count, id: \\.self) { index in
+                    TabView(selection: $currentPage) {
+                        ForEach(0..<pages.count, id: \.self) { index in
                             OnboardingPageView(
                                 page: pages[index],
                                 geometry: geometry
@@ -203,7 +80,7 @@ struct OnboardingSwipeView: View {
                     
                     // Page indicators
                     HStack(spacing: 8) {
-                        ForEach(0..<pages.count, id: \\.self) { index in
+                        ForEach(0..<pages.count, id: \.self) { index in
                             Circle()
                                 .fill(index == currentPage ? pages[currentPage].color : Color.gray.opacity(0.3))
                                 .frame(width: 8, height: 8)
@@ -312,6 +189,3 @@ struct OnboardingSwipeView_Previews: PreviewProvider {
         OnboardingSwipeView()
     }
 }
-`,
-  }
-]

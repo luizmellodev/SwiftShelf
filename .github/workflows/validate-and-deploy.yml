@@ -1,0 +1,97 @@
+name: Validate Snippets and Deploy
+
+on:
+  pull_request:
+    paths:
+      - "snippets/**"
+      - "lib/snippets-data.ts"
+  push:
+    branches: [main]
+    paths:
+      - "snippets/**"
+      - "lib/snippets-data.ts"
+
+jobs:
+  validate-snippets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Validate snippets
+        run: |
+          echo "🔍 Running snippet validation..."
+          npm run validate
+
+      - name: Generate snippets data
+        run: npm run generate-snippets
+
+      - name: Check for changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "❌ Generated snippets-data.ts has changes"
+            echo "Please run 'npm run generate-snippets' locally and commit the changes"
+            git status
+            exit 1
+          else
+            echo "✅ No changes needed in snippets-data.ts"
+          fi
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ All snippet validations passed! Your contribution looks good and will be automatically deployed.'
+            })
+
+  deploy:
+    needs: validate-snippets
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate snippets data
+        run: npm run generate-snippets
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          working-directory: ./

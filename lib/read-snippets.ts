@@ -6,9 +6,10 @@ export interface Snippet {
   id: string
   title: string
   author: string
-  description: string
+  githubUsername: string
   tags: string[]
-  screenshotUrl: string
+  description: string
+  screenshot: string
   code: string
 }
 
@@ -42,6 +43,7 @@ export async function getSnippets(): Promise<Snippet[]> {
       const meta = yaml.load(metaContent) as {
         title: string
         author: string
+        'github-username': string
         description: string
         tags: string[]
       }
@@ -52,9 +54,10 @@ export async function getSnippets(): Promise<Snippet[]> {
         id: folder,
         title: meta.title,
         author: meta.author,
+        githubUsername: meta['github-username'] || 'unknown',
         description: meta.description,
         tags: meta.tags || [],
-        screenshotUrl: `/snippets/${folder}/screenshot.png`,
+        screenshot: `/snippets/${folder}/screenshot.png`,
         code,
       })
     }

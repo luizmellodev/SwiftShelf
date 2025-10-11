@@ -1,205 +1,156 @@
-# Contributing to SwiftShelf!
+# Contributing to SwiftShelf
 
-Thank you for contributing! Follow these steps to add your SwiftUI snippet.
+## How to Add a New Snippet
 
-## Snippet Structure
-
-Each snippet must be in its own folder under `/snippets/` with the following naming convention:
+### 1. **Create Your Snippet Structure**
 
 ```
-snippets/
-component-name.username/
-meta.yml # Metadata about your snippet
-snippet.swift # Your SwiftUI code
-screenshot.png # Screenshot of your component (9:16 aspect ratio recommended)
+snippets/your-component.yourusername/
+├── meta.yml          # Metadata
+├── snippet.swift     # Swift code
+└── screenshot.png    # Screenshot (PNG format)
 ```
 
-### Folder Naming Convention
+** Folder Naming Convention:**
 
-- **Format**: `component-name.username`
-- **Important**: The dot (.) separates the component name from the username, not a hyphen
-- **Examples**:
-  - `animated-button.johndoe` (component: "animated-button", username: "johndoe")
-  - `gradient-card.janesmith` (component: "gradient-card", username: "janesmith")
-  - `loading-spinner.mikejohnson` (component: "loading-spinner", username: "mikejohnson")
-- **Rules**:
-  - Use kebab-case for component names and usernames
-  - No spaces or special characters
-  - Must match the `github-username` in meta.yml
+- Format: `component-name.username`
+- Use kebab-case for both component names and usernames
+- Examples: `animated-button.johndoe`, `gradient-card.janesmith`
 
-## meta.yml Format
+### 2. **Fill the meta.yml**
 
 ```yaml
-title: Your Snippet Title
+title: Your Component Name
 author: Your Name
 github-username: yourusername
 tags:
   - tag1
   - tag2
   - tag3
-description: A brief description of what your snippet does
+description: Brief description of your component
 ```
 
-### Required Fields:
+**Important:** Use only allowed tags from `lib/allowed-tags.js`
 
-- **title**: Short, descriptive name for your snippet
-- **author**: Your display name (can be your real name or GitHub username)
-- **github-username**: Your GitHub username (must match folder name)
-- **tags**: Array of relevant tags (max 3, must use approved tags)
-- **description**: One sentence explaining what the snippet does
+### 3. **Create Your Swift Code**
 
-## Complete Examples
+- Must import SwiftUI
+- Must define a View struct
+- Include proper documentation
+- Make it production-ready
 
-Here are 3 complete examples of how your meta.yml should look:
+### 4. **Add Screenshot**
 
-### Example 1: Animated Button
+- Must be PNG format
+- Recommended: 9:16 aspect ratio (mobile-first)
+- Max size: 500KB
+- Show your component in action
+- Use high-quality, clear images
+- Avoid copyrighted content
 
-```yaml
-title: Animated Button
-author: John Doe
-github-username: john-doe
-tags:
-  - button
-  - animation
-  - ui
-description: A beautiful animated button with spring animation and haptic feedback
+### 5. **Submit Pull Request**
+
+1. Fork the repository
+2. Create your snippet folder
+3. Submit PR with your changes
+4. Our CI will automatically validate everything
+
+## 🔄 **Automatic Process**
+
+### What Happens When You Submit a PR:
+
+1. **✅ Validation**
+
+   - **Folder Structure**: Validates `component-name.username` format
+   - **meta.yml Format**: Checks required fields and YAML syntax
+   - **GitHub Username**: Verifies it matches folder username
+   - **Swift Code**: Ensures `import SwiftUI` and valid View struct
+   - **Screenshot**: Validates PNG format, size, and aspect ratio
+   - **Tags**: Ensures only allowed tags are used (max 3)
+   - **File Integrity**: Checks all required files exist
+
+2. **Auto-Generation**
+
+   - CI automatically generates `snippets-data.ts`
+   - No manual editing needed!
+   - Your snippet appears on the website
+
+3. **Deployment**
+   - If validation passes, it's automatically deployed
+   - Your component is live on the website
+
+## 📁 **File Structure**
+
+```
+snippets/
+├── animated-button.johndoe/
+│   ├── meta.yml
+│   ├── snippet.swift
+│   └── screenshot.png
+├── gradient-card.janesmith/
+│   ├── meta.yml
+│   ├── snippet.swift
+│   └── screenshot.png
+└── your-component.yourusername/
+    ├── meta.yml
+    ├── snippet.swift
+    └── screenshot.png
 ```
 
-**Folder:** `animated-button.john-doe/`
+## 🏷️ **Allowed Tags**
 
-### Example 2: Gradient Card
+Check `lib/allowed-tags.js` for the complete list. Common tags include:
 
-```yaml
-title: Gradient Card
-author: Jane Smith
-github-username: jane-smith
-tags:
-  - card
-  - gradient
-  - layout
-description: A modern card component with gradient background and glassmorphism effect
+- `ui`, `button`, `card`, `animation`
+- `navigation`, `form`, `input`
+- `screen`, `component`, `layout`
+
+## 🛠️ **Local Development**
+
+```bash
+# Validate your snippets
+npm run validate
+
+# Generate snippets data
+npm run generate-snippets
+
+# Run development server
+npm run dev
 ```
 
-**Folder:** `gradient-card.jane-smith/`
+## **What NOT to do**
 
-### Example 3: Loading Spinner
+- ❌ Don't edit `lib/snippets-data.ts` manually
+- ❌ Don't use invalid tags
+- ❌ Don't submit incomplete snippets
+- ❌ Don't use copyrighted images
 
-```yaml
-title: Loading Spinner
-author: Mike Johnson
-github-username: mike-johnson
-tags:
-  - loading
-  - animation
-  - ui
-description: Smooth rotating loading spinner with customizable colors
-```
+## **Best Practices**
 
-**Folder:** `loading-spinner.mike-johnson/`
+- ✅ Use descriptive titles
+- ✅ Write clean, documented code
+- ✅ Include helpful comments
+- ✅ Test your component
+- ✅ Use high-quality screenshots
+- ✅ Follow SwiftUI conventions
 
-### Key Points
+## **Quality Standards**
 
-- All fields are required
-- Use exactly 3 tags (no more, no less)
-- Tags must be from the approved list
-- github-username must match your folder name
-- Description should be one clear sentence
+Your snippet should be:
 
-## Tags Guidelines
+- **Production-ready**: Copy-paste and use immediately
+- **Well-documented**: Clear comments and structure
+- **Modern**: Uses current SwiftUI best practices
+- **Accessible**: Follows accessibility guidelines
+- **Responsive**: Works on different screen sizes
 
-- **Maximum**: 3 tags per snippet
-- **Format**: Use approved tags only (lowercase, kebab-case)
-- **Purpose**: Help users discover your snippet
-- **Total**: 150+ approved tags available
+## **Need Help?**
 
-### Tag Categories:
+- Check existing snippets for examples
+- Read the validation errors carefully
+- Ask questions in GitHub Issues
+- Join our community discussions
 
-- **UI Components**: `button`, `card`, `input`, `text`, `image`, `icon`, `badge`, `chip`, `avatar`, `list`, `grid`, `stack`, `spacer`, `divider`, `separator`
-- **Layout & Navigation**: `layout`, `container`, `section`, `modal`, `sheet`, `popover`, `tooltip`, `overlay`, `navigation`, `tab`, `menu`, `sidebar`, `header`, `footer`, `breadcrumb`
-- **Forms**: `form`, `field`, `picker`, `selector`, `toggle`, `switch`, `slider`, `stepper`, `checkbox`, `radio`
-- **Data Display**: `table`, `chart`, `graph`, `timeline`, `calendar`, `progress`, `meter`, `stat`, `metric`
-- **Feedback**: `alert`, `notification`, `toast`, `loading`, `spinner`, `skeleton`, `empty`, `error`, `success`, `warning`
-- **Media**: `video`, `audio`, `player`, `gallery`, `carousel`
-- **Animation**: `animation`, `transition`, `motion`, `gesture`, `interaction`
-- **Theming**: `theme`, `color`, `gradient`, `shadow`, `border`, `radius`
-- **Utility**: `utility`, `helper`, `wrapper`, `responsive`, `adaptive`
-- **Platform**: `ios`, `macos`, `watchos`, `tvos`
-- **Category**: `ui`, `component`, `screen`, `view`, `widget`, `element`
-- **State**: `state`, `interactive`, `static`, `dynamic`
-- **Size**: `small`, `medium`, `large`, `compact`, `expanded`
-- **Style**: `minimal`, `modern`, `classic`, `elegant`, `bold`, `subtle`
-- **Function**: `auth`, `login`, `signup`, `profile`, `settings`, `search`, `filter`, `sort`, `action`, `control`
+---
 
-## snippet.swift Format
-
-Your Swift file should:
-
-- Import SwiftUI
-- Define a reusable View struct
-- Be self-contained and ready to copy-paste
-- Include comments if the code is complex
-
-Example:
-
-```swift
-import SwiftUI
-
-struct MyCustomButton: View {
-    var body: some View {
-        Button("Tap Me") {
-            // Action here
-        }
-        .buttonStyle(.borderedProminent)
-    }
-}
-```
-
-## screenshot.png
-
-- **Aspect ratio**: 9:16 (iPhone screenshot) - will be validated automatically
-- **Format**: PNG only - other formats will be rejected
-- **Size**: Under 500KB - larger files will be rejected
-- **Resolution**: 800-2000px width, 1000-3000px height (iPhone-like)
-- **Content**: Show your component in action
-
-### Validation
-
-Your screenshot will be automatically validated for:
-
-- ✅ Correct format (PNG only)
-- ✅ File size (under 500KB)
-- ✅ Aspect ratio (close to 9:16)
-- ✅ Resolution (iPhone-like dimensions)
-
-## How to Submit
-
-1. **Fork** this repository
-2. **Create** a new folder in `/snippets/` with format `component-name.username`
-3. **Add** your three files: `meta.yml`, `snippet.swift`, `screenshot.png`
-4. **Ensure** the `github-username` in meta.yml matches your folder name
-5. **Commit** your changes
-6. **Open** a Pull Request
-
-## Validation
-
-Your PR will automatically run validation checks:
-
-- ✅ All required files exist
-- ✅ YAML syntax is correct
-- ✅ All required fields are present (including github-username)
-- ✅ Folder name matches github-username format
-- ✅ Tags are valid (max 3, approved tags only)
-- ✅ Swift file imports SwiftUI
-- ✅ Screenshot meets requirements (format, size, aspect ratio, resolution)
-
-## Guidelines
-
-- Keep snippets **simple and focused** on one component/feature
-- Use **clear, descriptive names**
-- Add **relevant tags** for discoverability
-- Ensure your code is **properly formatted**
-- Test your snippet before submitting
-
-## Questions?
-
-Open an issue if you need help!
+**Remember:** The goal is to create a library of high-quality, reusable SwiftUI components that help developers build amazing iOS apps faster! 🚀

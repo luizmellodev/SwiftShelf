@@ -233,8 +233,12 @@ function validateSnippet(snippetPath, snippetDir) {
       }
       isValid = false;
     } else {
-      const { dimensions, format, sizeKB } = imageValidation;
-      console.log(`📸 Screenshot: ${dimensions.width}x${dimensions.height} ${format.toUpperCase()}, ${sizeKB}KB`);
+      if (imageValidation.dimensions && imageValidation.format && imageValidation.sizeKB) {
+        const { dimensions, format, sizeKB } = imageValidation;
+        console.log(`📸 Screenshot: ${dimensions.width}x${dimensions.height} ${format.toUpperCase()}, ${sizeKB}KB`);
+      } else {
+        console.log(`📸 Screenshot: Basic validation passed`);
+      }
     }
     
     if (imageValidation.warnings && imageValidation.warnings.length > 0) {

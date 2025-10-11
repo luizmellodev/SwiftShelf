@@ -25,7 +25,7 @@ This project showcases beautiful, reusable SwiftUI components submitted by the c
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
+We welcome contributions! See [CONTRIBUTING.md](https://github.com/luizmellodev/SwiftShelf?tab=contributing-ov-file) for detailed instructions.
 
 ### Quick Start
 

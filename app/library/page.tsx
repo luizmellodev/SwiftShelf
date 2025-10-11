@@ -7,7 +7,7 @@ import { ViewToggle } from "@/components/view-toggle"
 import { ContributeButton } from "@/components/contribute-button"
 import { useToast } from "@/components/ui/toast"
 import { snippets } from "@/lib/snippets-data"
-import { HelpCircle } from "lucide-react"
+import { HelpCircle, Info } from "lucide-react"
 
 export default function LibraryPage() {
   const [currentView, setCurrentView] = useState<"grid" | "reels">("grid")
@@ -39,7 +39,14 @@ export default function LibraryPage() {
               </span>
             </h1>
             <p className="text-lg text-muted-foreground mb-6">Browse and copy production-ready SwiftUI components</p>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-3">
+              <button 
+                onClick={() => window.location.href = '/about'}
+                className="group inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 cursor-pointer"
+              >
+                <Info className="h-3.5 w-3.5" />
+                About
+              </button>
               <button 
                 onClick={() => window.location.href = '/contribute'}
                 className="group inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 cursor-pointer"

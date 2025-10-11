@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Github, Code2, Users, Zap, Sparkles } from "lucide-react"
+import { ArrowRight, Github, Code2, Users, Zap, Sparkles, Info } from "lucide-react"
 
 export default function Home() {
   return (
@@ -37,17 +37,27 @@ export default function Home() {
             and ship faster. <span className="text-white italic">Simple as that.</span>
           </p>
           
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up animation-delay-600">
-            <Button asChild size="lg" className="gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-              <Link href="/library">
-                Browse Library <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="gap-2 bg-transparent hover:scale-105 transition-all duration-300 backdrop-blur-sm border-primary/20 hover:border-primary/40">
-              <a href="https://github.com/luizmellodev/swiftshelf" target="_blank" rel="noopener noreferrer">
-                <Github className="h-4 w-4" /> Contribute on GitHub
-              </a>
-            </Button>
+          <div className="flex flex-col items-center justify-center gap-4 animate-fade-in-up animation-delay-600">
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button asChild size="lg" className="gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <Link href="/library">
+                  Browse Library <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="gap-2 bg-transparent hover:scale-105 transition-all duration-300 backdrop-blur-sm border-primary/20 hover:border-primary/40">
+                <a href="https://github.com/luizmellodev/swiftshelf" target="_blank" rel="noopener noreferrer">
+                  <Github className="h-4 w-4" /> Contribute on GitHub
+                </a>
+              </Button>
+            </div>
+            
+            <Link 
+              href="/about"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Info className="h-3.5 w-3.5" />
+              Learn more about this project
+            </Link>
           </div>
         </div>
       </section>

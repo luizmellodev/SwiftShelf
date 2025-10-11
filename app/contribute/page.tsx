@@ -524,7 +524,7 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
               
               <div className="bg-muted/50 rounded-lg p-4 mb-6">
                 <p className="text-sm text-muted-foreground mb-3">
-                  Created with ❤️ by   <strong>@luizmellodev</strong>
+                  Created with ❤️ by <strong>@luizmellodev</strong>
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
                   If you find this project helpful, consider supporting it:

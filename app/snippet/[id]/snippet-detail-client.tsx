@@ -3,9 +3,9 @@
 import Link from "next/link"
 import { useState } from "react"
 import { ArrowLeft, Github, ZoomIn } from "lucide-react"
-import { CopyButton } from "@/components/copy-button"
 import { ImageModal } from "@/components/image-modal"
 import { SnippetImage } from "@/components/snippet-image"
+import { CodeViewer } from "@/components/code-viewer"
 import type { Snippet } from "@/lib/snippets-data"
 
 interface SnippetDetailClientProps {
@@ -82,19 +82,7 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
               <p className="text-sm leading-relaxed text-muted-foreground sm:text-base break-words">{snippet.description}</p>
             </div>
 
-            <div>
-              <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-base font-semibold sm:text-lg lg:text-xl">SwiftUI Code</h2>
-                <CopyButton code={snippet.code} />
-              </div>
-              <div className="relative rounded-lg border bg-muted/50">
-                <div className="overflow-x-auto">
-                  <pre className="p-3 sm:p-4">
-                    <code className="text-xs leading-relaxed sm:text-sm whitespace-pre-wrap break-words">{snippet.code}</code>
-                  </pre>
-                </div>
-              </div>
-            </div>
+            <CodeViewer code={snippet.code} />
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Image from "next/image"
 import { Github, ChevronUp, ChevronDown } from "lucide-react"
+import { SnippetImage } from "./snippet-image"
 import type { Snippet } from "@/lib/snippets-data"
 
 interface SnippetReelsProps {
@@ -83,8 +83,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
           >
             <div className="relative h-full w-full">
               <div className="relative h-full w-full">
-                <Image
-                  src={currentSnippet.screenshot || "/placeholder.svg"}
+                <SnippetImage
+                  src={currentSnippet.screenshot || ""}
                   alt={currentSnippet.title}
                   fill
                   className="object-cover"
@@ -166,8 +166,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
       >
         <div className="relative h-full w-full">
           <div className="relative h-full w-full">
-            <Image
-              src={currentSnippet.screenshot || "/placeholder.svg"}
+            <SnippetImage
+              src={currentSnippet.screenshot || ""}
               alt={currentSnippet.title}
               fill
               className="object-cover"

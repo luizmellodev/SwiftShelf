@@ -1,11 +1,11 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { ArrowLeft, Github, ZoomIn } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 import { ImageModal } from "@/components/image-modal"
+import { SnippetImage } from "@/components/snippet-image"
 import type { Snippet } from "@/lib/snippets-data"
 
 interface SnippetDetailClientProps {
@@ -29,8 +29,8 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-4">
             <div className="group relative aspect-[1/1] overflow-hidden rounded-lg border bg-muted sm:aspect-[3/4] md:aspect-[9/16] lg:sticky lg:top-8">
-              <Image 
-                src={snippet.screenshot || "/placeholder.svg"} 
+              <SnippetImage 
+                src={snippet.screenshot || ""} 
                 alt={snippet.title} 
                 fill 
                 className="object-contain transition-transform duration-300 group-hover:scale-105" 

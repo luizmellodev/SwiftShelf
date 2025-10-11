@@ -1,10 +1,10 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { Github } from "lucide-react"
 import type { Snippet } from "@/lib/snippets-data"
+import { SnippetImage } from "./snippet-image"
 
 interface SnippetCardProps {
   snippet: Snippet
@@ -17,8 +17,8 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
     <div className="group overflow-hidden rounded-lg border bg-card transition-all hover:border-primary/50 hover:shadow-lg">
       <Link href={`/snippet/${snippet.id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-          <Image
-            src={snippet.screenshot || "/placeholder.svg"}
+          <SnippetImage
+            src={snippet.screenshot || ""}
             alt={snippet.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

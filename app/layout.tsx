@@ -12,6 +12,18 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "SwiftShelf",
   description: "A curated collection of reusable SwiftUI components",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
+}
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
 }
 
 export default function RootLayout({

@@ -15,11 +15,40 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null)
+  const [isSafari, setIsSafari] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const currentSnippet = snippets[currentIndex]
   const prevSnippet = snippets[(currentIndex - 1 + snippets.length) % snippets.length]
   const nextSnippet = snippets[(currentIndex + 1) % snippets.length]
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const ua = window.navigator.userAgent
+      const iOS = /iPad|iPhone|iPod/.test(ua)
+      const webkit = /WebKit/.test(ua)
+      const iOSSafari = iOS && webkit && !/CriOS|FxiOS|OPiOS|mercury/.test(ua)
+      setIsSafari(iOSSafari)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768 && isSafari) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+      document.body.style.height = '100%'
+      document.documentElement.style.overflow = 'hidden'
+      
+      return () => {
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.width = ''
+        document.body.style.height = ''
+        document.documentElement.style.overflow = ''
+      }
+    }
+  }, [isSafari])
 
   const goToNext = () => {
     if (isTransitioning) return
@@ -49,6 +78,9 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (isSafari) {
+      e.preventDefault() // Prevenir scroll do navegador apenas no Safari
+    }
     setTouchEnd(e.targetTouches[0].clientY)
   }
 
@@ -139,7 +171,7 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                 onClick={() => window.open(`/snippet/${currentSnippet.id}`, '_blank')}
               />
 
-              <div className="absolute left-8 right-8 h-1 bg-white/20 rounded-full" style={{ top: '10px' }}>
+              <div className="absolute left-8 right-8 h-1 bg-white/20 rounded-full" style={{ top: '5px' }}>
                 <div 
                   className="h-full bg-white transition-all duration-300 rounded-full"
                   style={{ width: `${((currentIndex + 1) / snippets.length) * 100}%` }}
@@ -170,14 +202,15 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
 
       <div 
         ref={containerRef}
-        className="relative w-full overflow-hidden bg-black md:hidden"
+        className={`w-full overflow-hidden bg-black md:hidden ${isSafari ? 'fixed inset-0' : 'relative'}`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ 
           height: '100dvh',
-          touchAction: 'pan-y',
-          WebkitOverflowScrolling: 'touch'
+          touchAction: isSafari ? 'none' : 'pan-y',
+          WebkitOverflowScrolling: 'touch',
+          ...(isSafari && { overscrollBehavior: 'none' })
         }}
       >
         <div className="relative h-full w-full">
@@ -255,7 +288,7 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
             </div>
           </div>
 
-          <div className="absolute left-4 right-4 h-1 bg-white/20 rounded-full" style={{ top: 'calc(10px + env(safe-area-inset-top, 0px))' }}>
+          <div className="absolute left-4 right-4 h-1 bg-white/20 rounded-full" style={{ top: 'calc(5px + env(safe-area-inset-top, 0px))' }}>
             <div 
               className="h-full bg-white transition-all duration-300 rounded-full"
               style={{ width: `${((currentIndex + 1) / snippets.length) * 100}%` }}

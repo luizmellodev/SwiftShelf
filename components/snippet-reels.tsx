@@ -102,7 +102,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                   priority
                 />
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/60 via-transparentto-transparent" />
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -189,7 +190,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
             </div>
           )}
 
@@ -207,7 +209,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
               priority
             />
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
           </div>
 
           {slideDirection === 'up' && (
@@ -219,7 +222,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/90 via-black/40 to-transparent" />
             </div>
           )}
 

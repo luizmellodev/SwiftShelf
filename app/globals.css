@@ -300,3 +300,13 @@ body {
     height: 100dvh;
   }
 }
+
+.view-toggle-position {
+  bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .view-toggle-position {
+    bottom: 1.5rem;
+  }
+}

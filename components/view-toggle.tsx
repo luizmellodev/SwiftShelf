@@ -10,7 +10,7 @@ interface ViewToggleProps {
 
 export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed right-6 z-50 view-toggle-position">
       <div className="flex rounded-full bg-black/20 backdrop-blur-md border border-white/20 p-1">
         <Button
           variant={currentView === "grid" ? "default" : "ghost"}

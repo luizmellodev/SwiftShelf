@@ -17,10 +17,21 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
   const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null)
   const [isSafari, setIsSafari] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const transitionSnippetsRef = useRef<{ prev: Snippet; current: Snippet; next: Snippet } | null>(null)
 
   const currentSnippet = snippets[currentIndex]
   const prevSnippet = snippets[(currentIndex - 1 + snippets.length) % snippets.length]
   const nextSnippet = snippets[(currentIndex + 1) % snippets.length]
+
+  const displayPrevSnippet = isTransitioning && transitionSnippetsRef.current 
+    ? transitionSnippetsRef.current.prev 
+    : prevSnippet
+  const displayCurrentSnippet = isTransitioning && transitionSnippetsRef.current 
+    ? transitionSnippetsRef.current.current 
+    : currentSnippet
+  const displayNextSnippet = isTransitioning && transitionSnippetsRef.current 
+    ? transitionSnippetsRef.current.next 
+    : nextSnippet
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -52,23 +63,41 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
 
   const goToNext = () => {
     if (isTransitioning) return
+    
+    // Armazenar snippets antes de mudar o índice
+    transitionSnippetsRef.current = {
+      prev: prevSnippet,
+      current: currentSnippet,
+      next: nextSnippet
+    }
+    
     setIsTransitioning(true)
     setSlideDirection('up')
     setCurrentIndex((prev) => (prev + 1) % snippets.length)
     setTimeout(() => {
       setIsTransitioning(false)
       setSlideDirection(null)
+      transitionSnippetsRef.current = null
     }, 400)
   }
 
   const goToPrevious = () => {
     if (isTransitioning) return
+    
+    // Armazenar snippets antes de mudar o índice
+    transitionSnippetsRef.current = {
+      prev: prevSnippet,
+      current: currentSnippet,
+      next: nextSnippet
+    }
+    
     setIsTransitioning(true)
     setSlideDirection('down')
     setCurrentIndex((prev) => (prev - 1 + snippets.length) % snippets.length)
     setTimeout(() => {
       setIsTransitioning(false)
       setSlideDirection(null)
+      transitionSnippetsRef.current = null
     }, 400)
   }
 
@@ -127,15 +156,15 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
             <div className="relative h-full w-full">
               <div className="relative h-full w-full">
                 <SnippetImage
-                  src={currentSnippet.screenshot || ""}
-                  alt={currentSnippet.title}
+                  src={displayCurrentSnippet.screenshot || ""}
+                  alt={displayCurrentSnippet.title}
                   fill
                   className="object-cover"
                   priority
                 />
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/60 via-transparentto-transparent" />
+                <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -144,18 +173,18 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                     <Github className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-semibold">{currentSnippet.author}</p>
-                    <p className="text-sm text-white/70">@{currentSnippet.githubUsername}</p>
+                    <p className="font-semibold">{displayCurrentSnippet.author}</p>
+                    <p className="text-sm text-white/70">@{displayCurrentSnippet.githubUsername}</p>
                   </div>
                 </div>
 
                 <div className="mb-4">
-                  <h2 className="mb-2 text-2xl font-bold">{currentSnippet.title}</h2>
-                  <p className="text-white/90 leading-relaxed">{currentSnippet.description}</p>
+                  <h2 className="mb-2 text-2xl font-bold">{displayCurrentSnippet.title}</h2>
+                  <p className="text-white/90 leading-relaxed">{displayCurrentSnippet.description}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {currentSnippet.tags.map((tag) => (
+                  {displayCurrentSnippet.tags.map((tag) => (
                     <span
                       key={tag}
                       className="rounded-full bg-white/20 px-3 py-1 text-sm font-medium backdrop-blur-sm"
@@ -168,7 +197,7 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
 
               <div 
                 className="absolute inset-0 cursor-pointer"
-                onClick={() => window.open(`/snippet/${currentSnippet.id}`, '_blank')}
+                onClick={() => window.open(`/snippet/${displayCurrentSnippet.id}`, '_blank')}
               />
 
               <div className="absolute left-8 right-8 h-1 bg-white/20 rounded-full" style={{ top: '5px' }}>
@@ -217,8 +246,8 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
           {slideDirection === 'down' && (
             <div className="absolute inset-0 w-full h-full animate-slide-in-from-top">
               <SnippetImage
-                src={prevSnippet.screenshot || ""}
-                alt={prevSnippet.title}
+                src={displayPrevSnippet.screenshot || ""}
+                alt={displayPrevSnippet.title}
                 fill
                 className="object-cover"
                 priority
@@ -235,28 +264,28 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
             }`}
           >
             <SnippetImage
-              src={currentSnippet.screenshot || ""}
-              alt={currentSnippet.title}
+              src={displayCurrentSnippet.screenshot || ""}
+              alt={displayCurrentSnippet.title}
               fill
               className="object-cover"
               priority
             />
             
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
           </div>
 
           {slideDirection === 'up' && (
             <div className="absolute inset-0 w-full h-full animate-slide-in-from-bottom">
               <SnippetImage
-                src={nextSnippet.screenshot || ""}
-                alt={nextSnippet.title}
+                src={displayNextSnippet.screenshot || ""}
+                alt={displayNextSnippet.title}
                 fill
                 className="object-cover"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/90 via-black/40 to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
             </div>
           )}
 
@@ -266,18 +295,18 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
                 <Github className="h-5 w-5" />
               </div>
               <div>
-                <p className="font-semibold text-sm">{currentSnippet.author}</p>
-                <p className="text-xs text-white/70">@{currentSnippet.githubUsername}</p>
+                <p className="font-semibold text-sm">{displayCurrentSnippet.author}</p>
+                <p className="text-xs text-white/70">@{displayCurrentSnippet.githubUsername}</p>
               </div>
             </div>
 
             <div className="mb-3">
-              <h2 className="mb-1.5 text-xl font-bold">{currentSnippet.title}</h2>
-              <p className="text-sm text-white/90 leading-relaxed line-clamp-3">{currentSnippet.description}</p>
+              <h2 className="mb-1.5 text-xl font-bold">{displayCurrentSnippet.title}</h2>
+              <p className="text-sm text-white/90 leading-relaxed line-clamp-3">{displayCurrentSnippet.description}</p>
             </div>
 
             <div className="flex flex-wrap gap-1.5">
-              {currentSnippet.tags.slice(0, 4).map((tag) => (
+              {displayCurrentSnippet.tags.slice(0, 4).map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-medium backdrop-blur-sm"
@@ -297,7 +326,7 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
           
           <div 
             className="absolute inset-0 cursor-pointer"
-            onClick={() => window.open(`/snippet/${currentSnippet.id}`, '_blank')}
+            onClick={() => window.open(`/snippet/${displayCurrentSnippet.id}`, '_blank')}
           />
         </div>
 

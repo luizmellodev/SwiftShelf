@@ -1,0 +1,10 @@
+title: "Particle Effect System"
+description: "Advanced particle system with confetti, hearts, stars, and custom shapes. Features physics simulation with gravity, customizable colors, sizes, velocities, and emission angles. Includes ready-to-use ConfettiButton and particle emitter modifier."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - particle
+  - animation
+  - confetti
+  - effect
+  - celebration

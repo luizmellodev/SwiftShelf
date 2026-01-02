@@ -1,0 +1,10 @@
+title: "Skeleton Loader"
+description: "Beautiful skeleton loading screens with shimmer animation. Includes pre-built components for cards, lists, grids, profiles, and comments. Features a modifier to easily add skeleton loading to any view. Perfect for improving perceived performance."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - loading
+  - skeleton
+  - shimmer
+  - animation
+  - ui

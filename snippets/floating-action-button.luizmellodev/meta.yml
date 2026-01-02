@@ -1,0 +1,10 @@
+title: "Floating Action Button"
+description: "Elegant FAB with expandable menu of actions. Features smooth animations, customizable positions (all corners), labels, overlay backdrop, and Speed Dial variant. Perfect for quick actions in your app."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - button
+  - fab
+  - menu
+  - animation
+  - interaction

@@ -1,0 +1,10 @@
+title: "Animated Card Stack"
+description: "Tinder-style swipeable card stack with smooth animations. Supports swipe left/right/up gestures, visual indicators, programmatic controls, and customizable appearance. Perfect for dating apps, product browsing, or decision-making interfaces."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - card
+  - swipe
+  - animation
+  - gesture
+  - stack

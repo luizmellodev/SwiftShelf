@@ -16,7 +16,7 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
   return (
     <div className="group overflow-hidden rounded-lg border bg-card transition-all hover:border-primary/50 hover:shadow-lg">
       <Link href={`/snippet/${snippet.id}`} className="block">
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <div className="relative aspect-[9/16] overflow-hidden bg-muted">
           <SnippetImage
             src={snippet.screenshot || ""}
             alt={snippet.title}

@@ -1,0 +1,10 @@
+title: Card Feed with Zoom Transition
+author: Luiz Mello
+github-username: luizmellodev
+tags:
+  - animation
+  - navigation
+  - cards
+  - zoom-transition
+  - skeleton
+description: A scrollable feed of skeleton-style cards with a smooth zoom navigation transition to a detail view. Uses matchedTransitionSource and NavigationTransition for a native iOS 18+ feel.

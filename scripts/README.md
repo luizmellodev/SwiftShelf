@@ -1,152 +1,152 @@
-# 🛠️ Scripts do SwiftShelf
+# 🛠️ SwiftShelf Scripts
 
-Este diretório contém scripts utilitários para gerenciar snippets e vídeos.
+This directory contains utility scripts for managing snippets and videos.
 
-## 📜 Scripts Disponíveis
+## 📜 Available Scripts
 
 ### 1. `validate-snippets.js`
 
-Valida a estrutura e conteúdo dos snippets.
+Validates snippet structure and content.
 
-**Uso:**
+**Usage:**
 ```bash
 npm run validate:snippets
-# ou
+# or
 node scripts/validate-snippets.js
 ```
 
-**Validações:**
-- ✅ Estrutura de pastas (`component-name.username`)
-- ✅ Formato do `meta.yml` (campos obrigatórios)
-- ✅ Username do GitHub
-- ✅ Código Swift (import SwiftUI, View struct)
-- ✅ Screenshot (PNG, tamanho, aspect ratio)
-- ✅ Tags (apenas tags permitidas, máximo 3)
-- ✅ Integridade dos arquivos
+**Validations:**
+- ✅ Folder structure (`component-name.username`)
+- ✅ `meta.yml` format (required fields)
+- ✅ GitHub username
+- ✅ Swift code (import SwiftUI, View struct)
+- ✅ Screenshot (PNG, size, aspect ratio)
+- ✅ Tags (only allowed tags, maximum 3)
+- ✅ File integrity
 
 ### 2. `validate-videos.js`
 
-Valida vídeos de demonstração (opcional).
+Validates demonstration videos (optional).
 
-**Uso:**
+**Usage:**
 ```bash
 npm run validate:videos
-# ou
+# or
 node scripts/validate-videos.js
 ```
 
-**Validações:**
-- ✅ Formato: MP4 (H.264)
-- ✅ Duração: máximo 5 segundos
-- ✅ Tamanho: máximo 200KB
-- ✅ Resolução: largura máxima 500px
-- ✅ FPS: máximo 30fps
-- ⚠️ Detecta áudio desnecessário
+**Validations:**
+- ✅ Format: MP4 (H.264)
+- ✅ Duration: maximum 5 seconds
+- ✅ Size: maximum 200KB
+- ✅ Resolution: maximum width 500px
+- ✅ FPS: maximum 30fps
+- ⚠️ Detects unnecessary audio
 
-**Requisitos:**
-- FFmpeg instalado: `brew install ffmpeg`
-- Se FFmpeg não estiver disponível, validações são limitadas
+**Requirements:**
+- FFmpeg installed: `brew install ffmpeg`
+- If FFmpeg is not available, validations are limited
 
 ### 3. `convert-video.sh`
 
-Converte vídeos do simulador iOS para MP4 otimizado.
+Converts iOS Simulator videos to optimized MP4.
 
-**Uso:**
+**Usage:**
 ```bash
 ./scripts/convert-video.sh input.mov output.mp4
 
-# Exemplo
+# Example
 ./scripts/convert-video.sh ~/Desktop/recording.mov snippets/shimmer-button.luizmellodev/demo.mp4
 ```
 
-**O que faz:**
-- 📏 Reduz largura para 400px (mantém aspect ratio)
-- 🎞️ Converte para 30fps
-- 🗜️ Otimiza qualidade (CRF 28)
-- 🚫 Remove áudio
-- ⏱️ Limita a 5 segundos
-- ⚡ Adiciona faststart para streaming
+**What it does:**
+- 📏 Reduces width to 400px (maintains aspect ratio)
+- 🎞️ Converts to 30fps
+- 🗜️ Optimizes quality (CRF 28)
+- 🚫 Removes audio
+- ⏱️ Limits to 5 seconds
+- ⚡ Adds faststart for streaming
 
-**Resultado:**
-- Arquivo ~50-150KB (vs ~5-10MB do original!)
-- Formato MP4 (H.264)
-- Pronto para uso no site
+**Result:**
+- File ~50-150KB (vs ~5-10MB original!)
+- MP4 format (H.264)
+- Ready to use on the website
 
-### 4. `auto-convert-videos.sh` ⭐ NOVO!
+### 4. `auto-convert-videos.sh` ⭐ NEW!
 
-Converte automaticamente todos os vídeos não otimizados no CI.
+Automatically converts all non-optimized videos in CI.
 
-**Uso:**
+**Usage:**
 ```bash
 bash scripts/auto-convert-videos.sh
 ```
 
-**O que faz:**
-- 🔍 Procura por `video.mov` ou `video.mp4` em cada snippet
-- 🎬 Converte para `demo.mp4` otimizado
-- 🗑️ Remove o arquivo original
-- ✅ Valida tamanho e duração
+**What it does:**
+- 🔍 Searches for `video.mov` or `video.mp4` in each snippet
+- 🎬 Converts to optimized `demo.mp4`
+- 🗑️ Removes original file
+- ✅ Validates size and duration
 
-**Executado automaticamente:**
-- No CI/CD antes das validações
-- Faz commit das mudanças no PR
+**Executed automatically:**
+- In CI/CD before validations
+- Commits changes to PR
 
 ### 5. `copy-images.js`
 
-Copia screenshots e vídeos para o diretório `public/`.
+Copies screenshots and videos to the `public/` directory.
 
-**Uso:**
+**Usage:**
 ```bash
 npm run copy-images
-# ou
+# or
 node scripts/copy-images.js
 ```
 
-**O que faz:**
-- 📸 Copia `screenshot.png` de cada snippet
-- 🎬 Copia `demo.mp4` (se existir)
-- 📁 Cria estrutura em `public/snippets/`
-- ✅ Valida existência dos arquivos
+**What it does:**
+- 📸 Copies `screenshot.png` from each snippet
+- 🎬 Copies `demo.mp4` (if exists)
+- 📁 Creates structure in `public/snippets/`
+- ✅ Validates file existence
 
-**Executado automaticamente:**
-- Durante `npm run build`
-- Antes do deploy
+**Executed automatically:**
+- During `npm run build`
+- Before deployment
 
-## 🔄 Workflow Completo
+## 🔄 Complete Workflow
 
-### Método 1: Deixe o CI Fazer Tudo (Recomendado!)
+### Method 1: Let CI Do Everything (Recommended!)
 
 ```bash
-# 1. Grave o vídeo no simulador (⌘ + R)
+# 1. Record video in simulator (⌘ + R)
 
-# 2. Copie para o snippet
-cp ~/Desktop/recording.mov snippets/seu-componente.username/video.mov
+# 2. Copy to snippet
+cp ~/Desktop/recording.mov snippets/your-component.username/video.mov
 
-# 3. Commit e push
+# 3. Commit and push
 git add .
 git commit -m "Add new component with video demo"
 git push
 
-# O CI automaticamente:
-# - Detecta o vídeo (sem precisar de flag no meta.yml!)
-# - Converte video.mov → demo.mp4 (otimizado)
-# - Remove video.mov
-# - Faz commit no seu PR
-# - Valida tudo
+# CI automatically:
+# - Detects video (no meta.yml flag needed!)
+# - Converts video.mov → demo.mp4 (optimized)
+# - Removes video.mov
+# - Commits to your PR
+# - Validates everything
 ```
 
-### Método 2: Conversão Local (Opcional)
+### Method 2: Local Conversion (Optional)
 
 ```bash
-# 1. Grave o vídeo no simulador (⌘ + R)
+# 1. Record video in simulator (⌘ + R)
 
-# 2. Converta localmente
-./scripts/convert-video.sh ~/Desktop/recording.mov snippets/seu-componente.username/demo.mp4
+# 2. Convert locally
+./scripts/convert-video.sh ~/Desktop/recording.mov snippets/your-component.username/demo.mp4
 
-# 3. Valide localmente
+# 3. Validate locally
 npm run validate
 
-# 4. Commit e push
+# 4. Commit and push
 git add .
 git commit -m "Add new component with video demo"
 git push
@@ -154,85 +154,84 @@ git push
 
 ## 🤖 CI/CD
 
-Os scripts são executados automaticamente no GitHub Actions:
+Scripts are executed automatically in GitHub Actions:
 
-### Em Pull Requests:
-1. 🎬 `auto-convert-videos.sh` - converte vídeos automaticamente
-2. 💾 Faz commit dos vídeos otimizados no PR
-3. ✅ `validate-snippets.js` - valida estrutura
-4. ✅ `validate-videos.js` - valida vídeos otimizados
-5. ❌ PR bloqueado se houver erros
+### On Pull Requests:
+1. 🎬 `auto-convert-videos.sh` - converts videos automatically
+2. 💾 Commits optimized videos to PR
+3. ✅ `validate-snippets.js` - validates structure
+4. ✅ `validate-videos.js` - validates optimized videos
+5. ❌ PR blocked if errors
 
-### No Push para Main:
-1. 🎬 Conversão automática de vídeos
-2. ✅ Validações
-3. 📦 `copy-images.js` - copia assets
-4. 🏗️ Build do Next.js
-5. 🚀 Deploy para Vercel
+### On Push to Main:
+1. 🎬 Automatic video conversion
+2. ✅ Validations
+3. 📦 `copy-images.js` - copies assets
+4. 🏗️ Next.js build
+5. 🚀 Deploy to Vercel
 
-## 📊 Limites e Requisitos
+## 📊 Limits and Requirements
 
-### Screenshots (Obrigatório)
-- Formato: PNG
-- Tamanho máximo: 500KB
-- Aspect ratio recomendado: 9:16
+### Screenshots (Required)
+- Format: PNG
+- Maximum size: 500KB
+- Recommended aspect ratio: 9:16
 
-### Vídeos (Opcional)
-- Formato: MP4 (H.264)
-- Duração máxima: 5 segundos
-- Tamanho máximo: 200KB
-- Largura máxima: 500px
-- FPS máximo: 30fps
-- Sem áudio
+### Videos (Optional)
+- Format: MP4 (H.264)
+- Maximum duration: 5 seconds
+- Maximum size: 200KB
+- Maximum width: 500px
+- Maximum FPS: 30fps
+- No audio
 
 ## 🐛 Troubleshooting
 
-### "FFmpeg não encontrado"
+### "FFmpeg not found"
 ```bash
 brew install ffmpeg
 ```
 
-### "Vídeo muito grande"
-Use o script de conversão - ele já otimiza automaticamente:
+### "Video too large"
+Use the conversion script - it optimizes automatically:
 ```bash
 ./scripts/convert-video.sh input.mov output.mp4
 ```
 
-### "Duração muito longa"
-Edite o vídeo antes de converter, ou ajuste o parâmetro `-t`:
+### "Duration too long"
+Edit the video before converting, or adjust the `-t` parameter:
 ```bash
-# Limita a 3 segundos
+# Limit to 3 seconds
 ffmpeg -i input.mov -t 3 output.mp4
 ```
 
-### "Validação falhou no CI"
-1. Rode `npm run validate` localmente
-2. Corrija os erros reportados
-3. Commit e push novamente
+### "Validation failed in CI"
+1. Run `npm run validate` locally
+2. Fix reported errors
+3. Commit and push again
 
-## 💡 Dicas
+## 💡 Tips
 
-### Para vídeos menores:
-- Grave apenas a interação principal (3-5s)
-- Use o script fornecido (já otimizado)
-- Evite movimentos desnecessários
+### For smaller videos:
+- Record only the main interaction (3-5s)
+- Use the provided script (already optimized)
+- Avoid unnecessary movements
 
-### Para melhor qualidade:
-- Grave em resolução nativa do simulador
-- Use fundo limpo e contrastante
-- Mostre a animação/interação claramente
+### For better quality:
+- Record in simulator's native resolution
+- Use clean, contrasting background
+- Show animation/interaction clearly
 
-### Para CI mais rápido:
-- Valide localmente antes do push
-- Use vídeos otimizados
-- Siga as convenções de nomenclatura
+### For faster CI:
+- Validate locally before pushing
+- Use optimized videos
+- Follow naming conventions
 
-## 📚 Documentação Relacionada
+## 📚 Related Documentation
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Guia completo de contribuição
-- [VIDEO_GUIDE.md](../VIDEO_GUIDE.md) - Guia detalhado de vídeos
-- [META_EXAMPLE.yml](../META_EXAMPLE.yml) - Exemplos de meta.yml
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - Complete contribution guide
+- [.github/workflows/validate-and-deploy.yml](../.github/workflows/validate-and-deploy.yml) - CI/CD configuration
 
 ---
 
-**Precisa de ajuda?** Abra uma issue no GitHub! 🚀
+**Need help?** Open an issue on GitHub! 🚀

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Script para converter vídeos do simulador iOS para MP4 otimizado
-# Uso: ./convert-video.sh input.mov output.mp4
+# Script to convert iOS Simulator videos to optimized MP4
+# Usage: ./convert-video.sh input.mov output.mp4
 
 set -e
 
 if [ "$#" -ne 2 ]; then
-    echo "❌ Uso: ./convert-video.sh input.mov output.mp4"
+    echo "❌ Usage: ./convert-video.sh input.mov output.mp4"
     echo ""
-    echo "Exemplo:"
+    echo "Example:"
     echo "  ./convert-video.sh ~/Desktop/recording.mov snippets/shimmer-button.luizmellodev/demo.mp4"
     exit 1
 fi
@@ -17,35 +17,35 @@ INPUT="$1"
 OUTPUT="$2"
 
 if [ ! -f "$INPUT" ]; then
-    echo "❌ Arquivo não encontrado: $INPUT"
+    echo "❌ File not found: $INPUT"
     exit 1
 fi
 
-# Verifica se ffmpeg está instalado
+# Check if ffmpeg is installed
 if ! command -v ffmpeg &> /dev/null; then
-    echo "❌ FFmpeg não encontrado!"
+    echo "❌ FFmpeg not found!"
     echo ""
-    echo "Instale com Homebrew:"
+    echo "Install with Homebrew:"
     echo "  brew install ffmpeg"
     exit 1
 fi
 
-echo "🎬 Convertendo vídeo..."
+echo "🎬 Converting video..."
 echo "📁 Input:  $INPUT"
 echo "📁 Output: $OUTPUT"
 echo ""
 
-# Cria diretório de output se não existir
+# Create output directory if it doesn't exist
 mkdir -p "$(dirname "$OUTPUT")"
 
-# Converte o vídeo
-# - scale=400:-1: Reduz largura para 400px (mantém aspect ratio)
-# - fps=30: 30 frames por segundo (suficiente para animações)
-# - crf=28: Qualidade (18=alta, 28=boa, 32=média)
-# - preset slow: Compressão melhor (mais lento mas menor arquivo)
-# - movflags +faststart: Otimiza para streaming (carrega mais rápido)
-# - an: Remove áudio (não precisa)
-# - t 5: Limita a 5 segundos (loop)
+# Convert video
+# - scale=400:-1: Reduce width to 400px (maintains aspect ratio)
+# - fps=30: 30 frames per second (sufficient for animations)
+# - crf=28: Quality (18=high, 28=good, 32=medium)
+# - preset slow: Better compression (slower but smaller file)
+# - movflags +faststart: Optimize for streaming (loads faster)
+# - an: Remove audio (not needed)
+# - t 5: Limit to 5 seconds (loop)
 
 ffmpeg -i "$INPUT" \
   -vf "scale=400:-1,fps=30" \
@@ -58,16 +58,15 @@ ffmpeg -i "$INPUT" \
   "$OUTPUT" \
   -y
 
-# Mostra tamanho do arquivo
+# Show file sizes
 INPUT_SIZE=$(du -h "$INPUT" | cut -f1)
 OUTPUT_SIZE=$(du -h "$OUTPUT" | cut -f1)
 
 echo ""
-echo "✅ Conversão concluída!"
-echo "📊 Tamanho original: $INPUT_SIZE"
-echo "📊 Tamanho final:    $OUTPUT_SIZE"
+echo "✅ Conversion complete!"
+echo "📊 Original size: $INPUT_SIZE"
+echo "📊 Final size:    $OUTPUT_SIZE"
 echo ""
-echo "🎯 Próximos passos:"
-echo "  1. Adicione 'has-video: true' no meta.yml do componente"
-echo "  2. Rode 'npm run build' para copiar o vídeo"
-echo "  3. Commit e push!"
+echo "🎯 Next steps:"
+echo "  1. Run 'npm run build' to copy the video"
+echo "  2. Commit and push!"

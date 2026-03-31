@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { ArrowLeft, Github, ZoomIn } from "lucide-react"
+import { ArrowLeft, Github, ZoomIn, Play } from "lucide-react"
 import { ImageModal } from "@/components/image-modal"
 import { SnippetImage } from "@/components/snippet-image"
 import { CodeViewer } from "@/components/code-viewer"
@@ -14,6 +14,7 @@ interface SnippetDetailClientProps {
 
 export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
+  const [showVideo, setShowVideo] = useState(false)
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,16 +29,25 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
 
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-4 order-1 lg:order-1">
-            <div className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-none lg:aspect-[9/16] lg:sticky lg:top-8">
-              {snippet.hasVideo ? (
+            <div 
+              className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-none lg:aspect-[9/16] lg:sticky lg:top-8"
+              onMouseEnter={() => snippet.hasVideo && setShowVideo(true)}
+              onMouseLeave={() => setShowVideo(false)}
+            >
+              {snippet.hasVideo && showVideo ? (
                 <video
+                  key={snippet.videoUrl}
                   src={snippet.videoUrl}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  poster={snippet.screenshot}
+                  preload="auto"
                   className="h-full w-full object-contain"
+                  onLoadStart={(e) => {
+                    const video = e.currentTarget
+                    video.play().catch(() => {})
+                  }}
                 />
               ) : (
                 <>
@@ -49,14 +59,25 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
                   />
                   
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20">
-                    <button
-                      onClick={() => setIsImageModalOpen(true)}
-                      className="opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
-                        <ZoomIn className="h-6 w-6 text-gray-700" />
+                    {snippet.hasVideo ? (
+                      <div className="opacity-0 transition-opacity group-hover:opacity-100">
+                        <div className="rounded-full bg-white/90 p-4 shadow-lg backdrop-blur-sm">
+                          <Play className="h-8 w-8 text-gray-700 fill-gray-700" />
+                        </div>
+                        <p className="mt-2 text-center text-sm font-medium text-white drop-shadow-lg">
+                          Hover to play
+                        </p>
                       </div>
-                    </button>
+                    ) : (
+                      <button
+                        onClick={() => setIsImageModalOpen(true)}
+                        className="opacity-0 transition-opacity group-hover:opacity-100"
+                      >
+                        <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
+                          <ZoomIn className="h-6 w-6 text-gray-700" />
+                        </div>
+                      </button>
+                    )}
                   </div>
                 </>
               )}

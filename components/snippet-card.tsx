@@ -24,12 +24,18 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
         <div className="relative aspect-[9/16] overflow-hidden bg-muted">
           {snippet.hasVideo && showVideo ? (
             <video
+              key={snippet.videoUrl}
               src={snippet.videoUrl}
               autoPlay
               loop
               muted
               playsInline
+              preload="auto"
               className="h-full w-full object-cover"
+              onLoadStart={(e) => {
+                const video = e.currentTarget
+                video.play().catch(() => {})
+              }}
             />
           ) : (
             <SnippetImage

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Script para converter automaticamente vídeos não otimizados
-# Procura por video.mov ou video.mp4 em cada snippet e converte para demo.mp4 otimizado
-# Usado no CI/CD para processar vídeos automaticamente
+# Script to automatically convert non-optimized videos
+# Searches for video.mov or video.mp4 in each snippet and converts to optimized demo.mp4
+# Used in CI/CD to process videos automatically
 
 set -e
 
@@ -11,17 +11,17 @@ CONVERTED_COUNT=0
 SKIPPED_COUNT=0
 ERROR_COUNT=0
 
-echo "🎬 Procurando vídeos para converter..."
+echo "🎬 Searching for videos to convert..."
 echo ""
 
-# Verifica se ffmpeg está instalado
+# Check if ffmpeg is installed
 if ! command -v ffmpeg &> /dev/null; then
-    echo "❌ FFmpeg não encontrado!"
-    echo "   Instale com: brew install ffmpeg (macOS) ou apt-get install ffmpeg (Linux)"
+    echo "❌ FFmpeg not found!"
+    echo "   Install with: brew install ffmpeg (macOS) or apt-get install ffmpeg (Linux)"
     exit 1
 fi
 
-# Procura por pastas de snippets
+# Search for snippet folders
 for folder in "$SNIPPETS_DIR"/*; do
     if [ ! -d "$folder" ]; then
         continue
@@ -33,20 +33,20 @@ for folder in "$SNIPPETS_DIR"/*; do
     DEMO_MP4="$folder/demo.mp4"
     META_YML="$folder/meta.yml"
     
-    # Verifica se já existe demo.mp4 otimizado
+    # Check if optimized demo.mp4 already exists
     if [ -f "$DEMO_MP4" ]; then
-        # Verifica se é otimizado (tamanho < 250KB)
+        # Check if it's optimized (size < 250KB)
         SIZE_KB=$(du -k "$DEMO_MP4" | cut -f1)
         if [ $SIZE_KB -lt 250 ]; then
-            echo "⏭️  $SNIPPET_NAME: demo.mp4 já otimizado (${SIZE_KB}KB)"
+            echo "⏭️  $SNIPPET_NAME: demo.mp4 already optimized (${SIZE_KB}KB)"
             SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
             continue
         else
-            echo "🔄 $SNIPPET_NAME: demo.mp4 existe mas não está otimizado (${SIZE_KB}KB) - reconvertendo..."
+            echo "🔄 $SNIPPET_NAME: demo.mp4 exists but not optimized (${SIZE_KB}KB) - reconverting..."
         fi
     fi
     
-    # Procura por video.mov ou video.mp4
+    # Search for video.mov or video.mp4
     INPUT_VIDEO=""
     if [ -f "$VIDEO_MOV" ]; then
         INPUT_VIDEO="$VIDEO_MOV"
@@ -56,14 +56,14 @@ for folder in "$SNIPPETS_DIR"/*; do
         continue
     fi
     
-    echo "📹 Convertendo: $SNIPPET_NAME"
+    echo "📹 Converting: $SNIPPET_NAME"
     echo "   Input: $(basename "$INPUT_VIDEO")"
     
-    # Mostra tamanho original
+    # Show original size
     ORIGINAL_SIZE_KB=$(du -k "$INPUT_VIDEO" | cut -f1)
-    echo "   Tamanho original: ${ORIGINAL_SIZE_KB}KB"
+    echo "   Original size: ${ORIGINAL_SIZE_KB}KB"
     
-    # Converte o vídeo
+    # Convert video
     if ffmpeg -i "$INPUT_VIDEO" \
         -vf "scale=400:-1,fps=30" \
         -c:v libx264 \
@@ -76,44 +76,44 @@ for folder in "$SNIPPETS_DIR"/*; do
         -y \
         -loglevel error; then
         
-        # Mostra tamanho final
+        # Show final size
         FINAL_SIZE_KB=$(du -k "$DEMO_MP4" | cut -f1)
-        echo "   ✅ Convertido: ${FINAL_SIZE_KB}KB"
+        echo "   ✅ Converted: ${FINAL_SIZE_KB}KB"
         
-        # Remove o arquivo original
+        # Remove original file
         rm "$INPUT_VIDEO"
-        echo "   🗑️  Removido: $(basename "$INPUT_VIDEO")"
+        echo "   🗑️  Removed: $(basename "$INPUT_VIDEO")"
         
         CONVERTED_COUNT=$((CONVERTED_COUNT + 1))
         echo ""
     else
-        echo "   ❌ Erro ao converter"
+        echo "   ❌ Conversion error"
         ERROR_COUNT=$((ERROR_COUNT + 1))
         echo ""
     fi
 done
 
-# Resumo
+# Summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📊 RESUMO DA CONVERSÃO"
+echo "📊 CONVERSION SUMMARY"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Vídeos convertidos: $CONVERTED_COUNT"
-echo "Vídeos já otimizados: $SKIPPED_COUNT"
-echo "Erros: $ERROR_COUNT"
+echo "Videos converted: $CONVERTED_COUNT"
+echo "Videos already optimized: $SKIPPED_COUNT"
+echo "Errors: $ERROR_COUNT"
 echo ""
 
 if [ $CONVERTED_COUNT -gt 0 ]; then
-    echo "✅ Conversão concluída!"
+    echo "✅ Conversion complete!"
     echo ""
-    echo "💡 Próximos passos:"
-    echo "   1. Os vídeos originais foram removidos"
-    echo "   2. demo.mp4 otimizados foram criados"
-    echo "   3. Commit as mudanças!"
+    echo "💡 Next steps:"
+    echo "   1. Original videos have been removed"
+    echo "   2. Optimized demo.mp4 files created"
+    echo "   3. Commit the changes!"
     echo ""
 fi
 
 if [ $ERROR_COUNT -gt 0 ]; then
-    echo "⚠️  Alguns vídeos falharam na conversão"
+    echo "⚠️  Some videos failed to convert"
     exit 1
 fi
 

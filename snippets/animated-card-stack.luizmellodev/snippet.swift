@@ -83,7 +83,6 @@ public struct AnimatedCardStack<Card: SwipeableCard, CardContent: View>: View {
         
         return cardContent(card)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
             .cornerRadius(20)
             .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
             .offset(
@@ -346,7 +345,6 @@ public struct CardStackWithControls<Card: SwipeableCard, CardContent: View>: Vie
         
         return cardContent(card)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
             .cornerRadius(20)
             .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
             .offset(

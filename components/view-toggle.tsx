@@ -1,11 +1,11 @@
 "use client"
 
-import { Grid3X3, Smartphone } from "lucide-react"
+import { Grid3X3, Smartphone, LayoutGrid } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface ViewToggleProps {
-  currentView: "grid" | "reels"
-  onViewChange: (view: "grid" | "reels") => void
+  currentView: "grid" | "compact" | "reels"
+  onViewChange: (view: "grid" | "compact" | "reels") => void
 }
 
 export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
@@ -21,6 +21,20 @@ export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
               ? "bg-white text-black shadow-lg"
               : "text-white hover:bg-white/10"
           }`}
+          title="Default view"
+        >
+          <LayoutGrid className="h-4 w-4" />
+        </Button>
+        <Button
+          variant={currentView === "compact" ? "default" : "ghost"}
+          size="sm"
+          onClick={() => onViewChange("compact")}
+          className={`rounded-full transition-all ${
+            currentView === "compact"
+              ? "bg-white text-black shadow-lg"
+              : "text-white hover:bg-white/10"
+          }`}
+          title="Compact view"
         >
           <Grid3X3 className="h-4 w-4" />
         </Button>
@@ -33,6 +47,7 @@ export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
               ? "bg-white text-black shadow-lg"
               : "text-white hover:bg-white/10"
           }`}
+          title="Reels view"
         >
           <Smartphone className="h-4 w-4" />
         </Button>

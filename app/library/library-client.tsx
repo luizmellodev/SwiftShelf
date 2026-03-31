@@ -14,10 +14,10 @@ interface LibraryClientProps {
 }
 
 export function LibraryClient({ snippets }: LibraryClientProps) {
-  const [currentView, setCurrentView] = useState<"grid" | "reels">("grid")
+  const [currentView, setCurrentView] = useState<"grid" | "compact" | "reels">("grid")
   const { showToast } = useToast()
 
-  const handleViewChange = (view: "grid" | "reels") => {
+  const handleViewChange = (view: "grid" | "compact" | "reels") => {
     setCurrentView(view)
     
     if (view === "reels") {
@@ -33,7 +33,7 @@ export function LibraryClient({ snippets }: LibraryClientProps) {
 
   return (
     <main className="min-h-screen bg-background">
-      {currentView === "grid" ? (
+      {currentView === "grid" || currentView === "compact" ? (
         <div className="container mx-auto px-4 py-12">
           <header className="mb-12 text-center">
           <div className="animate-fade-in-up animation-delay-200">
@@ -62,7 +62,7 @@ export function LibraryClient({ snippets }: LibraryClientProps) {
             </div>
           </header>
 
-          <SnippetGallery snippets={snippets} />
+          <SnippetGallery snippets={snippets} viewMode={currentView} />
         </div>
       ) : (
         <>

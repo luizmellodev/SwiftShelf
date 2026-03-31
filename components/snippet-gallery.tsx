@@ -5,15 +5,17 @@ import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SnippetCard } from "./snippet-card"
+import { SnippetCardCompact } from "./snippet-card-compact"
 import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetGalleryProps {
   snippets: Snippet[]
+  viewMode: "grid" | "compact"
 }
 
 const ITEMS_PER_PAGE = 9
 
-export function SnippetGallery({ snippets }: SnippetGalleryProps) {
+export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -127,11 +129,19 @@ export function SnippetGallery({ snippets }: SnippetGalleryProps) {
         )}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {currentSnippets.map((snippet) => (
-          <SnippetCard key={snippet.id} snippet={snippet} />
-        ))}
-      </div>
+      {viewMode === "grid" ? (
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {currentSnippets.map((snippet) => (
+            <SnippetCard key={snippet.id} snippet={snippet} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+          {currentSnippets.map((snippet) => (
+            <SnippetCardCompact key={snippet.id} snippet={snippet} />
+          ))}
+        </div>
+      )}
 
       {filteredSnippets.length === 0 && (
         <div className="py-12 text-center text-muted-foreground">

@@ -1,0 +1,8 @@
+title: "Magnetic Dock"
+description: "A macOS-style dock that magnifies app icons based on pointer proximity with smooth interaction and spring motion."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - navigation
+  - interaction
+  - macos

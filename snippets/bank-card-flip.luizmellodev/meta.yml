@@ -1,0 +1,8 @@
+title: "Bank Card Flip"
+description: "A credit card component that flips in 3D on tap to reveal the back side with smooth perspective and polished banking visuals."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - card
+  - animation
+  - ui

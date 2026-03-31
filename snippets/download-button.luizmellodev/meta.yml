@@ -1,0 +1,8 @@
+title: "Download Button"
+description: "An animated download button with progress tracking, state transitions, checkmark completion, and celebratory confetti."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - button
+  - loading
+  - animation

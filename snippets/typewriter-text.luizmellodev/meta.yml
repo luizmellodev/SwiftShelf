@@ -1,0 +1,8 @@
+title: "Typewriter Text"
+description: "A text reveal component that types characters one by one with a blinking cursor and tap-to-replay behavior."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - text
+  - animation
+  - ui

@@ -26,15 +26,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install ImageMagick
+      - name: Install ImageMagick and FFmpeg
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick
+          sudo apt-get install -y imagemagick ffmpeg
+
+      - name: Auto-convert videos
+        run: |
+          echo "🎬 Converting videos automatically..."
+          bash scripts/auto-convert-videos.sh
+
+      - name: Commit converted videos
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add snippets/*/demo.mp4 snippets/*/meta.yml
+          git diff --staged --quiet || git commit -m "chore: auto-convert videos to optimized format"
+          git push
+        continue-on-error: true
 
       - name: Validate snippets
         run: |
           echo "🔍 Running snippet validation..."
           npm run validate
+
+      - name: Validate videos
+        run: |
+          echo "🎬 Running video validation..."
+          node scripts/validate-videos.js
+        continue-on-error: false
 
       - name: PR validation success
         if: github.event_name == 'pull_request'

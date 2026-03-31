@@ -33,8 +33,10 @@ function copyImages() {
   for (const folder of folders) {
     const folderPath = path.join(snippetsDir, folder);
     const screenshotPath = path.join(folderPath, 'screenshot.png');
+    const demoVideoPath = path.join(folderPath, 'demo.mp4');
     const publicSnippetDir = path.join(publicSnippetsDir, folder);
     const publicScreenshotPath = path.join(publicSnippetDir, 'screenshot.png');
+    const publicDemoVideoPath = path.join(publicSnippetDir, 'demo.mp4');
     
     if (!fs.existsSync(screenshotPath)) {
       console.log(`⚠️ Skipping ${folder}: no screenshot.png found`);
@@ -46,9 +48,16 @@ function copyImages() {
         fs.mkdirSync(publicSnippetDir, { recursive: true });
       }
       
+      // Copy screenshot
       fs.copyFileSync(screenshotPath, publicScreenshotPath);
       console.log(`✅ Copied ${folder}/screenshot.png`);
       copiedCount++;
+      
+      // Copy video if exists
+      if (fs.existsSync(demoVideoPath)) {
+        fs.copyFileSync(demoVideoPath, publicDemoVideoPath);
+        console.log(`🎬 Copied ${folder}/demo.mp4`);
+      }
     } catch (error) {
       console.log(`❌ Error copying ${folder}:`, error.message);
     }

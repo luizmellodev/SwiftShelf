@@ -29,23 +29,37 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-4 order-1 lg:order-1">
             <div className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-none lg:aspect-[9/16] lg:sticky lg:top-8">
-              <SnippetImage 
-                src={snippet.screenshot || ""} 
-                alt={snippet.title} 
-                fill 
-                className="object-contain transition-transform duration-300 group-hover:scale-105" 
-              />
-              
-              <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20">
-                <button
-                  onClick={() => setIsImageModalOpen(true)}
-                  className="opacity-0 transition-opacity group-hover:opacity-100"
-                >
-                  <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
-                    <ZoomIn className="h-6 w-6 text-gray-700" />
+              {snippet.hasVideo ? (
+                <video
+                  src={snippet.videoUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  poster={snippet.screenshot}
+                  className="h-full w-full object-contain"
+                />
+              ) : (
+                <>
+                  <SnippetImage 
+                    src={snippet.screenshot || ""} 
+                    alt={snippet.title} 
+                    fill 
+                    className="object-contain transition-transform duration-300 group-hover:scale-105" 
+                  />
+                  
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20">
+                    <button
+                      onClick={() => setIsImageModalOpen(true)}
+                      className="opacity-0 transition-opacity group-hover:opacity-100"
+                    >
+                      <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
+                        <ZoomIn className="h-6 w-6 text-gray-700" />
+                      </div>
+                    </button>
                   </div>
-                </button>
-              </div>
+                </>
+              )}
             </div>
           </div>
 

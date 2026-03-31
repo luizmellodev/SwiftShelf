@@ -12,17 +12,33 @@ interface SnippetCardProps {
 
 export function SnippetCard({ snippet }: SnippetCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [showVideo, setShowVideo] = useState(false)
 
   return (
-    <div className="group overflow-hidden rounded-lg border bg-card transition-all hover:border-primary/50 hover:shadow-lg">
+    <div 
+      className="group overflow-hidden rounded-lg border bg-card transition-all hover:border-primary/50 hover:shadow-lg"
+      onMouseEnter={() => snippet.hasVideo && setShowVideo(true)}
+      onMouseLeave={() => setShowVideo(false)}
+    >
       <Link href={`/snippet/${snippet.id}`} className="block">
         <div className="relative aspect-[9/16] overflow-hidden bg-muted">
-          <SnippetImage
-            src={snippet.screenshot || ""}
-            alt={snippet.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          {snippet.hasVideo && showVideo ? (
+            <video
+              src={snippet.videoUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <SnippetImage
+              src={snippet.screenshot || ""}
+              alt={snippet.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          )}
         </div>
 
         <div className="p-4">

@@ -11,6 +11,8 @@ export interface Snippet {
   description: string
   screenshot: string
   code: string
+  hasVideo?: boolean
+  videoUrl?: string
 }
 
 export async function getSnippets(): Promise<Snippet[]> {
@@ -49,6 +51,12 @@ export async function getSnippets(): Promise<Snippet[]> {
       }
 
       const code = fs.readFileSync(snippetPath, "utf-8")
+      
+      // Check if video exists (demo.mp4, video.mov, or video.mp4)
+      const demoMp4Path = path.join(folderPath, "demo.mp4")
+      const videoMovPath = path.join(folderPath, "video.mov")
+      const videoMp4Path = path.join(folderPath, "video.mp4")
+      const hasVideo = fs.existsSync(demoMp4Path) || fs.existsSync(videoMovPath) || fs.existsSync(videoMp4Path)
 
       snippets.push({
         id: folder,
@@ -59,6 +67,8 @@ export async function getSnippets(): Promise<Snippet[]> {
         tags: meta.tags || [],
         screenshot: `/snippets/${folder}/screenshot.png`,
         code,
+        hasVideo,
+        videoUrl: hasVideo ? `/snippets/${folder}/demo.mp4` : undefined,
       })
     }
 

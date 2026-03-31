@@ -159,6 +159,7 @@ struct SnackbarView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(configuration.type.backgroundColor)
         .cornerRadius(configuration.cornerRadius)
         .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
@@ -191,33 +192,21 @@ struct SnackbarModifier: ViewModifier {
     let configuration: SnackbarConfiguration
     
     func body(content: Content) -> some View {
-        ZStack(alignment: configuration.position.alignment) {
-            content
-            
-            if isPresented {
-                VStack {
-                    if configuration.position == .top {
-                        SnackbarView(configuration: configuration) {
-                            isPresented = false
-                        }
-                        .padding(.top, 50)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                        
-                        Spacer()
-                    } else {
-                        Spacer()
-                        
-                        SnackbarView(configuration: configuration) {
-                            isPresented = false
-                        }
-                        .padding(.bottom, 30)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(alignment: configuration.position.alignment) {
+                if isPresented {
+                    SnackbarView(configuration: configuration) {
+                        isPresented = false
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, configuration.position == .top ? 50 : 0)
+                    .padding(.bottom, configuration.position == .bottom ? 30 : 0)
+                    .transition(.move(edge: configuration.position == .top ? .top : .bottom).combined(with: .opacity))
+                    .zIndex(999)
                 }
-                .zIndex(999)
             }
-        }
-        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isPresented)
+            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isPresented)
     }
 }
 

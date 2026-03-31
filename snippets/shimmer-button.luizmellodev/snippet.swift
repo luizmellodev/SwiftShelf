@@ -65,8 +65,9 @@ struct ShimmerEffect: ViewModifier {
                     )
                     .frame(width: geometry.size.width * 2)
                     .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
-                    .mask(content)
+                    .blendMode(.plusLighter)
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             )
             .onAppear {
                 withAnimation(

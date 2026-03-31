@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,12 +13,16 @@ interface SnippetGalleryProps {
   viewMode: "grid" | "compact"
 }
 
-const ITEMS_PER_PAGE = 9
+const ITEMS_PER_PAGE = {
+  grid: 10,
+  compact: 24,
+} as const
 
 export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = ITEMS_PER_PAGE[viewMode]
 
   const allTags = useMemo(() => {
     const tags = new Set<string>()
@@ -48,14 +52,14 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
   }, [snippets, selectedTag, searchQuery])
 
 
-  const totalPages = Math.ceil(filteredSnippets.length / ITEMS_PER_PAGE)
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const endIndex = startIndex + ITEMS_PER_PAGE
+  const totalPages = Math.ceil(filteredSnippets.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
   const currentSnippets = filteredSnippets.slice(startIndex, endIndex)
 
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1)
-  }, [selectedTag, searchQuery])
+  }, [selectedTag, searchQuery, viewMode])
 
   return (
     <div className="space-y-6">
@@ -104,7 +108,7 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
         <p className="text-sm text-muted-foreground">
           Showing {startIndex + 1}-{Math.min(endIndex, filteredSnippets.length)} of {filteredSnippets.length} snippets
         </p>
-        {filteredSnippets.length > ITEMS_PER_PAGE && (
+        {filteredSnippets.length > itemsPerPage && (
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -150,7 +154,7 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
         </div>
       )}
 
-      {filteredSnippets.length > ITEMS_PER_PAGE && (
+      {filteredSnippets.length > itemsPerPage && (
         <div className="flex items-center justify-center gap-4 pt-6">
           <Button
             variant="outline"

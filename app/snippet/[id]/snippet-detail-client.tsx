@@ -27,10 +27,10 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
           Back to Library
         </Link>
 
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[400px_1fr] lg:gap-8 xl:grid-cols-[450px_1fr]">
           <div className="flex flex-col gap-4 order-1 lg:order-1">
             <div 
-              className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-none lg:aspect-[9/16] lg:sticky lg:top-8"
+              className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-[700px] lg:sticky lg:top-8"
               onMouseEnter={() => snippet.hasVideo && setShowVideo(true)}
               onMouseLeave={() => setShowVideo(false)}
             >

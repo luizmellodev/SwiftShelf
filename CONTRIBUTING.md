@@ -8,7 +8,8 @@
 snippets/your-component.yourusername/
 ├── meta.yml          # Metadata
 ├── snippet.swift     # Swift code
-└── screenshot.png    # Screenshot (PNG format)
+├── screenshot.png    # Screenshot (PNG format, required)
+└── demo.mp4          # Video demo (MP4 format, optional)
 ```
 
 **Folder Naming Convention:**
@@ -46,7 +47,7 @@ description: Brief description of your component
 - Include proper documentation
 - Make it production-ready
 
-### 4. **Add Screenshot**
+### 4. **Add Screenshot (Required)**
 
 - Must be PNG format
 - Recommended: 9:16 aspect ratio (mobile-first)
@@ -65,28 +66,81 @@ Quick Steps:
 4. Select "Save to Desktop" (or your preferred location)
 5. Rename it to `screenshot.png`
 
-### 5. **Submit Pull Request**
+### 5. **Add Video Demo (Optional but Recommended)**
+
+Videos bring your component to life! They show animations and interactions that screenshots can't capture.
+
+**🎬 Super Simple Process:**
+
+1. **Record in iOS Simulator:**
+   - Press `Command + R` to start recording
+   - Interact with your component (keep it under 5 seconds!)
+   - Click the stop button
+   - Video saves to Desktop as `.mov`
+
+2. **Add to your snippet folder:**
+   ```bash
+   # Just copy the video to your snippet folder!
+   cp ~/Desktop/recording.mov snippets/your-component.yourusername/video.mov
+   ```
+
+3. **That's it!** 🎉
+   - Our CI automatically converts `video.mov` → `demo.mp4` (optimized)
+   - Original file is removed
+   - Optimized video is committed back to your PR
+
+**Accepted formats:**
+- `video.mov` (from iOS Simulator)
+- `video.mp4` (if you already have MP4)
+- `demo.mp4` (if you manually optimized it)
+
+**Why add a video?**
+- Shows animations and transitions
+- Demonstrates interactions
+- Makes your component stand out
+- Helps users understand behavior
+
+**Video Display:**
+- Library page: Shows screenshot, video plays on hover
+- Detail page: Video plays automatically in loop
+
+**Manual Conversion (Optional):**
+If you want to optimize locally before pushing:
+```bash
+./scripts/convert-video.sh ~/Desktop/recording.mov snippets/your-component/demo.mp4
+```
+
+### 6. **Submit Pull Request**
 
 1. Fork the repository
 2. Create your snippet folder
 3. Submit PR with your changes
-4. Our CI will automatically validate everything
+4. Our CI will automatically:
+   - ✅ Convert videos to optimized format
+   - ✅ Validate everything
+   - ✅ Commit optimized videos back to your PR
 
 ## Automatic Process
 
 ### What Happens When You Submit a PR:
 
-1. **Validation**
+1. **Auto-Conversion** (if video present)
+   - Detects `video.mov` or `video.mp4` in your snippet
+   - Converts to optimized `demo.mp4` (≤200KB, 5s, 30fps)
+   - Removes original file
+   - Commits changes back to your PR
 
+2. **Validation**
    - **Folder Structure**: Validates `component-name.username` format
    - **meta.yml Format**: Checks required fields and YAML syntax
    - **GitHub Username**: Verifies it matches folder username
    - **Swift Code**: Ensures `import SwiftUI` and valid View struct
    - **Screenshot**: Validates PNG format, size, and aspect ratio
+   - **Video (if present)**: Validates optimized format
    - **Tags**: Ensures only allowed tags are used (max 3)
    - **File Integrity**: Checks all required files exist
 
-2. **Deployment**
+3. **Deployment**
    - If validation passes, it's automatically deployed
    - Your snippet is loaded dynamically from the `/snippets/` folder
    - Your component is live on the website
@@ -98,15 +152,28 @@ snippets/
 ├── animated-button.johndoe/
 │   ├── meta.yml
 │   ├── snippet.swift         # ALL your code goes here!
-│   └── screenshot.png
+│   ├── screenshot.png        # Required
+│   └── video.mov             # Optional - CI converts to demo.mp4 automatically!
 ├── gradient-card.janesmith/
 │   ├── meta.yml
 │   ├── snippet.swift         # Including all structs, enums, classes, extensions
-│   └── screenshot.png
+│   ├── screenshot.png
+│   └── video.mp4             # Or video.mp4 - both work!
 └── your-component.yourusername/
     ├── meta.yml
     ├── snippet.swift         # Don't create separate files - we parse and display automatically
-    └── screenshot.png
+    ├── screenshot.png
+    └── demo.mp4              # Or add demo.mp4 directly if already optimized
+```
+
+**After CI runs:**
+```
+snippets/
+├── animated-button.johndoe/
+│   ├── meta.yml
+│   ├── snippet.swift
+│   ├── screenshot.png
+│   └── demo.mp4              # ✅ Optimized! (video.mov was removed)
 ```
 
 ### How Code Display Works
@@ -130,8 +197,14 @@ Check `lib/allowed-tags.js` for the complete list. Common tags include:
 ## Local Development
 
 ```bash
-# Validate your snippets
+# Validate your snippets (includes video validation)
 npm run validate
+
+# Auto-convert all videos (like CI does)
+bash scripts/auto-convert-videos.sh
+
+# Convert single video manually (optional)
+./scripts/convert-video.sh input.mov snippets/your-component/demo.mp4
 
 # Run development server
 npm run dev
@@ -147,6 +220,8 @@ npm run build
 - Don't submit incomplete snippets
 - Don't use copyrighted images
 - Don't rename `snippet.swift` - it must be exactly that name
+- Don't worry about video optimization - CI does it automatically!
+- Don't add videos longer than 5 seconds (will be trimmed automatically)
 
 ## Best Practices
 
@@ -157,6 +232,9 @@ npm run build
 - Include helpful comments
 - Test your component
 - Use high-quality screenshots
+- **Add video demos for animated components** - just drop `video.mov` in the folder!
+- Keep videos short (3-5 seconds) and focused on the main interaction
+- Let CI handle video optimization - no manual work needed!
 - Follow SwiftUI conventions
 
 ## Quality Standards

@@ -9,6 +9,8 @@ export interface Snippet {
   description: string
   screenshot: string
   code: string
+  hasVideo?: boolean
+  videoUrl?: string
 }
 
 export async function loadSnippets(): Promise<Snippet[]> {

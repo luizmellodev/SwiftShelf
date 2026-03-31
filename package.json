@@ -7,7 +7,9 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "validate": "node scripts/validate-snippets.js",
+    "validate": "node scripts/validate-snippets.js && node scripts/validate-videos.js",
+    "validate:snippets": "node scripts/validate-snippets.js",
+    "validate:videos": "node scripts/validate-videos.js",
     "copy-images": "node scripts/copy-images.js"
   },
   "dependencies": {

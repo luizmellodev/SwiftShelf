@@ -154,8 +154,10 @@
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-  opacity: 0;
+  /* `backwards`, not `forwards`: it holds the hidden "from" state during the delay,
+     then drops the animation entirely. With `forwards` a blur(0) filter stays applied
+     forever, and the browser rasterizes the element as a soft bitmap (blurry buttons). */
+  animation: fade-in-up 0.8s ease-out backwards;
 }
 
 .animate-fade-in-scale {

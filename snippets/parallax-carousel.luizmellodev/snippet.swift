@@ -64,15 +64,16 @@ public struct ParallaxCarousel: View {
                     ForEach(slides) { slide in
                         card(slide)
                             .containerRelativeFrame(.horizontal)
-                            .scrollTransition(.interactive, axis: .horizontal) { content, phase in
-                                content
-                                    .scaleEffect(1 - abs(phase.value) * 0.12)
+                            .visualEffect { [spacing, maxRotation] content, proxy in
+                                let phase = parallaxPhase(proxy, spacing: spacing)
+                                return content
+                                    .scaleEffect(1 - abs(phase) * 0.12)
                                     .rotation3DEffect(
-                                        .degrees(phase.value * -maxRotation),
+                                        .degrees(phase * -maxRotation),
                                         axis: (x: 0, y: 1, z: 0),
                                         perspective: 0.55
                                     )
-                                    .opacity(1 - abs(phase.value) * 0.35)
+                                    .opacity(1 - abs(phase) * 0.35)
                             }
                             .id(slide.id)
                     }
@@ -85,7 +86,8 @@ public struct ParallaxCarousel: View {
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $currentID)
             .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                let pageWidth = geometry.containerSize.width - geometry.contentInsets.leading - geometry.contentInsets.trailing
+                // containerSize already excludes the peek insets, so it equals one card's width.
+                let pageWidth = geometry.containerSize.width
                 guard pageWidth > 0 else { return 0 }
                 return (geometry.contentOffset.x + geometry.contentInsets.leading) / (pageWidth + spacing)
             } action: { _, value in
@@ -127,8 +129,8 @@ public struct ParallaxCarousel: View {
                     .padding(.horizontal, -parallax)
                 }
                 .scaleEffect(1.08)
-                .scrollTransition(.interactive, axis: .horizontal) { content, phase in
-                    content.offset(x: phase.value * -parallax)
+                .visualEffect { [spacing, parallax] content, proxy in
+                    content.offset(x: parallaxPhase(proxy, spacing: spacing) * -parallax)
                 }
 
             LinearGradient(colors: [.clear, .black.opacity(0.55)], startPoint: .center, endPoint: .bottom)
@@ -142,11 +144,14 @@ public struct ParallaxCarousel: View {
             }
             .foregroundStyle(.white)
             .padding(24)
+            // Card-sized host, so the phase is measured from the card's center.
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             // Text drifts the other way, so it separates from the artwork.
-            .scrollTransition(.interactive, axis: .horizontal) { content, phase in
-                content
-                    .offset(x: phase.value * parallax * 0.5)
-                    .opacity(1 - abs(phase.value) * 0.8)
+            .visualEffect { [spacing, parallax] content, proxy in
+                let phase = parallaxPhase(proxy, spacing: spacing)
+                return content
+                    .offset(x: phase * parallax * 0.5)
+                    .opacity(1 - abs(phase) * 0.8)
             }
         }
         .frame(maxWidth: .infinity)
@@ -158,6 +163,20 @@ public struct ParallaxCarousel: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(slide.title). \(slide.subtitle)")
     }
+}
+
+// MARK: - Phase
+
+/// How many pages a card-sized view sits from the center of the carousel
+/// (0 = centered, ±1 = one page over). Read from live geometry on every frame,
+/// so it always settles at exactly 0 — unlike `scrollTransition`, which can
+/// stay stuck mid-transition after a snap.
+nonisolated private func parallaxPhase(_ proxy: GeometryProxy, spacing: CGFloat) -> Double {
+    let frame = proxy.frame(in: .scrollView(axis: .horizontal))
+    guard let bounds = proxy.bounds(of: .scrollView(axis: .horizontal)), frame.width > 0 else { return 0 }
+    let raw = (frame.midX - bounds.width / 2) / (frame.width + spacing)
+    let phase = Double(min(max(raw, -1), 1))
+    return abs(phase) < 0.002 ? 0 : phase
 }
 
 // MARK: - Indicator

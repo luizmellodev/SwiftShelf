@@ -3,10 +3,32 @@
 import { useState, useEffect, useRef } from "react"
 import { Github, ChevronUp, ChevronDown } from "lucide-react"
 import { SnippetImage } from "./snippet-image"
+import { AutoplayVideo } from "./autoplay-video"
+import { useReducedMotion } from "@/lib/use-reduced-motion"
 import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetReelsProps {
   snippets: Snippet[]
+}
+
+/** Screenshot with the demo video fading in on top once it starts playing. */
+function ReelMedia({ snippet, playVideo }: { snippet: Snippet; playVideo: boolean }) {
+  const [ready, setReady] = useState(false)
+  return (
+    <>
+      <SnippetImage src={snippet.screenshot || ""} alt={snippet.title} fill className="object-cover" priority />
+      {playVideo && snippet.hasVideo && snippet.videoUrl && (
+        <AutoplayVideo
+          src={snippet.videoUrl}
+          rootMargin="0px"
+          onReady={() => setReady(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+            ready ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </>
+  )
 }
 
 export function SnippetReels({ snippets }: SnippetReelsProps) {
@@ -17,6 +39,7 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
   const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null)
   const [isSafari, setIsSafari] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
   const transitionSnippetsRef = useRef<{ prev: Snippet; current: Snippet; next: Snippet } | null>(null)
 
   const currentSnippet = snippets[currentIndex]
@@ -155,12 +178,10 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
           >
             <div className="relative h-full w-full">
               <div className="relative h-full w-full">
-                <SnippetImage
-                  src={displayCurrentSnippet.screenshot || ""}
-                  alt={displayCurrentSnippet.title}
-                  fill
-                  className="object-cover"
-                  priority
+                <ReelMedia
+                  key={displayCurrentSnippet.id}
+                  snippet={displayCurrentSnippet}
+                  playVideo={!reduced && !isTransitioning}
                 />
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -263,12 +284,10 @@ export function SnippetReels({ snippets }: SnippetReelsProps) {
               slideDirection === 'down' ? 'animate-slide-out-to-bottom' : ''
             }`}
           >
-            <SnippetImage
-              src={displayCurrentSnippet.screenshot || ""}
-              alt={displayCurrentSnippet.title}
-              fill
-              className="object-cover"
-              priority
+            <ReelMedia
+              key={displayCurrentSnippet.id}
+              snippet={displayCurrentSnippet}
+              playVideo={!reduced && !isTransitioning}
             />
             
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

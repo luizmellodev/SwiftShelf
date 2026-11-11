@@ -6,6 +6,8 @@ import { ArrowLeft, Github, ZoomIn, Play } from "lucide-react"
 import { ImageModal } from "@/components/image-modal"
 import { SnippetImage } from "@/components/snippet-image"
 import { CodeViewer } from "@/components/code-viewer"
+import { AutoplayVideo } from "@/components/autoplay-video"
+import { useReducedMotion } from "@/lib/use-reduced-motion"
 import type { Snippet } from "@/lib/snippets-loader"
 
 interface SnippetDetailClientProps {
@@ -14,7 +16,10 @@ interface SnippetDetailClientProps {
 
 export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
-  const [showVideo, setShowVideo] = useState(false)
+  const [hovering, setHovering] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
+  const reduced = useReducedMotion()
+  const videoActive = !reduced || hovering
 
   return (
     <div className="min-h-screen bg-background">
@@ -31,53 +36,56 @@ export function SnippetDetailClient({ snippet }: SnippetDetailClientProps) {
           <div className="flex flex-col gap-4 order-1 lg:order-1">
             <div 
               className="group relative aspect-[9/16] max-h-[500px] overflow-hidden rounded-lg border bg-muted lg:max-h-[700px] lg:sticky lg:top-8"
-              onMouseEnter={() => snippet.hasVideo && setShowVideo(true)}
-              onMouseLeave={() => setShowVideo(false)}
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              onClick={() => reduced && snippet.hasVideo && setHovering((h) => !h)}
             >
-              {snippet.hasVideo && showVideo ? (
-                <video
-                  key={snippet.videoUrl}
-                  src={snippet.videoUrl}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="h-full w-full object-contain"
-                  onLoadStart={(e) => {
-                    const video = e.currentTarget
-                    video.play().catch(() => {})
-                  }}
-                />
+              {snippet.hasVideo && snippet.videoUrl ? (
+                <>
+                  <SnippetImage
+                    src={snippet.screenshot || ""}
+                    alt={snippet.title}
+                    fill
+                    className="object-contain"
+                  />
+                  <AutoplayVideo
+                    src={snippet.videoUrl}
+                    active={videoActive}
+                    rootMargin="0px"
+                    onReady={() => setVideoReady(true)}
+                    className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
+                      videoReady ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                  {!videoActive && (
+                    <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+                      <div className="rounded-full bg-white/90 p-4 shadow-lg backdrop-blur-sm">
+                        <Play className="h-8 w-8 text-gray-700 fill-gray-700" />
+                      </div>
+                      <p className="mt-2 text-center text-sm font-medium text-white drop-shadow-lg">
+                        Hover or tap to play
+                      </p>
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
-                  <SnippetImage 
-                    src={snippet.screenshot || ""} 
-                    alt={snippet.title} 
-                    fill 
-                    className="object-contain transition-transform duration-300 group-hover:scale-105" 
+                  <SnippetImage
+                    src={snippet.screenshot || ""}
+                    alt={snippet.title}
+                    fill
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
                   />
-                  
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20">
-                    {snippet.hasVideo ? (
-                      <div className="opacity-0 transition-opacity group-hover:opacity-100">
-                        <div className="rounded-full bg-white/90 p-4 shadow-lg backdrop-blur-sm">
-                          <Play className="h-8 w-8 text-gray-700 fill-gray-700" />
-                        </div>
-                        <p className="mt-2 text-center text-sm font-medium text-white drop-shadow-lg">
-                          Hover to play
-                        </p>
+                    <button
+                      onClick={() => setIsImageModalOpen(true)}
+                      aria-label="Zoom screenshot"
+                      className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+                    >
+                      <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
+                        <ZoomIn className="h-6 w-6 text-gray-700" />
                       </div>
-                    ) : (
-                      <button
-                        onClick={() => setIsImageModalOpen(true)}
-                        className="opacity-0 transition-opacity group-hover:opacity-100"
-                      >
-                        <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm">
-                          <ZoomIn className="h-6 w-6 text-gray-700" />
-                        </div>
-                      </button>
-                    )}
+                    </button>
                   </div>
                 </>
               )}

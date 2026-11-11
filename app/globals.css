@@ -310,3 +310,209 @@ body {
     bottom: 1.5rem;
   }
 }
+
+/* ───────────── Home: hero background ───────────── */
+.hero-bg {
+  --spot-x: 50%;
+  --spot-y: 30%;
+}
+
+.hero-dots {
+  background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.12) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, black 30%, transparent 80%);
+}
+
+.hero-dots-lit {
+  background-image: radial-gradient(circle at center, rgb(52 211 153 / 0.85) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  background-position: center top;
+  mask-image: radial-gradient(260px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
+  -webkit-mask-image: radial-gradient(260px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
+  animation: spot-drift 14s ease-in-out infinite alternate;
+  opacity: 0.7;
+}
+
+.hero-bg[data-pointer="true"] .hero-dots-lit {
+  animation: none;
+}
+
+@property --spot-x {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --spot-y {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 30%;
+}
+
+@keyframes spot-drift {
+  0% { --spot-x: 20%; --spot-y: 25%; }
+  35% { --spot-x: 75%; --spot-y: 18%; }
+  70% { --spot-x: 60%; --spot-y: 55%; }
+  100% { --spot-x: 30%; --spot-y: 48%; }
+}
+
+.hero-glow {
+  background: radial-gradient(closest-side, rgb(16 185 129 / 0.22), rgb(6 182 212 / 0.12) 55%, transparent);
+  filter: blur(40px);
+  animation: glow-breathe 8s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.hero-beam {
+  background: linear-gradient(90deg, transparent, rgb(52 211 153 / 0.9), rgb(34 211 238 / 0.9), transparent);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: beam-sweep 6s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  box-shadow: 0 0 24px rgb(34 211 238 / 0.4);
+}
+
+@keyframes beam-sweep {
+  0% { background-position: -60% 0; }
+  60%, 100% { background-position: 160% 0; }
+}
+
+/* Gradient title slowly shifting hues */
+.hero-title {
+  background-size: 200% auto;
+  animation: title-shift 8s ease-in-out infinite alternate;
+}
+
+@keyframes title-shift {
+  from { background-position: 0% center; }
+  to { background-position: 100% center; }
+}
+
+/* Rotating light around the "Community Driven" pill */
+.badge-beam::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--beam-angle), transparent 70%, rgb(52 211 153), rgb(34 211 238), transparent 95%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  animation: beam-rotate 4s linear infinite;
+  pointer-events: none;
+}
+
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes beam-rotate {
+  to { --beam-angle: 360deg; }
+}
+
+/* Light sweep across the primary CTA */
+.cta-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: cta-sweep 4.5s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes cta-sweep {
+  0% { transform: translateX(-120%); }
+  30%, 100% { transform: translateX(120%); }
+}
+
+/* ───────────── Home: demo marquee ───────────── */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
+  animation: marquee-scroll linear infinite;
+  will-change: transform;
+}
+
+.marquee-track.marquee-reverse {
+  animation-direction: reverse;
+}
+
+.marquee-row:hover .marquee-track,
+.marquee-row:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* ───────────── Home: spotlight cards ───────────── */
+.spotlight-card-glow {
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgb(52 211 153 / 0.12), transparent 60%);
+}
+
+/* ───────────── Reduced motion ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in-scale {
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero-dots-lit,
+  .hero-glow,
+  .hero-beam,
+  .hero-title,
+  .badge-beam::before,
+  .cta-shine::after {
+    animation: none;
+  }
+
+  .hero-beam,
+  .cta-shine::after {
+    display: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .marquee-track[aria-hidden="true"],
+  .marquee-track + .marquee-track {
+    display: none;
+  }
+
+  .marquee-row {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-inline: 1rem;
+  }
+
+  .marquee-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .marquee {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}

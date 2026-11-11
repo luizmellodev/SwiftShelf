@@ -105,27 +105,31 @@ public struct ParallaxCarousel: View {
         let shape = RoundedRectangle(cornerRadius: 32, style: .continuous)
 
         return ZStack(alignment: .bottomLeading) {
-            // Inner "photo" layer: oversized so the parallax shift never reveals an edge.
-            ZStack {
-                MeshGradient(
-                    width: 3, height: 3,
-                    points: [[0, 0], [0.5, 0], [1, 0], [0, 0.5], [0.55, 0.45], [1, 0.5], [0, 1], [0.5, 1], [1, 1]],
-                    colors: slide.colors
-                )
-                Image(systemName: slide.systemImage)
-                    .font(.system(size: 150, weight: .bold))
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(.white.opacity(0.92))
-                    .shadow(color: .white.opacity(0.45), radius: 40)
-                    .offset(y: -50)
-            }
-            // Mesh + glowing symbol never change, so flatten them into one GPU layer;
-            // the parallax offset below is then just a cheap transform.
-            .drawingGroup()
-            .scaleEffect(1.4)
-            .scrollTransition(.interactive, axis: .horizontal) { content, phase in
-                content.offset(x: phase.value * -parallax)
-            }
+            // Inner "photo" layer. It hangs off a card-sized host as an overlay, so it can be
+            // wider than the card (overscan for the parallax travel) without changing layout,
+            // and the host's scroll phase stays exactly 0 at rest.
+            Color.clear
+                .overlay {
+                    ZStack {
+                        MeshGradient(
+                            width: 3, height: 3,
+                            points: [[0, 0], [0.5, 0], [1, 0], [0, 0.5], [0.55, 0.45], [1, 0.5], [0, 1], [0.5, 1], [1, 1]],
+                            colors: slide.colors
+                        )
+                        Image(systemName: slide.systemImage)
+                            .font(.system(size: 150, weight: .bold))
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(.white.opacity(0.92))
+                            .shadow(color: .white.opacity(0.45), radius: 40)
+                            .offset(y: -50)
+                    }
+                    .compositingGroup()
+                    .padding(.horizontal, -parallax)
+                }
+                .scaleEffect(1.08)
+                .scrollTransition(.interactive, axis: .horizontal) { content, phase in
+                    content.offset(x: phase.value * -parallax)
+                }
 
             LinearGradient(colors: [.clear, .black.opacity(0.55)], startPoint: .center, endPoint: .bottom)
 
@@ -149,8 +153,8 @@ public struct ParallaxCarousel: View {
         .frame(height: cardHeight)
         .clipShape(shape)
         .overlay(shape.strokeBorder(.white.opacity(0.18), lineWidth: 1))
-        // Shadow from a plain shape instead of the whole card's alpha: far cheaper per frame.
-        .background(shape.fill(slide.colors[4]).shadow(color: slide.colors[7].opacity(0.45), radius: 20, y: 14))
+        .compositingGroup()
+        .shadow(color: .black.opacity(0.2), radius: 18, y: 12)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(slide.title). \(slide.subtitle)")
     }

@@ -220,12 +220,16 @@ private struct StretchyOnboardingPageView: View {
 
             hero
                 .visualEffect { content, proxy in
-                    let x = proxy.frame(in: .scrollView(axis: .horizontal)).minX
-                    let width = max(proxy.size.width, 1)
+                    let (x, width) = stretchyPageOffset(proxy)
+                    let distance = min(abs(x) / width, 1)
+                    // The parallax lag pulls the hero toward the center, so fade and blur it
+                    // out by distance: a resting neighbor is fully hidden instead of peeking in.
                     return content
-                        .offset(x: -x * 0.55)
-                        .scaleEffect(1 - min(abs(x) / width, 1) * 0.25)
-                        .rotationEffect(.degrees(Double(x / width) * -12))
+                        .offset(x: -x * 0.45)
+                        .scaleEffect(1 - distance * 0.35)
+                        .rotationEffect(.degrees(Double(x / width) * -14))
+                        .opacity(Double(max(0, 1 - distance * 1.6)))
+                        .blur(radius: distance * 14)
                 }
 
             VStack(spacing: 12) {
@@ -239,8 +243,7 @@ private struct StretchyOnboardingPageView: View {
             }
             .padding(.horizontal, 32)
             .visualEffect { content, proxy in
-                let x = proxy.frame(in: .scrollView(axis: .horizontal)).minX
-                let width = max(proxy.size.width, 1)
+                let (x, width) = stretchyPageOffset(proxy)
                 return content
                     .offset(x: -x * 0.2)
                     .opacity(1 - min(abs(x) / width, 1) * 1.4)
@@ -280,6 +283,14 @@ private struct StretchyOnboardingPageView: View {
         }
         .frame(height: 280)
     }
+}
+
+/// How far a view's page sits from the center of the pager, and the pager's width.
+/// Measured from centers, so a view narrower than its page still reads 0 at rest.
+private func stretchyPageOffset(_ proxy: GeometryProxy) -> (CGFloat, CGFloat) {
+    let frame = proxy.frame(in: .scrollView(axis: .horizontal))
+    let width = max(proxy.bounds(of: .scrollView(axis: .horizontal))?.width ?? proxy.size.width, 1)
+    return (frame.midX - width / 2, width)
 }
 
 private struct StretchyOnboardingPressStyle: ButtonStyle {

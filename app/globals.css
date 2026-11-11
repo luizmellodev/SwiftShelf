@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 
 :root {
+  --swift: oklch(0.62 0.2 35);
+  --swift-foreground: oklch(0.99 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -39,11 +41,13 @@
 
 /* Enhanced dark theme inspired by Vercel/Next.js design */
 .dark {
-  --background: oklch(0.08 0 0);
+  --swift: oklch(0.68 0.19 35);
+  --swift-foreground: oklch(0.99 0 0);
+  --background: oklch(0.09 0 0);
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0 0);
+  --card: oklch(0.14 0 0);
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.12 0 0);
+  --popover: oklch(0.14 0 0);
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.98 0 0);
   --primary-foreground: oklch(0.08 0 0);
@@ -55,9 +59,9 @@
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.2 0 0);
-  --ring: oklch(0.4 0 0);
+  --border: oklch(0.22 0 0);
+  --input: oklch(0.22 0 0);
+  --ring: oklch(0.68 0.19 35 / 0.6);
   --chart-1: oklch(0.65 0.25 250);
   --chart-2: oklch(0.65 0.2 180);
   --chart-3: oklch(0.7 0.18 140);
@@ -74,7 +78,10 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-inter);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", var(--font-inter), system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --color-swift: var(--swift);
+  --color-swift-foreground: var(--swift-foreground);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -311,6 +318,60 @@ body {
   }
 }
 
+/* ───────────── Base polish ───────────── */
+html {
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: oklch(0.68 0.19 35 / 0.35);
+}
+
+/* ───────────── Device frame (iPhone-ish, scales with width) ───────────── */
+.device {
+  position: relative;
+  aspect-ratio: 400 / 870;
+  border-radius: 15% / 7%;
+  padding: 3.2%;
+  background: linear-gradient(145deg, #3a3a3c, #1c1c1e 40%, #2c2c2e);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.08),
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 30px 60px -20px rgb(0 0 0 / 0.8);
+}
+
+.device::before,
+.device::after {
+  content: "";
+  position: absolute;
+  width: 1.4%;
+  border-radius: 2px;
+  background: #2c2c2e;
+}
+
+.device::before {
+  left: -1.2%;
+  top: 22%;
+  height: 11%;
+}
+
+.device::after {
+  right: -1.2%;
+  top: 27%;
+  height: 15%;
+}
+
+.device-screen {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12.5% / 5.8%;
+  background: #000;
+  isolation: isolate;
+}
+
 /* ───────────── Home: hero background ───────────── */
 .hero-bg {
   --spot-x: 50%;
@@ -318,21 +379,21 @@ body {
 }
 
 .hero-dots {
-  background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.12) 1px, transparent 1.5px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.09) 1px, transparent 1.5px);
+  background-size: 24px 24px;
   background-position: center top;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, black 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, black 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, black 20%, transparent 75%);
 }
 
 .hero-dots-lit {
-  background-image: radial-gradient(circle at center, rgb(52 211 153 / 0.85) 1px, transparent 1.5px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(circle at center, oklch(0.75 0.17 45 / 0.9) 1px, transparent 1.6px);
+  background-size: 24px 24px;
   background-position: center top;
-  mask-image: radial-gradient(260px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
-  -webkit-mask-image: radial-gradient(260px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
-  animation: spot-drift 14s ease-in-out infinite alternate;
-  opacity: 0.7;
+  mask-image: radial-gradient(220px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
+  -webkit-mask-image: radial-gradient(220px circle at var(--spot-x) var(--spot-y), black, transparent 70%);
+  animation: spot-drift 16s ease-in-out infinite alternate;
+  opacity: 0.55;
 }
 
 .hero-bg[data-pointer="true"] .hero-dots-lit {
@@ -358,86 +419,25 @@ body {
   100% { --spot-x: 30%; --spot-y: 48%; }
 }
 
-.hero-glow {
-  background: radial-gradient(closest-side, rgb(16 185 129 / 0.22), rgb(6 182 212 / 0.12) 55%, transparent);
-  filter: blur(40px);
-  animation: glow-breathe 8s ease-in-out infinite;
+/* Warm light pooling under the hero phone */
+.hero-phone-glow {
+  background: radial-gradient(closest-side, oklch(0.68 0.19 35 / 0.28), oklch(0.68 0.19 35 / 0.08) 60%, transparent);
+  filter: blur(30px);
 }
 
-@keyframes glow-breathe {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-.hero-beam {
-  background: linear-gradient(90deg, transparent, rgb(52 211 153 / 0.9), rgb(34 211 238 / 0.9), transparent);
-  background-size: 40% 100%;
-  background-repeat: no-repeat;
-  animation: beam-sweep 6s cubic-bezier(0.6, 0, 0.4, 1) infinite;
-  box-shadow: 0 0 24px rgb(34 211 238 / 0.4);
-}
-
-@keyframes beam-sweep {
-  0% { background-position: -60% 0; }
-  60%, 100% { background-position: 160% 0; }
-}
-
-/* Gradient title slowly shifting hues */
-.hero-title {
-  background-size: 200% auto;
-  animation: title-shift 8s ease-in-out infinite alternate;
-}
-
-@keyframes title-shift {
-  from { background-position: 0% center; }
-  to { background-position: 100% center; }
-}
-
-/* Rotating light around the "Community Driven" pill */
-.badge-beam::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
+/* Story-style progress bars under the hero phone */
+.story-bar > span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+  background: currentColor;
   border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(from var(--beam-angle), transparent 70%, rgb(52 211 153), rgb(34 211 238), transparent 95%);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  animation: beam-rotate 4s linear infinite;
-  pointer-events: none;
 }
 
-@property --beam-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@keyframes beam-rotate {
-  to { --beam-angle: 360deg; }
-}
-
-/* Light sweep across the primary CTA */
-.cta-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-shine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
-  transform: translateX(-120%);
-  animation: cta-sweep 4.5s ease-in-out 2s infinite;
-  pointer-events: none;
-}
-
-@keyframes cta-sweep {
-  0% { transform: translateX(-120%); }
-  30%, 100% { transform: translateX(120%); }
+.story-bar[aria-selected="true"] > span {
+  transition: transform 250ms linear;
 }
 
 /* ───────────── Home: demo marquee ───────────── */
@@ -465,10 +465,29 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* ───────────── Home: spotlight cards ───────────── */
-.spotlight-card-glow {
-  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgb(52 211 153 / 0.12), transparent 60%);
+/* ───────────── Code: Xcode "Default (Dark)" palette ───────────── */
+.code-block {
+  --tok-keyword: #fc5fa3;
+  --tok-string: #fc6a5d;
+  --tok-comment: #6c7986;
+  --tok-number: #d0bf69;
+  --tok-type: #d0a8ff;
+  --tok-attr: #fd8f3f;
+  --tok-call: #67b7a4;
+  --tok-mark: #92a1b1;
+  color: #e5e5e7;
+  font-family: var(--font-mono);
+  tab-size: 4;
 }
+
+.tok-keyword { color: var(--tok-keyword); font-weight: 600; }
+.tok-string { color: var(--tok-string); }
+.tok-comment { color: var(--tok-comment); }
+.tok-mark { color: var(--tok-mark); font-weight: 700; }
+.tok-number { color: var(--tok-number); }
+.tok-type { color: var(--tok-type); }
+.tok-attr { color: var(--tok-attr); }
+.tok-call { color: var(--tok-call); }
 
 /* ───────────── Reduced motion ───────────── */
 @media (prefers-reduced-motion: reduce) {
@@ -478,25 +497,14 @@ body {
     opacity: 1;
   }
 
-  .hero-dots-lit,
-  .hero-glow,
-  .hero-beam,
-  .hero-title,
-  .badge-beam::before,
-  .cta-shine::after {
+  .hero-dots-lit {
     animation: none;
-  }
-
-  .hero-beam,
-  .cta-shine::after {
-    display: none;
   }
 
   .marquee-track {
     animation: none;
   }
 
-  .marquee-track[aria-hidden="true"],
   .marquee-track + .marquee-track {
     display: none;
   }

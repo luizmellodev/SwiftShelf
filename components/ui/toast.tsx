@@ -36,10 +36,10 @@ export function Toast({
 
   return (
     <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-2 fade-in-0">
-      <div className="bg-card border rounded-lg shadow-lg p-4 max-w-sm">
+      <div className="bg-card border border-white/10 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] p-4 max-w-sm">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
-            <Star className="h-5 w-5 text-yellow-500" />
+            <Star className="h-5 w-5 text-swift" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-foreground">
@@ -50,7 +50,7 @@ export function Toast({
                 <Button
                   size="sm"
                   onClick={action.onClick}
-                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white"
+                  className="rounded-full bg-swift text-swift-foreground hover:bg-swift/90"
                 >
                   <Github className="h-4 w-4 mr-2" />
                   {action.label}

@@ -32,16 +32,16 @@ export function CopyButton({ code }: CopyButtonProps) {
   }
 
   return (
-    <Button onClick={handleCopy} variant="outline" size="sm" className="gap-2 bg-transparent">
+    <Button onClick={handleCopy} size="sm" className="h-8 gap-1.5 rounded-full bg-foreground px-3.5 text-background hover:bg-foreground/90">
       {copied ? (
         <>
           <Check className="h-4 w-4" />
-          Copied!
+          Copied
         </>
       ) : (
         <>
           <Copy className="h-4 w-4" />
-          Copy Code
+          Copy code
         </>
       )}
     </Button>

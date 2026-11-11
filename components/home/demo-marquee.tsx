@@ -22,7 +22,7 @@ function DemoTile({ item, hidden }: { item: MarqueeItem; hidden?: boolean }) {
       tabIndex={hidden ? -1 : undefined}
       className="demo-tile group relative block w-28 shrink-0 sm:w-36 md:w-44"
     >
-      <div className="relative aspect-[400/870] overflow-hidden rounded-[1.1rem] border border-white/10 bg-card shadow-[0_10px_40px_-12px_rgba(0,0,0,0.8)] ring-1 ring-black/40 transition-[transform,border-color] duration-300 group-hover:-translate-y-1 group-hover:border-emerald-400/40 sm:rounded-[1.4rem]">
+      <div className="relative aspect-[400/870] overflow-hidden rounded-[14%/6.5%] border border-white/10 bg-card shadow-[0_10px_40px_-12px_rgba(0,0,0,0.8)] ring-1 ring-black/40 transition-[transform,border-color] duration-300 group-hover:-translate-y-1 group-hover:border-white/30">
         <div
           className={`absolute inset-0 bg-gradient-to-b from-white/[0.06] to-transparent transition-opacity duration-500 ${
             ready ? "opacity-0" : "animate-pulse"
@@ -42,7 +42,7 @@ function DemoTile({ item, hidden }: { item: MarqueeItem; hidden?: boolean }) {
         <AutoplayVideo
           src={item.videoUrl}
           fallbackPoster={item.screenshot}
-          rootMargin="100px"
+          rootMargin="300px"
           onReady={() => setReady(true)}
           onBlocked={() => setReady(true)}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${

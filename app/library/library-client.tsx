@@ -7,7 +7,8 @@ import { ViewToggle } from "@/components/view-toggle"
 import { ContributeButton } from "@/components/contribute-button"
 import { useToast } from "@/components/ui/toast"
 import type { Snippet } from "@/lib/snippets-loader"
-import { HelpCircle, Info } from "lucide-react"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 
 interface LibraryClientProps {
   snippets: Snippet[]
@@ -32,38 +33,22 @@ export function LibraryClient({ snippets }: LibraryClientProps) {
   }
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background pb-16 md:pb-0">
       {currentView === "grid" || currentView === "compact" ? (
-        <div className="container mx-auto px-4 py-12">
-          <header className="mb-12 text-center">
-          <div className="animate-fade-in-up animation-delay-200">
-          <h1 className="mb-4 text-balance text-5xl font-bold tracking-tight md:text-7xl">
-              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                SwiftShelf
-              </span>
-            </h1>
-            <p className="text-lg text-muted-foreground mb-6">Browse and copy production-ready SwiftUI components</p>
-            <div className="flex justify-center gap-3">
-              <button 
-                onClick={() => window.location.href = '/about'}
-                className="group inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 cursor-pointer"
-              >
-                <Info className="h-3.5 w-3.5" />
-                About
-              </button>
-              <button 
-                onClick={() => window.location.href = '/contribute'}
-                className="group inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 cursor-pointer"
-              >
-                <HelpCircle className="h-3.5 w-3.5" />
-                How to Contribute
-              </button>
-            </div>
-            </div>
+        <>
+        <SiteHeader />
+        <div className="container mx-auto px-4 pt-10 pb-16 md:pt-14">
+          <header className="mb-8 md:mb-10">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] md:text-5xl">Library</h1>
+            <p className="mt-2 max-w-xl text-muted-foreground">
+              {snippets.length} SwiftUI components, each a single file you can paste straight into Xcode.
+            </p>
           </header>
 
           <SnippetGallery snippets={snippets} viewMode={currentView} />
         </div>
+        <SiteFooter />
+        </>
       ) : (
         <>
           <SnippetReels snippets={snippets} />

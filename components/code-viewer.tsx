@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, FileCode, FileText } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
+import { HighlightedCode } from "@/components/highlighted-code"
 import { parseSwiftCode, getFilenameFromSection, shouldCollapseCode, getCodePreview, type CodeSection } from "@/lib/swift-parser"
 
 interface CodeViewerProps {
@@ -65,7 +66,10 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
   return (
     <div className="w-full overflow-hidden">
       <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-base font-semibold sm:text-lg lg:text-xl">SwiftUI Code</h2>
+        <h2 className="flex items-baseline gap-2 text-lg font-semibold tracking-tight">
+          snippet.swift
+          <span className="font-mono text-[11px] font-normal text-muted-foreground">{code.split('\n').length} lines</span>
+        </h2>
         <div className="flex items-center gap-2 flex-shrink-0">
           {hasMultipleSections && (
             <button
@@ -75,10 +79,10 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
                   setIsExpanded(false)
                 }
               }}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors ${
                 showFullFile
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  ? 'border-foreground bg-foreground text-background'
+                  : 'border-white/10 text-muted-foreground hover:border-white/25 hover:text-foreground'
               }`}
             >
               <FileText className="h-3.5 w-3.5" />
@@ -95,7 +99,7 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
           {canScrollLeft && (
             <button
               onClick={() => scroll('left')}
-              className="absolute left-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-r from-background to-transparent flex items-center justify-start pl-1"
+              className="absolute left-0 top-0 bottom-0 z-10 w-10 bg-gradient-to-r from-background via-background/80 to-transparent flex items-center justify-start pl-1"
               aria-label="Scroll left"
             >
               <ChevronLeft className="h-4 w-4 text-muted-foreground" />
@@ -105,7 +109,7 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
           {canScrollRight && (
             <button
               onClick={() => scroll('right')}
-              className="absolute right-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-l from-background to-transparent flex items-center justify-end pr-1"
+              className="absolute right-0 top-0 bottom-0 z-10 w-10 bg-gradient-to-l from-background via-background/80 to-transparent flex items-center justify-end pr-1"
               aria-label="Scroll right"
             >
               <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -117,7 +121,7 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
             className="overflow-x-auto scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            <div className="flex gap-1 border-b min-w-max">
+            <div className="flex gap-1 border-b border-white/[0.08] min-w-max">
               {sections.map((section, index) => {
                 const filename = getFilenameFromSection(section.name, index)
                 return (
@@ -129,7 +133,7 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
                     }}
                     className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${
                       activeSection === index
-                        ? 'border-primary text-foreground bg-muted/30'
+                        ? 'border-swift text-foreground'
                         : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/20'
                     }`}
                   >
@@ -151,20 +155,17 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
         </div>
       )}
       
-      <div className="relative rounded-lg border bg-muted/50 overflow-hidden">
-        <div className="overflow-x-auto max-w-full">
-          <pre className="p-3 sm:p-4 min-w-0">
-            <code className="text-xs leading-relaxed sm:text-sm block whitespace-pre-wrap break-words">
-              {displayCode}
-            </code>
-          </pre>
-        </div>
-        
+      <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#1f1f24]">
+        <HighlightedCode code={displayCode} />
+        {!showFullFile && isCollapsible && !isExpanded && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-[52px] h-20 bg-gradient-to-t from-[#1f1f24] to-transparent" />
+        )}
+
         {!showFullFile && isCollapsible && (
-          <div className="border-t bg-background/50 p-2">
+          <div className="relative border-t border-white/[0.06] p-1.5">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex w-full items-center justify-center gap-2 rounded px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
             >
               {isExpanded ? (
                 <>
@@ -182,7 +183,7 @@ export function CodeViewer({ code, lineThreshold = 30, previewLines = 20 }: Code
         )}
         
         {showFullFile && (
-          <div className="border-t bg-background/50 p-2">
+          <div className="relative border-t border-white/[0.06] p-1.5">
             <div className="flex items-center justify-center gap-2 px-4 py-2 text-xs text-muted-foreground">
               <FileText className="h-3.5 w-3.5" />
               <span>Viewing complete file ({code.split('\n').length} lines)</span>

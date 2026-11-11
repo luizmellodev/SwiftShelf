@@ -25,9 +25,9 @@ export function ContributeButton({
       <Button
         onClick={handleClick}
         size={size}
-        className={`fixed bottom-6 left-6 z-50 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 font-bold border-0 cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.4),0_0_40px_rgba(34,211,238,0.2)] ${hideOnMobile ? 'hidden md:flex' : ''} ${className}`}
+        className={`fixed bottom-6 left-6 z-50 rounded-full bg-white text-black hover:bg-white/90 font-medium border-0 cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.5)] ${hideOnMobile ? 'hidden md:flex' : ''} ${className}`}
       >
-        <Plus className="h-5 w-5 mr-3" />
+        <Plus className="h-4 w-4 mr-1" />
         Contribute
       </Button>
     )
@@ -51,7 +51,7 @@ export function ContributeButton({
     <Button
       onClick={handleClick}
       size={size}
-      className={`bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold border-0 cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.4),0_0_40px_rgba(34,211,238,0.2)] ${className}`}
+      className={`rounded-full bg-swift text-swift-foreground hover:bg-swift/90 font-medium border-0 cursor-pointer ${className}`}
     >
       <Github className="h-5 w-5 mr-3" />
       Contribute

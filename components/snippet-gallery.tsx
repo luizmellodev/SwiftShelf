@@ -14,7 +14,7 @@ interface SnippetGalleryProps {
 }
 
 const ITEMS_PER_PAGE = {
-  grid: 10,
+  grid: 20,
   compact: 24,
 } as const
 
@@ -66,24 +66,25 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search snippets, authors, or descriptions..."
+          placeholder="Search components"
+          aria-label="Search components"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className="h-11 rounded-full border-white/10 bg-card pl-10 text-[15px] placeholder:text-muted-foreground/70 focus-visible:border-swift/50 focus-visible:ring-swift/20"
         />
       </div>
 
-      <div className="mb-6">
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      <div>
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide">
           <button
             onClick={() => setSelectedTag(null)}
-            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
               selectedTag === null
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                ? "border-foreground bg-foreground text-background"
+                : "border-white/10 text-muted-foreground hover:border-white/25 hover:text-foreground"
             }`}
           >
-            All ({snippets.length})
+            All <span className="ml-1 font-mono text-[11px] opacity-60">{snippets.length}</span>
           </button>
           {allTags.map((tag) => {
             const count = snippets.filter(s => s.tags.includes(tag)).length
@@ -91,13 +92,13 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
               <button
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                   selectedTag === tag
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-white/10 text-muted-foreground hover:border-white/25 hover:text-foreground"
                 }`}
               >
-                {tag} ({count})
+                {tag} <span className="ml-1 font-mono text-[11px] opacity-60">{count}</span>
               </button>
             )
           })}
@@ -105,8 +106,10 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing {startIndex + 1}-{Math.min(endIndex, filteredSnippets.length)} of {filteredSnippets.length} snippets
+        <p className="font-mono text-xs text-muted-foreground">
+          {filteredSnippets.length === 0
+            ? "0 results"
+            : `${startIndex + 1}–${Math.min(endIndex, filteredSnippets.length)} of ${filteredSnippets.length}`}
         </p>
         {filteredSnippets.length > itemsPerPage && (
           <div className="flex items-center gap-2">
@@ -134,7 +137,7 @@ export function SnippetGallery({ snippets, viewMode }: SnippetGalleryProps) {
       </div>
 
       {viewMode === "grid" ? (
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {currentSnippets.map((snippet) => (
             <SnippetCard key={snippet.id} snippet={snippet} />
           ))}

@@ -1,26 +1,24 @@
 import Link from "next/link"
 import { Heart, Code, Rocket, Book, Github, Coffee, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 
 export default function AboutPage() {
   return (
+    <>
+    <SiteHeader />
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <header className="mb-12 text-center">
-          <h1 className="mb-4 text-balance text-5xl font-bold tracking-tight md:text-7xl">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
-              About SwiftShelf
-            </span>
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Building tools for the iOS development community
-          </p>
+      <div className="container mx-auto px-4 pt-10 pb-16 max-w-4xl md:pt-14">
+        <header className="mb-10 md:mb-14">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] md:text-5xl">About SwiftShelf</h1>
+          <p className="mt-2 text-lg text-muted-foreground">Building tools for the iOS development community</p>
         </header>
 
         <div className="space-y-8">
-          <section className="bg-card rounded-lg border p-8">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-900 text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-swift">
                 <Heart className="h-6 w-6" />
               </div>
               <div>
@@ -48,9 +46,9 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <section className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800 p-8">
+          <section className="bg-card rounded-2xl border border-swift/25 p-8">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-600 text-white mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-white/[0.04] text-swift mb-6">
                 <Rocket className="h-8 w-8" />
               </div>
               
@@ -61,7 +59,7 @@ export default function AboutPage() {
               </p>
               
               <Link href="/contribute">
-                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+                <Button size="lg" className="rounded-full bg-swift hover:bg-swift/90 text-swift-foreground gap-2">
                   <Github className="h-5 w-5" />
                   Start Contributing
                   <ArrowRight className="h-4 w-4" />
@@ -70,9 +68,9 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <section className="bg-card rounded-lg border p-8">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-900 text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-swift">
                 <Book className="h-6 w-6" />
               </div>
               <div>
@@ -142,8 +140,8 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <section className="bg-card rounded-lg border p-8 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-600 text-white mb-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-white/[0.04] text-swift mb-6">
               <Coffee className="h-8 w-8" />
             </div>
             
@@ -159,7 +157,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="bg-amber-500 hover:bg-amber-600 text-white gap-2">
+                <Button className="rounded-full bg-swift hover:bg-swift/90 text-swift-foreground gap-2">
                   <Coffee className="h-5 w-5" />
                   Buy me a coffee
                 </Button>
@@ -194,6 +192,8 @@ export default function AboutPage() {
         </div>
       </div>
     </main>
+    <SiteFooter />
+    </>
   )
 }
 

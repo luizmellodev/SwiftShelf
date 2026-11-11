@@ -20,16 +20,16 @@ export function SnippetCardCompact({ snippet }: SnippetCardCompactProps) {
   return (
     <Link 
       href={`/snippet/${snippet.id}`}
-      className="group relative block overflow-hidden rounded-lg border bg-card transition-all hover:border-primary/50 hover:shadow-lg"
+      className="group relative block outline-offset-4"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-      <div className="relative aspect-[9/16] overflow-hidden bg-muted">
+      <div className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/[0.08] bg-card transition-colors group-hover:border-white/20">
         <SnippetImage
           src={snippet.screenshot || ""}
           alt={snippet.title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover object-top"
         />
         {snippet.hasVideo && snippet.videoUrl && (
           <>
@@ -37,7 +37,7 @@ export function SnippetCardCompact({ snippet }: SnippetCardCompactProps) {
               src={snippet.videoUrl}
               active={!reduced || hovering}
               onReady={() => setVideoReady(true)}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+              className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ${
                 videoReady ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -50,10 +50,9 @@ export function SnippetCardCompact({ snippet }: SnippetCardCompactProps) {
         )}
       </div>
 
-      <div className="p-2">
-        <h3 className="text-xs font-semibold line-clamp-2 mb-1">{snippet.title}</h3>
-        <p className="text-[10px] text-muted-foreground">by {snippet.author}</p>
-      </div>
+      <h3 className="mt-2 line-clamp-1 px-0.5 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+        {snippet.title}
+      </h3>
     </Link>
   )
 }

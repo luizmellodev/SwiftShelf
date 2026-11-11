@@ -2,6 +2,8 @@
 
 import { Github, FileText, Code, Image, CheckCircle, ArrowDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 
 export default function ContributePage() {
   const scrollToExamples = () => {
@@ -13,22 +15,17 @@ export default function ContributePage() {
   }
 
   return (
+    <>
+    <SiteHeader />
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <header className="mb-12 text-center">
-          <h1 className="mb-4 text-balance text-5xl font-bold tracking-tight md:text-7xl">
-            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Contribute
-            </span>
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            Help us grow the SwiftUI snippet collection
-          </p>
-          
+      <div className="container mx-auto px-4 pt-10 pb-16 max-w-4xl md:pt-14">
+        <header className="mb-10 md:mb-14">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] md:text-5xl">Contribute</h1>
+          <p className="mt-2 text-lg text-muted-foreground">Help us grow the SwiftUI snippet collection</p>
         </header>
 
         <div className="space-y-8">
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <Github className="h-6 w-6" />
               Quick Start
@@ -50,15 +47,15 @@ export default function ContributePage() {
                   </p>
                   <div className="mt-2 space-y-1">
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-swift rounded-full"></span>
                       <code className="bg-muted px-2 py-1 rounded text-xs">snippet.swift</code> - Your SwiftUI code
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-swift rounded-full"></span>
                       <code className="bg-muted px-2 py-1 rounded text-xs">meta.yml</code> - Component description
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-swift rounded-full"></span>
                       <code className="bg-muted px-2 py-1 rounded text-xs">screenshot.png</code> - Component preview
                     </div>
                   </div>
@@ -78,7 +75,7 @@ export default function ContributePage() {
               <div className="text-center">
                 <button 
                   onClick={() => window.open('https://github.com/luizmellodev/SwiftShelf/fork', '_blank')}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors duration-200"
+                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-swift hover:bg-swift/90 text-swift-foreground font-medium transition-colors duration-200"
                 >
                   <Github className="h-5 w-5" />
                   Start Contributing Now
@@ -99,7 +96,7 @@ export default function ContributePage() {
             </div>
           </div>
 
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <FileText className="h-6 w-6" />
               File Structure
@@ -112,15 +109,15 @@ export default function ContributePage() {
               <div className="ml-8">screenshot.png    # Screenshot (9:16 aspect ratio)</div>
             </div>
             
-            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <h3 className="font-semibold mb-2 text-blue-900 dark:text-blue-100">📦 All Code in One File!</h3>
-              <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
-                Put <strong>all your code</strong> in <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">snippet.swift</code> - don't create separate files!
+            <div className="mt-4 p-4 bg-white/[0.03] rounded-xl border border-white/10 border-l-2 border-l-swift">
+              <h3 className="font-semibold mb-2 text-foreground">All code in one file</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Put <strong>all your code</strong> in <code className="bg-white/10 px-1 rounded font-mono">snippet.swift</code> - don't create separate files!
               </p>
-              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-                <li>• All structs, enums, classes, extensions go in <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">snippet.swift</code></li>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• All structs, enums, classes, extensions go in <code className="bg-white/10 px-1 rounded font-mono">snippet.swift</code></li>
                 <li>• Our system automatically separates them for display</li>
-                <li>• Use <code className="bg-blue-100 dark:bg-blue-900/30 px-1 rounded">// MARK: - Name</code> comments to organize sections</li>
+                <li>• Use <code className="bg-white/10 px-1 rounded font-mono">// MARK: - Name</code> comments to organize sections</li>
                 <li>• The parser detects structs, enums, classes, extensions, and #Preview automatically</li>
               </ul>
             </div>
@@ -141,7 +138,7 @@ export default function ContributePage() {
             </div>
           </section>
 
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold flex items-center gap-2">
                 <Code className="h-6 w-6" />
@@ -151,7 +148,7 @@ export default function ContributePage() {
                 onClick={scrollToExamples}
                 variant="outline" 
                 size="sm" 
-                className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
+                className="text-swift border-swift/30 hover:bg-swift/10 cursor-pointer transition-all duration-200 hover:scale-105"
               >
                 <ArrowDown className="h-4 w-4 mr-2" />
                 See Examples Below
@@ -180,7 +177,7 @@ description: A brief description of what your snippet does`}</pre>
               </div>
               
               <div className="p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">🏷️ Taglines & Tags</h4>
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Taglines & tags</h4>
                 <p className="text-sm text-gray-800 dark:text-gray-200 mb-3">
                   Tags help users discover your snippet. Use exactly 3 tags from our approved list.
                 </p>
@@ -201,17 +198,16 @@ description: A brief description of what your snippet does`}</pre>
                     onClick={scrollToTags}
                     variant="outline" 
                     size="sm" 
-                    className="text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 cursor-pointer transition-all duration-200 hover:scale-105"
+                    className="text-swift border-swift/30 hover:bg-swift/10 cursor-pointer transition-all duration-200 hover:scale-105"
                   >
-                    <span className="text-xs">🏷️</span>
-                    <span className="ml-1">View All Tags</span>
+                    View all tags
                   </Button>
                 </div>
               </div>
             </div>
           </section>
 
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <Image className="h-6 w-6" />
               Screenshot Requirements
@@ -258,7 +254,7 @@ description: A brief description of what your snippet does`}</pre>
               </div>
           </section>
 
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <CheckCircle className="h-6 w-6" />
               Guidelines
@@ -302,9 +298,8 @@ description: A brief description of what your snippet does`}</pre>
             </div>
           </section>
 
-          <section id="tags-section" className="bg-card rounded-lg border p-6">
+          <section id="tags-section" className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="text-lg">🏷️</span>
               Allowed Tags
             </h2>
             <p className="text-muted-foreground mb-6">
@@ -313,10 +308,10 @@ description: A brief description of what your snippet does`}</pre>
             
             <div className="space-y-6">
               <div>
-                <h3 className="font-semibold mb-3 text-green-700 dark:text-green-400">UI Components</h3>
+                <h3 className="font-semibold mb-3 text-foreground">UI Components</h3>
                 <div className="flex flex-wrap gap-2">
                   {['button', 'card', 'input', 'text', 'image', 'icon', 'badge', 'chip', 'avatar', 'list', 'grid', 'stack', 'spacer', 'divider', 'separator'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -324,10 +319,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-blue-700 dark:text-blue-400">Layout & Navigation</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Layout & Navigation</h3>
                 <div className="flex flex-wrap gap-2">
                   {['layout', 'container', 'section', 'modal', 'sheet', 'popover', 'tooltip', 'overlay', 'navigation', 'tab', 'menu', 'sidebar', 'header', 'footer', 'breadcrumb'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -335,10 +330,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-purple-700 dark:text-purple-400">Forms</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Forms</h3>
                 <div className="flex flex-wrap gap-2">
                   {['form', 'field', 'picker', 'selector', 'toggle', 'switch', 'slider', 'stepper', 'checkbox', 'radio'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -346,10 +341,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-orange-700 dark:text-orange-400">Data Display</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Data Display</h3>
                 <div className="flex flex-wrap gap-2">
                   {['table', 'chart', 'graph', 'timeline', 'calendar', 'progress', 'meter', 'stat', 'metric'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -357,10 +352,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-red-700 dark:text-red-400">Feedback</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Feedback</h3>
                 <div className="flex flex-wrap gap-2">
                   {['alert', 'notification', 'toast', 'loading', 'spinner', 'skeleton', 'empty', 'error', 'success', 'warning'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-red-100 dark:bg-red-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -368,10 +363,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-pink-700 dark:text-pink-400">Media</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Media</h3>
                 <div className="flex flex-wrap gap-2">
                   {['video', 'audio', 'player', 'gallery', 'carousel'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -379,10 +374,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-cyan-700 dark:text-cyan-400">Animation</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Animation</h3>
                 <div className="flex flex-wrap gap-2">
                   {['animation', 'transition', 'motion', 'gesture', 'interaction'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -412,10 +407,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-teal-700 dark:text-teal-400">Category</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Category</h3>
                 <div className="flex flex-wrap gap-2">
                   {['ui', 'component', 'screen', 'view', 'widget', 'element'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-teal-100 dark:bg-teal-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -423,10 +418,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-amber-700 dark:text-amber-400">Style</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Style</h3>
                 <div className="flex flex-wrap gap-2">
                   {['minimal', 'modern', 'classic', 'elegant', 'bold', 'subtle'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -434,10 +429,10 @@ description: A brief description of what your snippet does`}</pre>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3 text-emerald-700 dark:text-emerald-400">Function</h3>
+                <h3 className="font-semibold mb-3 text-foreground">Function</h3>
                 <div className="flex flex-wrap gap-2">
                   {['auth', 'login', 'signup', 'profile', 'settings', 'search', 'filter', 'sort', 'action', 'control'].map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded text-xs font-mono">
+                    <span key={tag} className="px-2 py-1 bg-white/[0.05] border border-white/[0.06] rounded text-xs font-mono">
                       {tag}
                     </span>
                   ))}
@@ -446,7 +441,7 @@ description: A brief description of what your snippet does`}</pre>
             </div>
 
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">💡 Tag Selection Tips</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Tag selection tips</h4>
               <ul className="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                 <li>• Choose exactly 3 tags that best describe your snippet</li>
                 <li>• Mix different categories (e.g., one UI tag + one animation tag + one platform tag)</li>
@@ -456,7 +451,7 @@ description: A brief description of what your snippet does`}</pre>
             </div>
           </section>
 
-          <section id="examples-section" className="bg-card rounded-lg border p-6">
+          <section id="examples-section" className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <span className="text-lg">📋</span>
               Examples
@@ -467,10 +462,10 @@ description: A brief description of what your snippet does`}</pre>
             
             <div className="space-y-6">
               <div className="bg-muted rounded-lg p-4">
-                <h3 className="font-semibold mb-2 text-green-700 dark:text-green-400">
+                <h3 className="font-semibold mb-2 text-foreground">
                   Example 1: Animated Button
                 </h3>
-                <div className="bg-black rounded p-3 font-mono text-sm text-green-400 overflow-x-auto">
+                <div className="bg-[#1f1f24] rounded-xl border border-white/[0.06] p-3 font-mono text-sm text-green-400 overflow-x-auto">
                   <pre>{`title: Animated Button
 author: John Doe
 github-username: john-doe
@@ -486,10 +481,10 @@ description: A beautiful animated button with spring animation and haptic feedba
               </div>
 
               <div className="bg-muted rounded-lg p-4">
-                <h3 className="font-semibold mb-2 text-blue-700 dark:text-blue-400">
+                <h3 className="font-semibold mb-2 text-foreground">
                   Example 2: Gradient Card
                 </h3>
-                <div className="bg-black rounded p-3 font-mono text-sm text-blue-400 overflow-x-auto">
+                <div className="bg-[#1f1f24] rounded-xl border border-white/[0.06] p-3 font-mono text-sm text-[#e5e5e7] overflow-x-auto">
                   <pre>{`title: Gradient Card
 author: Jane Smith
 github-username: jane-smith
@@ -505,10 +500,10 @@ description: A modern card component with gradient background and glassmorphism 
               </div>
 
               <div className="bg-muted rounded-lg p-4">
-                <h3 className="font-semibold mb-2 text-purple-700 dark:text-purple-400">
+                <h3 className="font-semibold mb-2 text-foreground">
                   Example 3: Loading Spinner
                 </h3>
-                <div className="bg-black rounded p-3 font-mono text-sm text-purple-400 overflow-x-auto">
+                <div className="bg-[#1f1f24] rounded-xl border border-white/[0.06] p-3 font-mono text-sm text-[#e5e5e7] overflow-x-auto">
                   <pre>{`title: Loading Spinner
 author: Mike Johnson
 github-username: mike-johnson
@@ -525,7 +520,7 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
             </div>
 
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-950/20 rounded-lg border border-gray-200 dark:border-gray-800">
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">💡 Key Points</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Key points</h4>
               <ul className="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                 <li>• All fields are required</li>
                 <li>• Use exactly 3 tags (no more, no less)</li>
@@ -536,13 +531,13 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
             </div>  
           </section>
 
-          <section className="bg-card rounded-lg border p-6">
+          <section className="bg-card rounded-2xl border border-white/[0.08] p-6">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-900 text-white mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-white/[0.04] text-swift mb-6">
                 <span className="text-2xl">🌱</span>
               </div>
-              <h4 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-4">Thank you for helping us grow!</h4>
-              <p className="text-lg text-emerald-800 dark:text-emerald-200 mb-6">
+              <h4 className="text-2xl font-bold text-foreground mb-4">Thank you for helping us grow!</h4>
+              <p className="text-lg text-muted-foreground mb-6">
                 Your contribution helps build a stronger Swift community. Every snippet makes a difference!
               </p>
               
@@ -555,7 +550,7 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
                 </p>
                 <button 
                   onClick={() => window.open('https://buymeacoffee.com/luizmello.dev', '_blank')}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-swift hover:bg-swift/90 text-swift-foreground font-medium transition-colors duration-200"
                 >
                   <span>☕</span>
                   Buy me a coffee
@@ -570,5 +565,7 @@ description: Smooth rotating loading spinner with customizable colors`}</pre>
         </div>
       </div>
     </main>
+    <SiteFooter />
+    </>
   )
 }

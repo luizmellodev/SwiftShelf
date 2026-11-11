@@ -37,7 +37,9 @@ public struct ParallaxCarousel: View {
     var maxRotation: Double
 
     @State private var currentID: String?
-    @State private var progress: CGFloat = 0
+    /// Scroll progress lives in a reference type that only the indicator reads,
+    /// so scrolling never re-evaluates the cards themselves.
+    @State private var tracker = ParallaxCarouselTracker()
 
     public init(
         slides: [ParallaxCarouselSlide],
@@ -87,11 +89,11 @@ public struct ParallaxCarousel: View {
                 guard pageWidth > 0 else { return 0 }
                 return (geometry.contentOffset.x + geometry.contentInsets.leading) / (pageWidth + spacing)
             } action: { _, value in
-                progress = value
+                tracker.progress = value
             }
             .frame(height: cardHeight)
 
-            indicator
+            ParallaxCarouselIndicator(slides: slides, tracker: tracker, currentID: $currentID)
         }
         .onAppear { if currentID == nil { currentID = slides.first?.id } }
         .sensoryFeedback(.selection, trigger: currentID)
@@ -117,6 +119,9 @@ public struct ParallaxCarousel: View {
                     .shadow(color: .white.opacity(0.45), radius: 40)
                     .offset(y: -50)
             }
+            // Mesh + glowing symbol never change, so flatten them into one GPU layer;
+            // the parallax offset below is then just a cheap transform.
+            .drawingGroup()
             .scaleEffect(1.4)
             .scrollTransition(.interactive, axis: .horizontal) { content, phase in
                 content.offset(x: phase.value * -parallax)
@@ -144,17 +149,30 @@ public struct ParallaxCarousel: View {
         .frame(height: cardHeight)
         .clipShape(shape)
         .overlay(shape.strokeBorder(.white.opacity(0.18), lineWidth: 1))
-        .shadow(color: .black.opacity(0.22), radius: 24, y: 14)
+        // Shadow from a plain shape instead of the whole card's alpha: far cheaper per frame.
+        .background(shape.fill(slide.colors[4]).shadow(color: slide.colors[7].opacity(0.45), radius: 20, y: 14))
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(slide.title). \(slide.subtitle)")
     }
+}
 
-    // MARK: Indicator
+// MARK: - Indicator
 
-    private var indicator: some View {
+@Observable
+private final class ParallaxCarouselTracker {
+    var progress: CGFloat = 0
+}
+
+/// Stretches continuously with the scroll position, not just on page change.
+private struct ParallaxCarouselIndicator: View {
+    let slides: [ParallaxCarouselSlide]
+    let tracker: ParallaxCarouselTracker
+    @Binding var currentID: String?
+
+    var body: some View {
         HStack(spacing: 7) {
             ForEach(Array(slides.enumerated()), id: \.element.id) { index, slide in
-                let closeness = max(0, 1 - abs(progress - CGFloat(index)))
+                let closeness = max(0, 1 - abs(tracker.progress - CGFloat(index)))
                 Capsule()
                     .fill(Color(.label).opacity(0.22 + 0.78 * closeness))
                     .frame(width: 8 + 22 * closeness, height: 8)

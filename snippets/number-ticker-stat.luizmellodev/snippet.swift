@@ -1,12 +1,13 @@
 import SwiftUI
+import Charts
 
 // MARK: - Number Ticker Stat Card
 
 /// A KPI card with an odometer-style number: every digit is its own rolling
 /// column that springs to the new value with a right-to-left stagger.
 ///
-/// The sparkline draws itself on appear (stroke trim + a gradient fill that
-/// is revealed with it). Scrub the sparkline with your finger to inspect any
+/// The Swift Charts sparkline draws itself on appear (a left-to-right wipe
+/// of the line and its gradient area). Scrub the sparkline with your finger to inspect any
 /// point — the big number rolls to that value and the delta badge follows.
 public struct NumberTickerStatCard: View {
     let title: String
@@ -249,68 +250,98 @@ private struct NumberTickerStatDigitColumn: View {
 
 // MARK: - Sparkline
 
+/// Swift Charts sparkline: a catmull-rom LineMark over a gradient AreaMark,
+/// revealed left-to-right by `progress`. Dragging scrubs to the nearest point.
 private struct NumberTickerStatSparkline: View {
     let points: [Double]
     let gradient: [Color]
     let progress: CGFloat
     @Binding var selectedIndex: Int?
 
+    private var accent: Color { gradient.last ?? .accentColor }
+
+    /// Y domain with a little breathing room above and below the curve.
+    private var yDomain: ClosedRange<Double> {
+        guard let minV = points.min(), let maxV = points.max() else { return 0...1 }
+        let range = max(maxV - minV, .ulpOfOne)
+        return (minV - range * 0.08)...(maxV + range * 0.14)
+    }
+
+    private var xDomain: ClosedRange<Int> { 0...max(points.count - 1, 1) }
+
     var body: some View {
-        GeometryReader { proxy in
-            let size = proxy.size
-            let locations = numberTickerStatLocations(points, in: size)
-            let accent = gradient.last ?? .accentColor
+        let baseline = yDomain.lowerBound
 
-            ZStack(alignment: .topLeading) {
-                // Gradient area, revealed left-to-right with the stroke
-                NumberTickerStatCurve(values: points, closed: true)
-                    .fill(
-                        LinearGradient(
-                            colors: [(gradient.first ?? accent).opacity(0.32), accent.opacity(0.0)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
+        Chart {
+            ForEach(points.indices, id: \.self) { index in
+                AreaMark(
+                    x: .value("Index", index),
+                    yStart: .value("Baseline", baseline),
+                    yEnd: .value("Value", points[index])
+                )
+                .interpolationMethod(.catmullRom)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [(gradient.first ?? accent).opacity(0.32), accent.opacity(0.0)],
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-                    .mask(alignment: .leading) {
-                        Rectangle().frame(width: size.width * progress)
-                    }
+                )
+            }
 
-                NumberTickerStatCurve(values: points, closed: false)
-                    .trim(from: 0, to: progress)
-                    .stroke(
-                        LinearGradient(colors: gradient, startPoint: .leading, endPoint: .trailing),
-                        style: StrokeStyle(lineWidth: 2.75, lineCap: .round, lineJoin: .round)
-                    )
+            ForEach(points.indices, id: \.self) { index in
+                LineMark(x: .value("Index", index), y: .value("Value", points[index]))
+                    .interpolationMethod(.catmullRom)
+                    .lineStyle(StrokeStyle(lineWidth: 2.75, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(LinearGradient(colors: gradient, startPoint: .leading, endPoint: .trailing))
                     .shadow(color: accent.opacity(0.35), radius: 6, y: 4)
+            }
 
-                if let selectedIndex, locations.indices.contains(selectedIndex) {
-                    let point = locations[selectedIndex]
-                    Rectangle()
-                        .fill(Color.primary.opacity(0.18))
-                        .frame(width: 1, height: size.height)
-                        .offset(x: point.x - 0.5)
-
-                    NumberTickerStatDot(color: accent, pulsing: false)
-                        .position(point)
-                } else if progress >= 1, let last = locations.last {
-                    NumberTickerStatDot(color: accent, pulsing: true)
-                        .position(last)
-                        .transition(.scale.combined(with: .opacity))
+            if let selectedIndex, points.indices.contains(selectedIndex) {
+                RuleMark(x: .value("Index", selectedIndex))
+                    .lineStyle(StrokeStyle(lineWidth: 1))
+                    .foregroundStyle(Color.primary.opacity(0.18))
+            }
+        }
+        .chartXScale(domain: xDomain)
+        .chartYScale(domain: yDomain)
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartLegend(.hidden)
+        .chartOverlay { proxy in
+            GeometryReader { geometry in
+                if let plotAnchor = proxy.plotFrame {
+                    let plot = geometry[plotAnchor]
+                    let index = selectedIndex.flatMap { points.indices.contains($0) ? $0 : nil }
+                        ?? (progress >= 1 ? points.indices.last : nil)
+                    if let index,
+                       let x = proxy.position(forX: index),
+                       let y = proxy.position(forY: points[index]) {
+                        NumberTickerStatDot(color: accent, pulsing: selectedIndex == nil)
+                            .position(x: plot.minX + x, y: plot.minY + y)
+                            .transition(.scale.combined(with: .opacity))
+                    }
                 }
             }
-            .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedIndex == nil)
-            .contentShape(Rectangle())
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        guard points.count > 1 else { return }
-                        let step = size.width / CGFloat(points.count - 1)
-                        let index = Int((value.location.x / step).rounded())
-                        let clamped = min(max(index, 0), points.count - 1)
-                        if clamped != selectedIndex { selectedIndex = clamped }
-                    }
-                    .onEnded { _ in selectedIndex = nil }
-            )
+        }
+        .chartGesture { proxy in
+            DragGesture(minimumDistance: 0)
+                .onChanged { value in
+                    guard points.count > 1,
+                          let x: Double = proxy.value(atX: value.location.x) else { return }
+                    let clamped = min(max(Int(x.rounded()), 0), points.count - 1)
+                    if clamped != selectedIndex { selectedIndex = clamped }
+                }
+                .onEnded { _ in selectedIndex = nil }
+        }
+        .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedIndex == nil)
+        // Draw-on reveal. Slightly oversized so the end dot isn't clipped.
+        .mask(alignment: .leading) {
+            GeometryReader { proxy in
+                Rectangle()
+                    .frame(width: (proxy.size.width + 28) * progress, height: proxy.size.height + 40)
+                    .offset(x: -14, y: -20)
+            }
         }
     }
 }
@@ -337,50 +368,6 @@ private struct NumberTickerStatDot: View {
                 .overlay { Circle().fill(color).padding(3) }
                 .shadow(color: color.opacity(0.5), radius: 4, y: 2)
         }
-    }
-}
-
-/// Maps values into the drawing rect (with a little vertical breathing room).
-private func numberTickerStatLocations(_ values: [Double], in size: CGSize) -> [CGPoint] {
-    guard values.count > 1, let minV = values.min(), let maxV = values.max() else { return [] }
-    let range = max(maxV - minV, .ulpOfOne)
-    let top: CGFloat = 10
-    let bottom: CGFloat = 6
-    let usable = size.height - top - bottom
-    let step = size.width / CGFloat(values.count - 1)
-    return values.enumerated().map { index, value in
-        CGPoint(
-            x: CGFloat(index) * step,
-            y: top + usable * CGFloat(1 - (value - minV) / range)
-        )
-    }
-}
-
-/// Smooth Catmull-Rom curve through the values; `closed` adds the area under it.
-private struct NumberTickerStatCurve: Shape {
-    let values: [Double]
-    let closed: Bool
-
-    func path(in rect: CGRect) -> Path {
-        let pts = numberTickerStatLocations(values, in: rect.size)
-        var path = Path()
-        guard let first = pts.first else { return path }
-        path.move(to: first)
-        for i in 0..<(pts.count - 1) {
-            let p0 = pts[max(i - 1, 0)]
-            let p1 = pts[i]
-            let p2 = pts[i + 1]
-            let p3 = pts[min(i + 2, pts.count - 1)]
-            let c1 = CGPoint(x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6)
-            let c2 = CGPoint(x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6)
-            path.addCurve(to: p2, control1: c1, control2: c2)
-        }
-        if closed, let last = pts.last {
-            path.addLine(to: CGPoint(x: last.x, y: rect.maxY))
-            path.addLine(to: CGPoint(x: first.x, y: rect.maxY))
-            path.closeSubpath()
-        }
-        return path
     }
 }
 

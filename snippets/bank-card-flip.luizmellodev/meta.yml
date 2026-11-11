@@ -1,8 +1,8 @@
 title: "Bank Card Flip"
-description: "A credit card component that flips in 3D on tap to reveal the back side with smooth perspective and polished banking visuals."
+description: "A payment card you can pick up: drag to tilt it in 3D with a holographic foil sheen and real edge thickness, flick or tap to flip it to the CVV side, and hold to peek as the number decodes digit by digit. Haptics, VoiceOver and Reduce Motion support included."
 author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
   - card
   - animation
-  - ui
+  - gesture

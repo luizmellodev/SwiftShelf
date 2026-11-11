@@ -1,4 +1,5 @@
 import SwiftUI
+import Charts
 
 // MARK: - Bento Layout
 
@@ -176,65 +177,104 @@ private struct BentoGridPressStyle: ButtonStyle {
 
 // MARK: - Live Chart
 
-/// A continuously flowing area chart with a glowing head dot.
+/// A continuously flowing Swift Charts area chart with a glowing head dot.
+/// The series is re-sampled every frame, so the curve streams like live
+/// data; on appear it wipes in from the leading edge.
 public struct BentoGridLiveChart: View {
     var tint: Color
     var lineWidth: CGFloat
+
+    @State private var revealed = false
 
     public init(tint: Color = .white, lineWidth: CGFloat = 2.5) {
         self.tint = tint
         self.lineWidth = lineWidth
     }
 
+    private static let sampleCount = 40
+
+    private static func samples(phase: Double) -> [BentoGridChartPoint] {
+        (0...sampleCount).map { step in
+            let x = Double(step) / Double(sampleCount)
+            return BentoGridChartPoint(id: step, x: x, y: 1 - BentoGridWave.y(at: x, phase: phase))
+        }
+    }
+
     public var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 30)) { timeline in
             let phase = timeline.date.timeIntervalSinceReferenceDate * 1.1
+            chart(Self.samples(phase: phase))
+        }
+        .mask(alignment: .leading) {
             GeometryReader { proxy in
-                let size = proxy.size
-                let head = CGPoint(x: size.width, y: BentoGridWave.y(at: 1, phase: phase) * size.height)
-                ZStack(alignment: .topLeading) {
-                    BentoGridWave(phase: phase, closed: true)
-                        .fill(LinearGradient(colors: [tint.opacity(0.4), tint.opacity(0)], startPoint: .top, endPoint: .bottom))
-                    BentoGridWave(phase: phase, closed: false)
-                        .stroke(tint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                    Circle()
-                        .fill(tint)
-                        .frame(width: 9, height: 9)
-                        .shadow(color: tint, radius: 6)
-                        .position(head)
-                }
+                // Slightly oversized so the head dot's glow isn't clipped.
+                Rectangle()
+                    .frame(width: revealed ? proxy.size.width + 28 : 0, height: proxy.size.height + 28)
+                    .offset(x: -14, y: -14)
             }
+        }
+        .onAppear {
+            guard !revealed else { return }
+            withAnimation(.easeInOut(duration: 1.1).delay(0.35)) { revealed = true }
         }
         .accessibilityHidden(true)
     }
+
+    private func chart(_ points: [BentoGridChartPoint]) -> some View {
+        Chart {
+            ForEach(points) { point in
+                AreaMark(x: .value("Time", point.x), y: .value("Value", point.y))
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(
+                        LinearGradient(colors: [tint.opacity(0.42), tint.opacity(0.0)], startPoint: .top, endPoint: .bottom)
+                    )
+            }
+            // Soft glow under the stroke
+            ForEach(points) { point in
+                LineMark(x: .value("Time", point.x), y: .value("Value", point.y), series: .value("Series", "glow"))
+                    .interpolationMethod(.catmullRom)
+                    .lineStyle(StrokeStyle(lineWidth: lineWidth * 3.4, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(tint.opacity(0.16))
+            }
+            ForEach(points) { point in
+                LineMark(x: .value("Time", point.x), y: .value("Value", point.y), series: .value("Series", "line"))
+                    .interpolationMethod(.catmullRom)
+                    .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(tint)
+            }
+            if let head = points.last {
+                PointMark(x: .value("Time", head.x), y: .value("Value", head.y))
+                    .symbol {
+                        Circle()
+                            .fill(tint)
+                            .frame(width: 9, height: 9)
+                            .shadow(color: tint, radius: 6)
+                    }
+            }
+        }
+        .chartXScale(domain: 0...1)
+        .chartYScale(domain: 0...1)
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartLegend(.hidden)
+    }
 }
 
-private struct BentoGridWave: Shape {
-    var phase: Double
-    var closed: Bool
+private struct BentoGridChartPoint: Identifiable {
+    let id: Int
+    let x: Double
+    let y: Double
+}
 
+/// The live signal: layered sines with a gentle upward drift. Returns a
+/// top-down fraction (0 = top) in 0.05...0.95.
+private enum BentoGridWave {
     static func y(at x: Double, phase: Double) -> Double {
         let v = 0.5
             + 0.22 * sin(x * .pi * 2.4 + phase)
             + 0.1 * sin(x * .pi * 6.2 + phase * 1.7)
             - 0.16 * x
         return min(max(v, 0.05), 0.95)
-    }
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let steps = 48
-        for step in 0...steps {
-            let x = Double(step) / Double(steps)
-            let point = CGPoint(x: rect.minX + x * rect.width, y: rect.minY + Self.y(at: x, phase: phase) * rect.height)
-            step == 0 ? path.move(to: point) : path.addLine(to: point)
-        }
-        if closed {
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-            path.closeSubpath()
-        }
-        return path
     }
 }
 
@@ -313,10 +353,14 @@ public struct BentoGridLivePulse: View {
 
 // MARK: - Live Bars
 
-/// A mini bar chart whose values reshuffle every second with a spring.
+/// A mini Swift Charts bar chart whose values reshuffle every second with a
+/// spring. Bars grow up from the baseline on appear; the newest bar is
+/// highlighted with a gradient.
 public struct BentoGridLiveBars: View {
     var tint: Color
     var count: Int
+
+    @State private var grown = false
 
     public init(tint: Color = .blue, count: Int = 7) {
         self.tint = tint
@@ -326,20 +370,27 @@ public struct BentoGridLiveBars: View {
     public var body: some View {
         TimelineView(.periodic(from: .now, by: 1.2)) { timeline in
             let tick = Int(timeline.date.timeIntervalSinceReferenceDate / 1.2)
-            HStack(alignment: .bottom, spacing: 5) {
-                ForEach(0..<count, id: \.self) { index in
+            Chart {
+                ForEach(0..<max(count, 1), id: \.self) { index in
                     let value = 0.25 + 0.75 * abs(sin(Double(index) * 1.7 + Double(tick) * 0.9))
-                    GeometryReader { proxy in
-                        VStack {
-                            Spacer(minLength: 0)
-                            Capsule()
-                                .fill(index == count - 1 ? AnyShapeStyle(tint.gradient) : AnyShapeStyle(tint.opacity(0.35)))
-                                .frame(height: proxy.size.height * value)
-                        }
-                    }
-                    .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(Double(index) * 0.03), value: tick)
+                    BarMark(
+                        x: .value("Bar", "\(index)"),
+                        y: .value("Value", grown ? value : 0.03),
+                        width: .ratio(0.72)
+                    )
+                    .cornerRadius(6, style: .continuous)
+                    .foregroundStyle(index == count - 1 ? AnyShapeStyle(tint.gradient) : AnyShapeStyle(tint.opacity(0.35)))
                 }
             }
+            .chartYScale(domain: 0...1)
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
+            .chartLegend(.hidden)
+            .animation(.spring(response: 0.6, dampingFraction: 0.6), value: tick)
+        }
+        .onAppear {
+            guard !grown else { return }
+            withAnimation(.spring(response: 0.7, dampingFraction: 0.7).delay(0.3)) { grown = true }
         }
         .accessibilityHidden(true)
     }

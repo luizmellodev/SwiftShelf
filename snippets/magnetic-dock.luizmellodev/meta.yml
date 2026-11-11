@@ -1,8 +1,8 @@
 title: "Magnetic Dock"
-description: "A macOS-style dock that magnifies app icons based on pointer proximity with smooth interaction and spring motion."
+description: "A glassy, finger-driven dock: icons swell on a smooth falloff as you slide, the dock stretches around your touch, a label bubble morphs between app names with haptic ticks, and lifting your finger launches the app with a classic bounce and running dot."
 author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
   - navigation
   - interaction
-  - macos
+  - gesture

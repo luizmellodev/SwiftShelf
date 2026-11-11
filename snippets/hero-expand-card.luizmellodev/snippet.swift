@@ -35,11 +35,11 @@ public struct HeroExpandCardItem: Identifiable {
 
 // MARK: - Feed
 
-/// An App Store "Today"-style feed. Tapping a card morphs it into a
-/// full-screen story with `matchedGeometryEffect`: the frame, artwork and
-/// title fly into place, the corners straighten, and the body copy rises in
-/// with a stagger. Pull down from the top to shrink the card back
-/// interactively, or tap the close button.
+/// An App Store "Today"-style feed. Tapping a card grows it, frame by frame,
+/// from its exact spot in the feed into a full-screen story: the corners
+/// straighten, the artwork swells, the feed dims and the body copy rises in
+/// with a stagger. Pull down (or drag) to shrink it back interactively, or
+/// tap the close button — it flies home to the same slot.
 public struct HeroExpandCardFeed<Header: View>: View {
     let items: [HeroExpandCardItem]
     var cardHeight: CGFloat
@@ -47,19 +47,26 @@ public struct HeroExpandCardFeed<Header: View>: View {
     var dismissThreshold: CGFloat
     let header: Header
 
-    @Namespace private var namespace
+    /// Global frames of every card, so the detail can grow out of (and back into) its slot.
+    @State private var sourceFrames: [String: CGRect] = [:]
     @State private var selectedID: String?
-    @State private var lastSelectedID: String?
+    /// Drives the geometry morph (card rect ⇄ full screen).
+    @State private var expanded = false
+    /// Drives the staggered body copy and close button.
     @State private var showContent = false
+    @State private var isClosing = false
     @State private var scrollPull: CGFloat = 0
     @State private var dragPull: CGFloat = 0
     @State private var scrollOffset: CGFloat = 0
+    @State private var detailScroll = ScrollPosition(edge: .top)
+    /// The nav bar hides while a story is open; these keep the feed from jumping when it does.
+    @State private var rawTopInset: CGFloat = 0
+    @State private var openTopInset: CGFloat = 0
     /// How far the detail is being pulled down, from overscroll or a direct drag.
     private var pull: CGFloat { max(scrollPull, dragPull) }
-    @State private var isClosing = false
 
-    private let openSpring = Animation.spring(response: 0.52, dampingFraction: 0.84)
-    private let closeSpring = Animation.spring(response: 0.46, dampingFraction: 0.86)
+    private let openSpring = Animation.spring(response: 0.55, dampingFraction: 0.82)
+    private let closeSpring = Animation.spring(response: 0.48, dampingFraction: 0.88)
 
     public init(
         items: [HeroExpandCardItem],
@@ -80,51 +87,60 @@ public struct HeroExpandCardFeed<Header: View>: View {
     }
 
     public var body: some View {
-        ZStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 26) {
-                    header
-                    ForEach(items) { item in
-                        cardSlot(item)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 26) {
+                header
+                ForEach(items) { item in
+                    cardSlot(item)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 32)
+        }
+        .scrollClipDisabled()
+        .scrollDisabled(selectedID != nil)
+        .safeAreaPadding(.top, selectedID == nil ? 0 : max(0, openTopInset - rawTopInset))
+        .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.top } action: { rawTopInset = $0 }
+        .overlay {
+            // Full-screen layer that hosts the morphing detail.
+            GeometryReader { geo in
+                let origin = geo.frame(in: .global).origin
+                let full = CGRect(origin: .zero, size: geo.size)
+                ZStack(alignment: .topLeading) {
+                    Color.black
+                        .opacity(expanded ? 0.35 * (1 - pullProgress) : 0)
+                        .allowsHitTesting(false)
+
+                    if let item = selectedItem, let source = sourceFrames[item.id] {
+                        let from = source.offsetBy(dx: -origin.x, dy: -origin.y)
+                        detail(item, rect: expanded ? full : from, fullHeight: full.height)
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 32)
             }
-            .scrollClipDisabled()
-            .scrollDisabled(selectedID != nil)
-
-            if let item = selectedItem {
-                detail(item)
-                    .zIndex(2)
-                    .transition(.identity)
-            }
+            .ignoresSafeArea()
         }
         .toolbarVisibility(selectedID == nil ? .automatic : .hidden, for: .navigationBar)
         .sensoryFeedback(.impact(weight: .medium), trigger: selectedID)
         .sensoryFeedback(.impact(weight: .light), trigger: pull > dismissThreshold) { _, crossed in crossed }
     }
 
+    private var pullProgress: CGFloat { min(pull / (dismissThreshold * 1.6), 1) }
+
     // MARK: Card
 
-    @ViewBuilder
     private func cardSlot(_ item: HeroExpandCardItem) -> some View {
-        if selectedID == item.id {
-            Color.clear.frame(height: cardHeight)
-        } else {
-            Button { open(item) } label: {
-                artwork(item, expanded: false)
-                    .frame(height: cardHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-                    .matchedGeometryEffect(id: "container-\(item.id)", in: namespace)
-                    .shadow(color: .black.opacity(0.18), radius: 22, y: 12)
-            }
-            .buttonStyle(HeroExpandCardPressStyle())
-            .zIndex(lastSelectedID == item.id ? 1 : 0)
-            .transition(.identity)
-            .accessibilityLabel("\(item.eyebrow), \(item.title)")
-            .accessibilityHint("Opens the story")
+        Button { open(item) } label: {
+            artwork(item, expanded: false)
+                .frame(height: cardHeight)
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                .shadow(color: .black.opacity(0.18), radius: 22, y: 12)
         }
+        .buttonStyle(HeroExpandCardPressStyle())
+        .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { sourceFrames[item.id] = $0 }
+        // The detail takes over this card's pixels while it is open.
+        .opacity(selectedID == item.id ? 0 : 1)
+        .accessibilityLabel("\(item.eyebrow), \(item.title)")
+        .accessibilityHint("Opens the story")
     }
 
     // MARK: Artwork
@@ -138,10 +154,10 @@ public struct HeroExpandCardFeed<Header: View>: View {
                 .symbolRenderingMode(.hierarchical)
                 .foregroundStyle(.white)
                 .shadow(color: .white.opacity(0.5), radius: 30)
-                .rotationEffect(.degrees(-8))
-                .matchedGeometryEffect(id: "symbol-\(item.id)", in: namespace)
+                .scaleEffect(expanded ? 1.18 : 1)
+                .rotationEffect(.degrees(expanded ? 0 : -8))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .offset(y: -40)
+                .offset(y: expanded ? -10 : -40)
 
             LinearGradient(colors: [.clear, .black.opacity(0.45)], startPoint: .center, endPoint: .bottom)
 
@@ -160,7 +176,6 @@ public struct HeroExpandCardFeed<Header: View>: View {
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
             .padding(22)
         }
         .clipped()
@@ -168,14 +183,16 @@ public struct HeroExpandCardFeed<Header: View>: View {
 
     // MARK: Detail
 
-    private func detail(_ item: HeroExpandCardItem) -> some View {
-        let progress = min(pull / (dismissThreshold * 1.6), 1)
-        let radius = showContent ? min(cornerRadius + 10, pull * 0.6) : cornerRadius
+    private func detail(_ item: HeroExpandCardItem, rect: CGRect, fullHeight: CGFloat) -> some View {
+        let progress = pullProgress
+        let radius = expanded ? min(cornerRadius + 10, 44 * progress + pull * 0.2) : cornerRadius
+        // The hero art grows taller than the card, so the title travels down as it opens.
+        let artHeight = expanded ? cardHeight + 70 : rect.height
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                artwork(item, expanded: true)
-                    .frame(height: cardHeight)
+                artwork(item, expanded: expanded)
+                    .frame(height: artHeight)
 
                 VStack(alignment: .leading, spacing: 18) {
                     ForEach(Array(item.paragraphs.enumerated()), id: \.offset) { index, paragraph in
@@ -185,10 +202,10 @@ public struct HeroExpandCardFeed<Header: View>: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .opacity(showContent ? 1 : 0)
                             .blur(radius: showContent ? 0 : 6)
-                            .offset(y: showContent ? 0 : 28)
+                            .offset(y: showContent ? 0 : 36)
                             .animation(
                                 showContent
-                                    ? .spring(response: 0.55, dampingFraction: 0.85).delay(0.12 + Double(index) * 0.06)
+                                    ? .spring(response: 0.55, dampingFraction: 0.85).delay(0.1 + Double(index) * 0.06)
                                     : .easeOut(duration: 0.12),
                                 value: showContent
                             )
@@ -197,12 +214,15 @@ public struct HeroExpandCardFeed<Header: View>: View {
                 .padding(24)
                 .padding(.bottom, 60)
             }
+            .frame(width: rect.width)
             // Keep the content pinned while the user pulls; only the card shrinks.
             .offset(y: -pull)
         }
+        .scrollPosition($detailScroll)
+        .scrollDisabled(!expanded || isClosing)
         .scrollIndicators(.hidden)
-        // Short articles must still rubber-band, otherwise pull-to-dismiss can't start.
         .scrollBounceBehavior(.always, axes: .vertical)
+        .ignoresSafeArea()
         .onScrollGeometryChange(for: CGFloat.self) { geometry in
             geometry.contentOffset.y + geometry.contentInsets.top
         } action: { _, offset in
@@ -230,9 +250,8 @@ public struct HeroExpandCardFeed<Header: View>: View {
                     }
                 }
         )
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(width: rect.width, height: expanded ? fullHeight : rect.height, alignment: .top)
         .background(Color(.systemBackground))
-        .matchedGeometryEffect(id: "container-\(item.id)", in: namespace)
         .clipShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
         .overlay(alignment: .topTrailing) {
             Button(action: close) {
@@ -251,9 +270,9 @@ public struct HeroExpandCardFeed<Header: View>: View {
             .animation(.spring(response: 0.4, dampingFraction: 0.65).delay(showContent ? 0.2 : 0), value: showContent)
             .accessibilityLabel("Close")
         }
+        .shadow(color: .black.opacity(expanded ? 0.25 * progress : 0.18), radius: expanded ? 30 : 22, y: expanded ? 10 : 12)
         .scaleEffect(1 - progress * 0.14)
-        .shadow(color: .black.opacity(0.25 * progress), radius: 30, y: 10)
-        .ignoresSafeArea()
+        .offset(x: rect.minX, y: rect.minY)
         .accessibilityAction(.escape) { close() }
     }
 
@@ -263,24 +282,31 @@ public struct HeroExpandCardFeed<Header: View>: View {
         scrollPull = 0
         dragPull = 0
         isClosing = false
-        lastSelectedID = item.id
-        withAnimation(openSpring) { selectedID = item.id }
-        // A separate transaction, so the freshly inserted detail animates its corners and content.
+        detailScroll = ScrollPosition(edge: .top)
+        openTopInset = rawTopInset
+        // Insert the detail exactly on top of the card first…
+        selectedID = item.id
+        // …then morph it out to full screen in the next transaction.
         DispatchQueue.main.async {
-            withAnimation(openSpring) { showContent = true }
+            withAnimation(openSpring) {
+                expanded = true
+                showContent = true
+            }
         }
     }
 
     private func close() {
         guard !isClosing, selectedID != nil else { return }
         isClosing = true
-        withAnimation(closeSpring) { showContent = false }
-        DispatchQueue.main.async {
-            withAnimation(closeSpring) {
-                selectedID = nil
-                scrollPull = 0
-                dragPull = 0
-            }
+        withAnimation(.easeOut(duration: 0.12)) { showContent = false }
+        withAnimation(closeSpring) {
+            detailScroll.scrollTo(edge: .top)
+            expanded = false
+            scrollPull = 0
+            dragPull = 0
+        } completion: {
+            selectedID = nil
+            isClosing = false
         }
     }
 }

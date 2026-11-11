@@ -1,8 +1,8 @@
 title: "Download Button"
-description: "An animated download button with progress tracking, state transitions, checkmark completion, and celebratory confetti."
+description: "An App Store-style GET button for long downloads: the pill morphs into a glowing progress ring with rising liquid and a stop square to cancel, draws a checkmark on completion, then becomes OPEN. Handles waiting, cancel and failure/retry, with live percentage and size, haptics and VoiceOver."
 author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
   - button
-  - loading
+  - progress
   - animation

@@ -1,0 +1,8 @@
+title: "Dot Grid Spotlight"
+description: "An interactive dot-pattern background drawn in a single Canvas: dots under your finger swell, glow and get pushed aside like a lens, while an idle wave keeps the grid breathing. Apply it to any screen with one modifier."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - interactive
+  - gesture
+  - gradient

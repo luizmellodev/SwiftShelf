@@ -1,0 +1,8 @@
+title: "Scrub Bar Chart"
+description: "A bar chart drawn with plain shapes. The bars grow in with a stagger, dragging across highlights one bar with a floating tooltip and selection haptics, and switching periods sends a wave through the new values."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - chart
+  - tooltip
+  - interactive

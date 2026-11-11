@@ -3,8 +3,6 @@ description: "Advanced particle system with confetti, hearts, stars, and custom 
 author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
-  - particle
   - animation
-  - confetti
-  - effect
-  - celebration
+  - interaction
+  - success

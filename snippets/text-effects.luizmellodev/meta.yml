@@ -1,0 +1,8 @@
+title: "Text Effects"
+description: "Four text animations: per-glyph blur reveal, a word rotator that dissolves letter by letter (TextRenderer), a shiny sweeping highlight and a scramble/decrypt effect. iOS 18+."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - text
+  - animation
+  - modern

@@ -1,0 +1,8 @@
+title: "Theme Toggle"
+description: "Animated light/dark switching with a circular ink reveal that spreads from the button across the whole app. Includes a sun-to-moon morphing icon button and a day/night pill switch with clouds, stars and a sliding moon."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - theme
+  - toggle
+  - animation

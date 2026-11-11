@@ -1,0 +1,8 @@
+title: "Bento Grid"
+description: "A dense-packing bento layout whose tiles spring in with a blur, scale and rise stagger. Each tile presses in with depth and ships with live mini widgets: flowing chart, ring, pulse dot, bars and counters."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - grid
+  - layout
+  - widget

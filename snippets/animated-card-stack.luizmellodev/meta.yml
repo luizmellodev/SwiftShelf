@@ -4,7 +4,5 @@ author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
   - card
-  - swipe
-  - animation
-  - gesture
   - stack
+  - gesture

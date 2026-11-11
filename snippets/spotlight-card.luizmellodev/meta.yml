@@ -1,0 +1,8 @@
+title: "Spotlight Card"
+description: "A card that follows your finger with a soft spotlight, a lit border and a 3D tilt, plus optional holographic foil. Ships with an animated MeshGradient aurora background."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - card
+  - gesture
+  - gradient

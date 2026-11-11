@@ -1,0 +1,8 @@
+title: "Star Rating"
+description: "Scrub your finger across the stars to rate with half-star precision: each star pops, tilts and fills with a gradient, and a perfect score fires a sparkle burst and a hopping wave."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - input
+  - gesture
+  - animation

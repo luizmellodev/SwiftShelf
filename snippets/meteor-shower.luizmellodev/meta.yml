@@ -1,0 +1,8 @@
+title: "Meteor Shower"
+description: "Angled shooting stars with glowing heads and gradient tails streak over a twinkling star field. Every meteor is a seeded function of time, so it runs in one Canvas with zero per-frame state."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - animation
+  - motion
+  - gradient

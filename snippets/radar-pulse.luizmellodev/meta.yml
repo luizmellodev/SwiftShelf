@@ -1,0 +1,8 @@
+title: "Radar Pulse"
+description: "A nearby-devices radar with emanating ripples and a rotating sweep gradient. Each device pops in with a ping exactly when the sweep passes over it."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - animation
+  - loading
+  - avatar

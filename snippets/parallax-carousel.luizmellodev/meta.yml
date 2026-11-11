@@ -1,0 +1,8 @@
+title: "Parallax Carousel"
+description: "A snapping paging carousel where neighbors shrink and swing back in 3D while each card's artwork drifts in parallax. The page indicator stretches continuously with the scroll."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - carousel
+  - motion
+  - gallery

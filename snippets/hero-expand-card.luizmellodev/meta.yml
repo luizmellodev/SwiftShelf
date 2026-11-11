@@ -1,0 +1,8 @@
+title: "Hero Expand Card"
+description: "An App Store Today-style card that morphs into a full-screen story with matchedGeometryEffect, staggered content and corner-radius morphing. Pull down to shrink it back interactively."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - card
+  - transition
+  - gesture

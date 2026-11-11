@@ -1,0 +1,8 @@
+title: "Border Beam"
+description: "A glowing beam of light that travels around any rounded-rect or capsule border, with a tapered gradient tail and bloom. One modifier, configurable colors, speed, length and beam count."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - border
+  - animation
+  - gradient

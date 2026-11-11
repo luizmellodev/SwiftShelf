@@ -1,0 +1,8 @@
+title: "Ripple Button"
+description: "A button that spawns a ripple from the exact point you touched, with a finger-tracking glow and a physical press-in. Rapid taps stack ripples, and it comes in filled, tinted and glass variants."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - button
+  - gesture
+  - interactive

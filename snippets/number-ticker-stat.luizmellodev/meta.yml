@@ -1,0 +1,8 @@
+title: "Number Ticker Stat"
+description: "A KPI card whose number rolls digit by digit like an odometer, with a delta badge and a self-drawing gradient sparkline. Scrub the sparkline to inspect any day and watch the digits roll to it."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - stat
+  - chart
+  - animation

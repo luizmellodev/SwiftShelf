@@ -1,0 +1,8 @@
+title: "Morphing Controls"
+description: "A floating + button that morphs into an action menu with staggered blur-in rows, and a header search icon that stretches into a full-width search field. A mobile-native alternative to hamburger menus."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - menu
+  - search
+  - transition

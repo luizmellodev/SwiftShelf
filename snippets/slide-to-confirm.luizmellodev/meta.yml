@@ -1,0 +1,8 @@
+title: "Slide To Confirm"
+description: "Drag the knob to confirm: the track morphs into a circle, spins while your async work runs, then draws a checkmark. Rubber-band resistance and haptics included."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - control
+  - gesture
+  - success

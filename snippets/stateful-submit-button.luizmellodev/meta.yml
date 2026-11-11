@@ -1,0 +1,8 @@
+title: "Stateful Submit Button"
+description: "A submit button that runs an async action and shows every state in one shape. It squeezes into a spinner while loading, then draws a green checkmark on success or shakes red with Try again on failure."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - button
+  - loading
+  - success

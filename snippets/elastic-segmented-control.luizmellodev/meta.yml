@@ -1,0 +1,8 @@
+title: "Elastic Segmented Control"
+description: "Segmented control whose pill stretches like liquid toward the new segment, with text that flips color exactly at the pill's edge. Tap or scrub with your finger; works as a floating tab bar too."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - selector
+  - tab
+  - motion

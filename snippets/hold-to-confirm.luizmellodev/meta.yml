@@ -1,0 +1,8 @@
+title: "Hold to Confirm"
+description: "A press-and-hold button that sweeps a gradient and progress ring across the pill with rising haptic ticks, rewinds smoothly if you let go early and morphs into a success state when complete. Includes a destructive Hold to delete preset."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - button
+  - progress
+  - interaction

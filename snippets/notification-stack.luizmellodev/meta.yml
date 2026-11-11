@@ -1,0 +1,8 @@
+title: "Notification Stack"
+description: "Lock-screen style notifications that rest in a 3-deep layered stack and fan out into a list with staggered springs. Swipe any notification away and the rest glide up to fill the gap."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - notification
+  - stack
+  - gesture

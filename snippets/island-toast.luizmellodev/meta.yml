@@ -1,0 +1,8 @@
+title: "Island Toast"
+description: "A Dynamic-Island-style toast that grows out of the island into a rich notification with icon, countdown ring and action, then shrinks back. Success, error and info styles, swipe up to dismiss, presented with a single .islandToast(item:) modifier."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - toast
+  - notification
+  - transition

@@ -3,8 +3,6 @@ description: "Versatile wave animations for dynamic UIs. Includes simple waves, 
 author: "Luiz Mello"
 github-username: "luizmellodev"
 tags:
-  - wave
   - animation
   - loading
   - progress
-  - effect

@@ -1,0 +1,8 @@
+title: "Gooey Tab Bar"
+description: "A floating tab bar whose selection indicator is a metaball blob that stretches and merges as it travels between tabs, built with Canvas blur and alpha threshold. Tap or scrub along the bar while icons bounce."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - tab
+  - navigation
+  - animation

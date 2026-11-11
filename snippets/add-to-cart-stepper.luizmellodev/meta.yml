@@ -1,0 +1,8 @@
+title: "Add to Cart Stepper"
+description: "An Add pill that morphs into a quantity stepper with rolling digits, a floating +1 ghost and a trash icon at one item, plus a cart badge that pops on every change."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - stepper
+  - button
+  - badge

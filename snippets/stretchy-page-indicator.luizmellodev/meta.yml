@@ -1,0 +1,8 @@
+title: "Stretchy Page Indicator"
+description: "An onboarding pager with a liquid page indicator that stretches toward the next dot as you swipe, parallax hero art, and a Continue button that morphs into Get started on the last page."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - navigation
+  - progress
+  - gesture

@@ -1,0 +1,8 @@
+title: "Flip Clock"
+description: "A split-flap clock where each digit is a real 3D flap. The top half falls around the hinge and the bottom half lands with a bounce and cast shadows. Works as a countdown timer or a live clock."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - animation
+  - timeline
+  - motion

@@ -1,0 +1,8 @@
+title: "Swipe Actions Row"
+description: "A custom list row with swipe-to-reveal actions whose icons bounce in as they appear. Rubber-band resistance, a full-swipe snap with haptics, and rows that collapse smoothly when deleted."
+author: "Luiz Mello"
+github-username: "luizmellodev"
+tags:
+  - list
+  - gesture
+  - action
